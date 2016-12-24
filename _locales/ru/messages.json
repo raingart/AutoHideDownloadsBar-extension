@@ -9,29 +9,29 @@
    },
    "appName": {
       "description": "Extension's name",
-      "message": "Auto Hide Downloads Bar"
+      "message": "AutoHideDownloadsBar"
    },
-   "settingsHeader": {
+   "opt_title": {
       "description": "Header settings name",
-      "message": "Auto Hide Downloads Bar настройки"
+      "message": "AutoHideDownloadsBar настройки"
    },
-   "shortDesc_ShowDownBar": {
+   "opt_showDownBar": {
       "description": "short description option - ShowDownbar",
       "message": "Показывать загрузочную панель при загрузке"
    },
-   "fullDesc_ShowDownBar": {
+   "opt_desc_ShowDownBar": {
       "description": "full description option - ShowDownbar",
       "message": "Скрытие загрузочной панели происходит после завершения загрузки файлов"
    },
-   "Save": {
+   "opt_btn_save": {
       "description": "Save button name",
       "message": "Применить"
    },
-   "Save_process": {
+   "opt_btn_save_process": {
       "description": "Save button name",
       "message": "Сохранение..."
    },
-   "Save_processed": {
+   "opt_btn_save_processed": {
       "description": "Save button name",
       "message": "Изменения Сохранены!"
    }

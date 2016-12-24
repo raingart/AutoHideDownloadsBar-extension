@@ -9,29 +9,29 @@
    },
    "appName": {
       "description": "Extension's name",
-      "message": "Auto Hide Downloads Bar"
+      "message": "AutoHideDownloadsBar"
    },
-   "settingsHeader": {
+   "opt_title": {
       "description": "Header settings name",
-      "message": "Auto Hide Downloads Bar settings"
+      "message": "AutoHideDownloadsBar settings"
    },
-   "shortDesc_ShowDownBar": {
+   "opt_showDownBar": {
       "description": "short description option - ShowDownbar",
       "message": "Show downloads bar when download"
    },
-   "fullDesc_ShowDownBar": {
+   "opt_desc_ShowDownBar": {
       "description": "full description option - ShowDownbar",
       "message": "Hiding the downloads bar occurs only after downloads finished"
    },
-   "Save": {
+   "opt_btn_save": {
       "description": "Save button name",
       "message": "Save Changes"
    },
-   "Save_process": {
+   "opt_btn_save_process": {
       "description": "Save button name",
       "message": "Saving..."
    },
-   "Save_processed": {
+   "opt_btn_save_processed": {
       "description": "Save button name",
       "message": "Changes Saved!"
    }

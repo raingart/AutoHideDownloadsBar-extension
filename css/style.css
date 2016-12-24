@@ -1,31 +1,38 @@
 body {
-	width:400px;
-	margin: 0 auto;
-	font-size:13px;
+    width: 400px;
+    margin: 0 auto;
+    font-size: 13px;
 }
+
 h2 {
-	font-size: 2rem;
-	margin: 1rem auto 0;
+    font-size: 2rem;
+    margin: 1rem auto 0;
 }
+
 span {
-	color:#808080;
+    color: #808080;
 }
+
 hr {
-	margin: 10px auto;
-	border-top: 1px solid #B7B7B7;
+    margin: 10px auto;
+    border-top: 1px solid #B7B7B7;
 }
+
 label, legend {
     display: inline;
     font-weight: normal;
 }
+
 input {
     margin: 0;
 }
+
 .button, button, input[type="submit"], input[type="reset"], input[type="button"] {
     height: 35px;
     padding: 0 20px;
     line-height: 35px;
 }
-button[disabled]{
-	opacity: 0.5;
+
+button[disabled] {
+    opacity: 0.5;
 }

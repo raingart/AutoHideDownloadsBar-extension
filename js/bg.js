@@ -1,7 +1,12 @@
-'use strict';
+// 'use strict';
 
-chrome.downloads.onCreated.addListener(DownloadCreated);
-chrome.downloads.onChanged.addListener(DownloadChanged);
+chrome.downloads.onCreated.addListener(function(item) {
+    DownloadCreated(item);
+});
+
+chrome.downloads.onChanged.addListener(function(item) {
+    DownloadChanged(item);
+});
 
 function DownloadCreated(item) {
     var sdbar = localStorage.showdownbar == 'true' ? true : false;
