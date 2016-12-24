@@ -1,0 +1,38 @@
+{
+   "appLocalization": {
+      "description": "Extension's Localization",
+      "message": "en"
+   },
+   "appDescription": {
+      "description": "Extension's description",
+      "message": "This extension hides annoying downloads bar in the bottom of the screen."
+   },
+   "appName": {
+      "description": "Extension's name",
+      "message": "Auto Hide Downloads Bar"
+   },
+   "settingsHeader": {
+      "description": "Header settings name",
+      "message": "Auto Hide Downloads Bar settings"
+   },
+   "shortDesc_ShowDownBar": {
+      "description": "short description option - ShowDownbar",
+      "message": "Show downloads bar when download"
+   },
+   "fullDesc_ShowDownBar": {
+      "description": "full description option - ShowDownbar",
+      "message": "Hiding the downloads bar occurs only after downloads finished"
+   },
+   "Save": {
+      "description": "Save button name",
+      "message": "Save Changes"
+   },
+   "Save_process": {
+      "description": "Save button name",
+      "message": "Saving..."
+   },
+   "Save_processed": {
+      "description": "Save button name",
+      "message": "Changes Saved!"
+   }
+}

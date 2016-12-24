@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_appName__",
+  "short_name": "__MSG_appName__",
+  "description": "__MSG_appDescription__",
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "default_locale": "en",
+  "version": "1.0.3",
+  "author": "raingart",
+  "permissions": [
+	"storage",
+	"downloads",
+	"downloads.shelf"
+  ],
+  "background": {
+    "page": "bg.html"
+  },
+    "icons": {
+      "19": "icons/16.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+   },
+   "options_page": "options.html"
+}

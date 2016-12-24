@@ -1,0 +1,38 @@
+{
+   "appLocalization": {
+      "description": "Extension's Localization",
+      "message": "ru"
+   },
+   "appDescription": {
+      "description": "Extension's description",
+      "message": "Это расширение скрывает надоедливую панель загрузок внизу экрана."
+   },
+   "appName": {
+      "description": "Extension's name",
+      "message": "Auto Hide Downloads Bar"
+   },
+   "settingsHeader": {
+      "description": "Header settings name",
+      "message": "Auto Hide Downloads Bar настройки"
+   },
+   "shortDesc_ShowDownBar": {
+      "description": "short description option - ShowDownbar",
+      "message": "Показывать загрузочную панель при загрузке"
+   },
+   "fullDesc_ShowDownBar": {
+      "description": "full description option - ShowDownbar",
+      "message": "Скрытие загрузочной панели происходит после завершения загрузки файлов"
+   },
+   "Save": {
+      "description": "Save button name",
+      "message": "Применить"
+   },
+   "Save_process": {
+      "description": "Save button name",
+      "message": "Сохранение..."
+   },
+   "Save_processed": {
+      "description": "Save button name",
+      "message": "Изменения Сохранены!"
+   }
+}
