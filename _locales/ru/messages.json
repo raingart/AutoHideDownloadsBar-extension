@@ -11,6 +11,10 @@
       "description": "Extension's name",
       "message": "AutoHideDownloadsBar"
    },
+   "opt_setting": {
+      "description": "setting title",
+      "message": "настройки"
+   },
    "opt_showDownBar": {
       "description": "short description option - ShowDownbar",
       "message": "Показывать загрузочную панель при загрузке"
