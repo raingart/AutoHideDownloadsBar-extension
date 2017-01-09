@@ -17,7 +17,7 @@
    },
    "opt_showDownBar": {
       "description": "short description option - ShowDownbar",
-      "message": "Show downloads bar when download"
+      "message": "Show downloads bar when downloading is active"
    },
    "opt_desc_ShowDownBar": {
       "description": "full description option - ShowDownbar",

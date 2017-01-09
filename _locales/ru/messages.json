@@ -17,7 +17,7 @@
    },
    "opt_showDownBar": {
       "description": "short description option - ShowDownbar",
-      "message": "Показывать загрузочную панель при загрузке"
+      "message": "Показывать загрузочную панель когда загрузке активная"
    },
    "opt_desc_ShowDownBar": {
       "description": "full description option - ShowDownbar",
