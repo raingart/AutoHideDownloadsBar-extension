@@ -5,7 +5,7 @@
   "description": "__MSG_appDescription__",
   "update_url": "https://clients2.google.com/service/update2/crx",
   "default_locale": "en",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "author": "raingart",
   "permissions": [
 	"storage",
@@ -15,7 +15,10 @@
   "background": {
     "scripts": [ "js/bg.js" ]
   },
-    "icons": {
+  "browser_action": {
+      "default_title": "__MSG_appName__"
+  },
+  "icons": {
       "16": "icons/16.png",
       "48": "icons/48.png",
       "128": "icons/128.png"
