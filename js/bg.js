@@ -5,10 +5,30 @@ chrome.downloads.onCreated.addListener(function(item) {
 });
 
 chrome.downloads.onChanged.addListener(function(item) {
-    let sd = localStorage.showdownbar == 'true' ? true : false;
+    // let sd = localStorage.showdownbar == 'true' ? true : false;
     // if (sd === true) {
       DownloadChanged(item);
     // }
+});
+
+//called when the icon is clicked
+chrome.browserAction.onClicked.addListener(function(tab) {
+    let openUrl = 'chrome://downloads/';
+    chrome.tabs.query({},function(tabs){
+      // console.log("\n);
+      tabs.forEach(function(tab){
+        // console.log( tab.url );
+        if( tab.url == openUrl ){
+          chrome.tabs.update( tab.id, {selected: true} );
+          openUrl = false;
+         	return false;
+        }
+      });
+      if ( openUrl ){
+        chrome.tabs.create({ url: openUrl, selected: true });
+      }
+   });
+
 });
 
 function DownloadCreated(item) {
@@ -26,7 +46,7 @@ function DownloadChanged(item) {
             if (item.state == 'in_progress') {
                 now_progress = true;
                 count = ++count;
-                console.log(count);
+                // console.log(count);
                 // return false;
             }
             // else if ((item.state.current == 'complete') && item.endTime && !item.error)
