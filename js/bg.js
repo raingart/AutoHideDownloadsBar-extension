@@ -5,35 +5,44 @@ chrome.downloads.onCreated.addListener(function(item) {
 });
 
 chrome.downloads.onChanged.addListener(function(item) {
-    // let sd = localStorage.showdownbar == 'true' ? true : false;
-    // if (sd === true) {
+    if (getSetting() === true) {
       DownloadChanged(item);
-    // }
+    }
 });
 
 //called when the icon is clicked
 chrome.browserAction.onClicked.addListener(function(tab) {
     let openUrl = 'chrome://downloads/';
-    chrome.tabs.query({},function(tabs){
-      // console.log("\n);
-      tabs.forEach(function(tab){
+
+    // chrome.tabs.getAllInWindow(null, function (tabs) {
+    chrome.tabs.query({"currentWindow": true}, function(tabs) {
+      // console.log("\n");
+      tabs.forEach(function(tab) {
         // console.log( tab.url );
-        if( tab.url == openUrl ){
+        if( tab.url == openUrl ) {
           chrome.tabs.update( tab.id, {selected: true} );
           openUrl = false;
          	return false;
         }
       });
-      if ( openUrl ){
+
+      // console.log( openUrl );
+      if (openUrl !== false) {
         chrome.tabs.create({ url: openUrl, selected: true });
       }
    });
 
 });
 
+function getSetting() {
+    if (localStorage.showdownbar == 'true') {
+      return true;
+    }
+    return false;
+}
+
 function DownloadCreated(item) {
-    let sd = localStorage.showdownbar == 'true' ? true : false;
-    chrome.downloads.setShelfEnabled( sd );
+    chrome.downloads.setShelfEnabled(getSetting());
 }
 
 function DownloadChanged(item) {
@@ -54,7 +63,7 @@ function DownloadChanged(item) {
             // else
             //   now_progress = true;
         });
-        chrome.downloads.setShelfEnabled( now_progress );
+        chrome.downloads.setShelfEnabled(now_progress);
         // if (now_progress === false) {
             // chrome.downloads.setShelfEnabled(false);
         // }
@@ -62,10 +71,10 @@ function DownloadChanged(item) {
     });
 }
 
-function flashBadge( message ) {
-    // chrome.browserAction.setBadgeBackgroundColor({color: "red"});
+function flashBadge(message) {
     if (message === 0) {
         message = "";
     }
+    // chrome.browserAction.setBadgeBackgroundColor({color: "red"});
     chrome.browserAction.setBadgeText({ text: message.toString() });
 }
