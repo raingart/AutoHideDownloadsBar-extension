@@ -2,9 +2,13 @@
 <html>
 <head>
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-	<title>Options</title>
-	<link rel="stylesheet" href="/css/normalize.css">
-	<link rel="stylesheet" href="/css/skeleton.css">
+	<title>Settings</title>
+	<link rel="stylesheet" href="/css/skeleton/normalize.css">
+	<link rel="stylesheet" href="/css/skeleton/skeleton.css">
+	
+	<link rel="stylesheet" href="/css/tooltip/tooltip.css"/>
+	<link rel="stylesheet" href="/css/tooltip/tooltip-animation.css"/>
+
 	<link rel="stylesheet" href="/css/style.css" type="text/css" />
 </head>
 
@@ -12,7 +16,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="twelve column">
-				<h2>__MSG_appName__ __MSG_opt_setting__</h2>
+				<h2>__MSG_extName__ __MSG_optSetting__</h2>
 			</div>
 		</div>
 
@@ -20,13 +24,13 @@
 
 		<div class="row">
 			<div class="twelve column">
-				<input type="checkbox" id="checkbox_showdownbar" />
-				<label for="checkbox_showdownbar">__MSG_opt_showDownBar__</label><br />
-				<span>__MSG_opt_desc_ShowDownBar__</span>
+				<input type="checkbox" id="checkbox_showdownbar" tooltip="__MSG_optShowDownBar_tooltip__" flow="up" />
+				<label for="checkbox_showdownbar">__MSG_optShowDownBar__</label><br />
+				<span>__MSG_optDescShowDownBar__</span>
 
 				<hr />
 
-				<button id="opt_btn_save" class="button button-primary">__MSG_opt_btn_save__</button>
+				<button id="optButtonSave" class="button button-primary">__MSG_optButtonSave__</button>
 			</div>
 		</div>
 	</div>

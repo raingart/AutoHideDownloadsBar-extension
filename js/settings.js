@@ -1,16 +1,16 @@
-// 'use strict';
+'use strict';
 
 // console.log('start options');
 
 // Saves options to localStorage.
-function saveOptions() {
-    opt_btn_save.innerHTML = chrome.i18n.getMessage("opt_btn_save_process");
+function saveOptions(buttonSave) {
+    buttonSave.innerHTML = chrome.i18n.getMessage("optButtonSave_process");
 
     localStorage.showdownbar = checkbox_showdownbar.checked ? "true" : "false";
 
-    opt_btn_save.innerHTML = chrome.i18n.getMessage("opt_btn_save_processed");
+    buttonSave.innerHTML = chrome.i18n.getMessage("optButtonSave_processed");
     setTimeout(function() {
-        opt_btn_save.innerHTML = chrome.i18n.getMessage("opt_btn_save");
+        buttonSave.innerHTML = chrome.i18n.getMessage("optButtonSave");
     }, 2000);
 }
 
@@ -20,8 +20,10 @@ function restoreOptions() {
     checkbox_showdownbar.checked = localStorage.showdownbar == "true";
 }
 
-document.getElementById("opt_btn_save").addEventListener("click", function(e) {
-    saveOptions();
+var optButtonSave = document.getElementById("optButtonSave");
+
+optButtonSave.addEventListener("click", function(e) {
+    saveOptions(optButtonSave);
 });
 
 window.onload = restoreOptions;

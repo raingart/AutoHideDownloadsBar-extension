@@ -1,37 +1,49 @@
 {
-   "appLocalization": {
+   "localization": {
       "description": "Extension's Localization",
       "message": "en"
    },
-   "appDescription": {
-      "description": "Extension's description",
-      "message": "This extension hides annoying downloads bar in the bottom of the screen."
-   },
-   "appName": {
+   "extName": {
       "description": "Extension's name",
       "message": "AutoHideDownloadsBar"
    },
-   "opt_setting": {
+   "extShortName": {
+      "description": "Extension's short name",
+      "message": "AutoHideDownloadsBar"
+   },
+   "extDescription": {
+      "description": "Extension's description",
+      "message": "This extension hides annoying downloads bar in the bottom of the screen."
+   },
+   "extTitle": {
+      "description": "Extension's title",
+      "message": "Open Downloads Page"
+   },
+   "optSetting": {
       "description": "setting title",
       "message": "settings"
    },
-   "opt_showDownBar": {
+   "optShowDownBar": {
       "description": "short description option - ShowDownbar",
       "message": "Show downloads bar when downloading is active"
    },
-   "opt_desc_ShowDownBar": {
+   "optShowDownBar_tooltip": {
+      "description": "short description tooltip",
+      "message": "Default is off"
+   },
+   "optDescShowDownBar": {
       "description": "full description option - ShowDownbar",
       "message": "Hiding the downloads bar occurs only after downloads finished"
    },
-   "opt_btn_save": {
+   "optButtonSave": {
       "description": "Save button name",
       "message": "Save Changes"
    },
-   "opt_btn_save_process": {
+   "optButtonSave_process": {
       "description": "Save button name",
       "message": "Saving..."
    },
-   "opt_btn_save_processed": {
+   "optButtonSave_processed": {
       "description": "Save button name",
       "message": "Changes Saved!"
    }
