@@ -124,7 +124,7 @@ function downloadChanged() {
                 if (count === 1) {
                     // fileSize
                     // totalBytes
-                    count = Math.round(item.bytesReceived * 100 / item.fileSize) + "%";
+                    count = Math.round(item.bytesReceived * 100 / item.fileSize);
                     // var percent = setInterval(downloadChanged(), 1000 * 5);
                     wait(1000 * 1);
                     downloadChanged();
@@ -145,7 +145,6 @@ function downloadChanged() {
         // setToolbarText('nan');
     });
 }
-var circleNum = 0;
 
 // function isInt(n){
 //     return Number(n) === n && n % 1 === 0;
@@ -155,9 +154,9 @@ var circleNum = 0;
 //     return Number(n) === n && n % 1 !== 0;
 // }
 
+var circleNum = 0;
 // function flashBadge(message) {
 function setToolbarText(message) {
-    circleNum = circleNum < 2 ? ++circleNum : 0;
     // if (circleNum < 2) {
     //   circleNum = ++circleNum;
     // } else {
@@ -167,16 +166,18 @@ function setToolbarText(message) {
 
     if (message === 0) {
         message = "";
+    } else if (message > 0) {
+        message = message.toString() + "%";
     } else if (Number.isInteger(message) === false) {
         var loadingSymbol = ["|--", "-|-", "--|"];
+        circleNum = circleNum < 2 ? ++circleNum : 0;
         message = loadingSymbol[circleNum];
-        // console.log(" > " + message);
     }
+    // console.log("message > " + message);
     chrome.browserAction.setBadgeBackgroundColor({
         color: "black"
     });
     chrome.browserAction.setBadgeText({
         text: message
-        // text: message.toString()
     });
 }
