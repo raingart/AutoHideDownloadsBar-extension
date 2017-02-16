@@ -1,11 +1,11 @@
 @echo off
 del chrome_bar.zip >nul
-winrar a -afzip -m5 -r chrome_bar.zip \                
+winrar a -afzip -m5 -r chrome_bar.zip \
                   _locales \
                   css \
                   html \
                   icons \
                   js \
                   lib \
-                  LICENSE \
-                  manifest.json \ -xnode_modules
+                  manifest.json \
+                  -xnode_modules
