@@ -5,13 +5,12 @@
   "description": "__MSG_extDescription__",
   "update_url": "https://clients2.google.com/service/update2/crx",
   "default_locale": "en",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "author": "raingart",
   "homepage_url": "https://github.com/Artlant/AutoHideDownloadsBar-extension",
   "permissions": [
     "tabs",
   	"storage",
-    "management",
   	"downloads",
   	"downloads.shelf"
   ],
