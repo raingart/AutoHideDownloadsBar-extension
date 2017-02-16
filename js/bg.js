@@ -141,8 +141,8 @@ function downloadChanged() {
         if (getSetting() === true && now_progress === false) {
             chrome.downloads.setShelfEnabled(now_progress);
         }
-        setToolbarText(count);
-        // setToolbarText('nan');
+        flashBadge(count);
+        // flashBadge('nan');
     });
 }
 
@@ -154,9 +154,7 @@ function downloadChanged() {
 //     return Number(n) === n && n % 1 !== 0;
 // }
 
-var circleNum = 0;
-// function flashBadge(message) {
-function setToolbarText(message) {
+function flashBadge(message) {
     // if (circleNum < 2) {
     //   circleNum = ++circleNum;
     // } else {
@@ -172,6 +170,10 @@ function setToolbarText(message) {
         var loadingSymbol = ["|--", "-|-", "--|"];
         circleNum = circleNum < 2 ? ++circleNum : 0;
         message = loadingSymbol[circleNum];
+    }
+    else {
+      message = "error";
+      console.log("BadgeText error: " + message);
     }
     // console.log("message > " + message);
     chrome.browserAction.setBadgeBackgroundColor({
