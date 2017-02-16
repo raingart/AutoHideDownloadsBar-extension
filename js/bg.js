@@ -11,16 +11,16 @@ chrome.downloads.onChanged.addListener(function(item) {
 });
 
 chrome.runtime.onStartup.addListener(function() {
-  console.log("Extension onStartup");
+    console.log("Extension onStartup");
 });
 
 chrome.runtime.onInstalled.addListener(function() {
-  console.log("Extension Installed");
-  downloadChanged();
+    console.log("Extension Installed");
+    downloadChanged();
 });
 
 chrome.runtime.onUpdateAvailable.addListener(function() {
-  console.log("Extension Updated");
+    console.log("Extension Updated");
 });
 
 // onInstalled
@@ -100,6 +100,15 @@ function downloadCreated() {
     chrome.downloads.setShelfEnabled(getSetting());
 }
 
+
+function wait(ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
+
 function downloadChanged() {
     chrome.downloads.search({}, function(items) {
         var now_progress = false;
@@ -113,13 +122,14 @@ function downloadChanged() {
                 // console.log(count);
                 // console.log(item);
                 if (count === 1) {
-                // fileSize
-                // totalBytes
-                  count = Math.round(item.bytesReceived * 100 / item.fileSize) + "%";
-                  var percent = setInterval(downloadChanged(), 1000 * 5);
-                }
-                else {
-                  clearInterval(percent);
+                    // fileSize
+                    // totalBytes
+                    count = Math.round(item.bytesReceived * 100 / item.fileSize) + "%";
+                    // var percent = setInterval(downloadChanged(), 1000 * 5);
+                    wait(1000 * 1);
+                    downloadChanged();
+                // } else {
+                //     clearInterval(percent);
                 }
                 // return false;
             }
@@ -131,14 +141,42 @@ function downloadChanged() {
         if (getSetting() === true && now_progress === false) {
             chrome.downloads.setShelfEnabled(now_progress);
         }
-        flashBadge(count);
+        setToolbarText(count);
+        // setToolbarText('nan');
     });
 }
+var circleNum = 0;
 
-function flashBadge(message) {
+// function isInt(n){
+//     return Number(n) === n && n % 1 === 0;
+// }
+//
+// function isFloat(n){
+//     return Number(n) === n && n % 1 !== 0;
+// }
+
+// function flashBadge(message) {
+function setToolbarText(message) {
+    circleNum = circleNum < 2 ? ++circleNum : 0;
+    // if (circleNum < 2) {
+    //   circleNum = ++circleNum;
+    // } else {
+    //   circleNum = 0;
+    // }
+    // console.log("circleNum > " + circleNum);
+
     if (message === 0) {
         message = "";
+    } else if (Number.isInteger(message) === false) {
+        var loadingSymbol = ["|--", "-|-", "--|"];
+        message = loadingSymbol[circleNum];
+        // console.log(" > " + message);
     }
-    chrome.browserAction.setBadgeBackgroundColor({ color: "black" });
-    chrome.browserAction.setBadgeText({ text: message.toString() });
+    chrome.browserAction.setBadgeBackgroundColor({
+        color: "black"
+    });
+    chrome.browserAction.setBadgeText({
+        text: message
+        // text: message.toString()
+    });
 }
