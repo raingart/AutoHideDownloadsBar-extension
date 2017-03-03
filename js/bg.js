@@ -109,7 +109,9 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 });
 
 function getSetting(optionParam) {
-    if (localStorage.optionParam == 'true') {
+    var e = localStorage.getItem(optionParam);
+  // console.log(optionParam+"- "+e);
+    if (e == "true") {
         return true;
     }
     return false;
@@ -134,11 +136,8 @@ function wait(sec) {
 var is_busy = false;
 
 function downloadChanged() {
-    if (getSetting("HideIconInfo") === true) {
+    if (getSetting("HideIconInfo") || is_busy) {
       return false;
-    }
-    if (is_busy) {
-        return false;
     }
     is_busy = true;
 
@@ -173,7 +172,7 @@ function downloadChanged() {
             // else
             //   now_progress = true;
         });
-        if (getSetting("ShowDownBar") === true && now_progress === false) {
+        if (getSetting("ShowDownBar") && !now_progress) {
             chrome.downloads.setShelfEnabled(now_progress);
         }
         flashBadge(percent);
@@ -181,8 +180,10 @@ function downloadChanged() {
         /*
         период обновление прогреса в Badge
         */
-        is_busy = true;
+        is_busy = false;
+
         if (count > 0) {
+            // wait(1);
             downloadChanged();
         }
     });
