@@ -16,7 +16,7 @@ zip -r $FILENAME.zip \
                   css/tooltip/tooltip-animation.css \
                   css/tooltip/tooltip-animation.min.css \
                   css/style.min.css \
-                  html \
+                  html/settings.html \
                   icons \
                   js/bg.min.js \
                   js/settings.min.js \
