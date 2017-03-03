@@ -1,5 +1,5 @@
 body {
-    width: 400px;
+    /*width: 400px;*/
     margin: 0 auto;
     font-size: 13px;
 }
@@ -36,6 +36,14 @@ input {
 button[disabled] {
     opacity: 0.5;
 }
+
+/*ol ol, ol ul, ul ol, ul ul {
+    font-size: 100%;
+}
+
+span i {
+    color: red;
+}*/
 
 
 /* UNRELATED to tooltips */

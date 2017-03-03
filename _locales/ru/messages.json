@@ -35,6 +35,18 @@
       "description": "full description option - ShowDownbar",
       "message": "Скрытие загрузочной панели происходит после завершения загрузки файлов"
    },
+   "optShowDownBar": {
+      "description": "short description option - ShowDownbar",
+      "message": "Не отображать информацию (процентовы) на значке в панеле"
+   },
+   "optShowDownBar_tooltip": {
+      "description": "short description tooltip",
+      "message": "Изначально откл."
+   },
+   "optDescShowDownBar": {
+      "description": "full description option - ShowDownbar",
+      "message": "Может существенно уменьшит нагрузку на систему"
+   },
    "optButtonSave": {
       "description": "Save button name",
       "message": "Применить"
@@ -46,5 +58,9 @@
    "optButtonSave_processed": {
       "description": "Save button name",
       "message": "Изменения Сохранены!"
+   },
+   "optDonate": {
+      "description": "Donate button",
+      "message": "Поддержите"
    }
 }

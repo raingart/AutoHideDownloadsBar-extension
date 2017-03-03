@@ -35,6 +35,18 @@
       "description": "full description option - ShowDownbar",
       "message": "Hiding the downloads bar occurs only after downloads finished"
    },
+   "optHideIconInfo": {
+      "description": "short description option - HideIconInfo",
+      "message": "Hide toolbar info (percent)"
+   },
+   "optHideIconInfo_tooltip": {
+      "description": "short description tooltip",
+      "message": "Default is off"
+   },
+   "optDescHideIconInfo": {
+      "description": "full description option - HideIconInfo",
+      "message": "Сan significantly reduce the load on the system"
+   },
    "optButtonSave": {
       "description": "Save button name",
       "message": "Save Changes"
@@ -46,5 +58,9 @@
    "optButtonSave_processed": {
       "description": "Save button name",
       "message": "Changes Saved!"
+   },
+   "optDonate": {
+      "description": "Donate button",
+      "message": "Donate"
    }
 }

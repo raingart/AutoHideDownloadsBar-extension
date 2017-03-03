@@ -6,7 +6,8 @@
 function saveOptions(buttonSave) {
     buttonSave.innerHTML = chrome.i18n.getMessage("optButtonSave_process");
 
-    localStorage.showdownbar = checkbox_showdownbar.checked ? "true" : "false";
+    localStorage.ShowDownBar = checkbox_ShowDownBar.checked ? true : false;
+    localStorage.HideIconInfo = checkbox_HideIconInfo.checked ? true : false;
 
     buttonSave.innerHTML = chrome.i18n.getMessage("optButtonSave_processed");
     setTimeout(function() {
@@ -17,13 +18,14 @@ function saveOptions(buttonSave) {
 
 // Restores select box state to saved value from localStorage.
 function restoreOptions() {
-    checkbox_showdownbar.checked = localStorage.showdownbar == "true";
+    checkbox_ShowDownBar.checked = localStorage.ShowDownBar == "true";
+    checkbox_HideIconInfo.checked = localStorage.HideIconInfo == "true";
 }
 
-var optButtonSave = document.getElementById("optButtonSave");
+var buttonSave = document.getElementById("optButtonSave");
 
-optButtonSave.addEventListener("click", function(e) {
-    saveOptions(optButtonSave);
+buttonSave.addEventListener("click", function(e) {
+    saveOptions(buttonSave);
 });
 
 window.onload = restoreOptions;
