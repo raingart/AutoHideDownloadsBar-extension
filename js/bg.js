@@ -110,7 +110,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 function getSetting(optionParam) {
     var e = localStorage.getItem(optionParam);
-  // console.log(optionParam+"- "+e);
+    // console.log(optionParam+"- "+e);
     if (e == "true") {
         return true;
     }
@@ -159,7 +159,6 @@ function downloadChanged() {
                 if (count === 1) {
                     // fileSize
                     // totalBytes
-                    // percent = Math.round(item.bytesReceived * 100 / item.fileSize);
                     percent = ((item.bytesReceived * 100) / item.fileSize);
                 }
                 /*
@@ -195,7 +194,8 @@ function flashBadge(message) {
     if (message === 0) {
         message = "";
     } else if (message > 0) {
-        message = Math.round(message);
+        // message = Math.round(message);
+        message = Math.floor(message);
         message = message.toString() + "%";
     } else if (Number.isInteger(message) === false) {
         var loadingSymbol = ["|--", "-|-", "--|"];
