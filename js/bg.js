@@ -121,17 +121,17 @@ function downloadCreated() {
     chrome.downloads.setShelfEnabled(getSetting("ShowDownBar"));
 }
 
-function wait(sec) {
-    if (Number.isInteger(sec) === false) {
-      return false;
-    }
-    sec = sec * 1000;
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + sec) {
-        end = new Date().getTime();
-    }
-}
+// function wait(sec) {
+//     if (Number.isInteger(sec) === false) {
+//       return false;
+//     }
+//     sec = sec * 1000;
+//     var start = new Date().getTime();
+//     var end = start;
+//     while (end < start + sec) {
+//         end = new Date().getTime();
+//     }
+// }
 
 var is_busy = false;
 
