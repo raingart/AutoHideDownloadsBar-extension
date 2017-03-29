@@ -13,7 +13,7 @@ zip -r $FILENAME.zip \
                   css/skeleton/skeleton.min.css \
                   css/skeleton/normalize.min.css \
                   css/skeleton/normalize.min.css \
-                  css/tooltip/tooltip-animation.css \
+                  css/tooltip/tooltip.min.css \
                   css/tooltip/tooltip-animation.min.css \
                   css/style.min.css \
                   html/settings.html \
