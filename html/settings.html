@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 	<title>Settings</title>
 	<link rel="stylesheet" href="/css/skeleton/normalize.min.css">
 	<link rel="stylesheet" href="/css/skeleton/skeleton.min.css">
 
-	<link rel="stylesheet" href="/css/tooltip/tooltip.min.css"/>
-	<link rel="stylesheet" href="/css/tooltip/tooltip-animation.min.css"/>
+	<link rel="stylesheet" href="/css/tooltip/tooltip.min.css" />
+	<link rel="stylesheet" href="/css/tooltip/tooltip-animation.min.css" />
 
 	<link rel="stylesheet" href="/css/style.min.css" type="text/css" />
 </head>
@@ -16,7 +17,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="twelve column">
-				<h2>__MSG_extName__ __MSG_optSetting__</h2>
+				<h2>__MSG_extName__ __MSG_optSetting__ <a href="https://github.com/Artlant/AutoHideDownloadsBar-extension" tooltip="Open Github Page" flow="left">github</a></h2>
 			</div>
 		</div>
 
@@ -40,23 +41,38 @@
 				</div>
 			</div>
 
+			<div class="row">
+				<div class="twelve columns">
+					<input type="checkbox" id="checkbox_ShowLastProgress" tooltip="__MSG_optShowLastProgress_tooltip__" flow="up" />
+					<label for="checkbox_ShowLastProgress">__MSG_optShowLastProgress__</label><br />
+					<span>__MSG_optDescShowLastProgress__</span>
+				</div>
+			</div>
+
 			<hr />
 
 			<div class="row">
 				<div class="twelve columns">
+
+					<!-- <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H9WXQ38JQSFLA" style="position:absolute; right:0">__MSG_optDonate__</a> -->
+
+					<form style="position:absolute; right:0" action="https://www.paypal.com/cgi-bin/webscr" method="get" target="_blank">
+						<input type="hidden" name="cmd" value="_s-xclick">
+						<input type="hidden" name="hosted_button_id" value="H9WXQ38JQSFLA">
+				   	<input type="submit" value="&#xf08a; __MSG_optDonate__!" />
+					</form>
+
 					<button id="optButtonSave" class="button button-primary">__MSG_optButtonSave__</button>
 
-<!--
-					<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H9WXQ38JQSFLA" style="position:absolute; right:0">__MSG_optDonate__</a>
--->
 				</div>
 			</div>
 
 		</div>
 	</div>
 
-<script src="/lib/localization.min.js"></script>
-<script src="/js/settings.min.js"></script>
+	<script src="/lib/localization.min.js"></script>
+	<script src="/js/settings.min.js"></script>
 
 </body>
+
 </html>

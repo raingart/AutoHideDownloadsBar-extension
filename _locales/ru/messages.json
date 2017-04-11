@@ -35,17 +35,29 @@
       "description": "full description option - ShowDownbar",
       "message": "Скрытие загрузочной панели происходит после завершения загрузки файлов"
    },
-   "optShowDownBar": {
-      "description": "short description option - ShowDownbar",
-      "message": "Не отображать информацию (процентовы) на значке в панеле"
+   "optHideIconInfo": {
+      "description": "short description option - HideIconInfo",
+      "message": "Не отображать информацию (проценты) в значке на панеле"
    },
-   "optShowDownBar_tooltip": {
-      "description": "short description tooltip",
+   "optHideIconInfo_tooltip": {
+      "description": "short description tooltip - HideIconInfo",
       "message": "Изначально откл."
    },
-   "optDescShowDownBar": {
-      "description": "full description option - ShowDownbar",
+   "optDescHideIconInfo": {
+      "description": "full description option - HideIconInfo",
       "message": "Может существенно уменьшит нагрузку на систему"
+   },
+   "optShowLastProgress": {
+      "description": "short description option - ShowLastProgress",
+      "message": "Отображать прогресс загрузки только последнего скачиваемого файла"
+   },
+   "optShowLastProgress_tooltip": {
+      "description": "short description tooltip - ShowLastProgress",
+      "message": "Изначально откл."
+   },
+   "optDescShowLastProgress": {
+      "description": "full description option - ShowLastProgress",
+      "message": "По умолчанию показывается прогресс загрузки ВСЕХ скачиваемых файлов сейчас"
    },
    "optButtonSave": {
       "description": "Save button name",

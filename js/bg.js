@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 chrome.downloads.onCreated.addListener(function(item) {
     downloadCreated();
@@ -121,17 +121,17 @@ function downloadCreated() {
     chrome.downloads.setShelfEnabled(getSetting("ShowDownBar"));
 }
 
-// function wait(sec) {
-//     if (Number.isInteger(sec) === false) {
-//       return false;
-//     }
-//     sec = sec * 1000;
-//     var start = new Date().getTime();
-//     var end = start;
-//     while (end < start + sec) {
-//         end = new Date().getTime();
-//     }
-// }
+function wait(sec) {
+    if (Number.isInteger(sec) === false) {
+      return false;
+    }
+    sec = sec * 1000;
+    var start = new Date().getTime();
+    var end = start;
+    while (end < start + sec) {
+        end = new Date().getTime();
+    }
+}
 
 var is_busy = false;
 
@@ -146,6 +146,9 @@ function downloadChanged() {
         var count = 0;
         var percent = 0;
 
+        var total_size = 0;
+        var total_Received = 0;
+
         items.forEach(function(item) {
             // console.log(item.state);
             if (item.state == 'in_progress') {
@@ -153,13 +156,16 @@ function downloadChanged() {
                 count = ++count;
                 // console.log(count);
                 // console.log(item);
-                /*
-                ограничиваем чтение-вывода програс первым элементом
-                */
-                if (count === 1) {
-                    // fileSize
-                    // totalBytes
-                    percent = ((item.bytesReceived * 100) / item.fileSize);
+                if (!getSetting("ShowLastProgress")) {
+                  total_size += item.fileSize;
+                  total_Received += item.bytesReceived;
+                  percent = ((total_Received * 100) / total_size);
+                  // console.log("total")
+                } else if (count === 1) {
+                  // fileSize
+                  // totalBytes
+                  percent = ((item.bytesReceived * 100) / item.fileSize);
+                  // console.log("ones")
                 }
                 /*
                 прерывание из forEach NOT WORKING!
@@ -182,7 +188,9 @@ function downloadChanged() {
         is_busy = false;
 
         if (count > 0) {
-            // wait(1);
+            if (Number.isInteger(percent) === false) {
+              wait(1);
+            }
             downloadChanged();
         }
     });
@@ -193,11 +201,13 @@ var circleNum = 0;
 function flashBadge(message) {
     if (message === 0) {
         message = "";
-    } else if (message > 0) {
+    } else if (message <= 100 ) {
+    // } else if (100 <= message > 0) {
         // message = Math.round(message);
         message = Math.floor(message);
         message = message.toString() + "%";
     } else if (Number.isInteger(message) === false) {
+    // } else if (Number.isInteger(message) === true && message < 100) {
         var loadingSymbol = ["|--", "-|-", "--|"];
         circleNum = circleNum < loadingSymbol.length-1 ? ++circleNum : 0;
         message = loadingSymbol[circleNum];

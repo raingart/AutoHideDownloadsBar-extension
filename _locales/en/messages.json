@@ -40,12 +40,24 @@
       "message": "Hide toolbar info (percent)"
    },
    "optHideIconInfo_tooltip": {
-      "description": "short description tooltip",
+      "description": "short description tooltip - HideIconInfo",
       "message": "Default is off"
    },
    "optDescHideIconInfo": {
       "description": "full description option - HideIconInfo",
       "message": "Сan significantly reduce the load on the system"
+   },
+   "optShowLastProgress": {
+      "description": "short description option - ShowLastProgress",
+      "message": "Show download progress only last downloaded file"
+   },
+   "optShowLastProgress_tooltip": {
+      "description": "short description tooltip - ShowLastProgress",
+      "message": "Default is off"
+   },
+   "optDescShowLastProgress": {
+      "description": "full description option - ShowLastProgress",
+      "message": "By default, it displays the download progress of ALL downloaded files is now"
    },
    "optButtonSave": {
       "description": "Save button name",

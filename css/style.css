@@ -2,11 +2,19 @@ body {
     /*width: 400px;*/
     margin: 0 auto;
     font-size: 13px;
+    min-width: 450px;
 }
 
 h2 {
     font-size: 2rem;
     margin: 1rem auto 0;
+}
+h2 > a {
+    /*text-transform: capitalize;*/
+    position: absolute !important;
+    right: 0;
+    font-size: 13px;
+    text-decoration: none;
 }
 
 span {
@@ -37,6 +45,12 @@ button[disabled] {
     opacity: 0.5;
 }
 
+#option > div.row:not(:last-child) {
+    margin: 5px 0;
+    /*padding: 0 0 5px;*/
+    border-bottom: 1px solid #e0e0e0;
+}
+
 /*ol ol, ol ul, ul ol, ul ul {
     font-size: 100%;
 }
@@ -55,7 +69,7 @@ span i {
   font-family: sans-serif;
   background: #ededed;
 }*/
-main {
+/*main {
   flex: 1 1 100vh;
   display: flex;
   flex-direction: column;
@@ -88,4 +102,4 @@ aside a {
   font-weight: bold;
   display: inline-block;
   padding: .4em 1em;
-}
+}*/
