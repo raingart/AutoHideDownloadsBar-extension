@@ -122,10 +122,15 @@ function downloadCreated() {
 }
 
 function wait(sec) {
-    if (Number.isInteger(sec) === false) {
+    if (Number.isInteger(sec*1000) === false) {
+    // if (Number.isInteger(sec) === false) {
+      // console.log("!wait"+sec);
       return false;
     }
-    sec = sec * 1000;
+    if (sec < 1000) {
+      sec = sec * 1000;
+    }
+    // console.log("sec"+sec);
     var start = new Date().getTime();
     var end = start;
     while (end < start + sec) {
@@ -189,7 +194,7 @@ function downloadChanged() {
 
         if (count > 0) {
             if (Number.isInteger(percent) === false) {
-              wait(1);
+              wait(0.1);
             }
             downloadChanged();
         }
@@ -208,7 +213,8 @@ function flashBadge(message) {
         message = message.toString() + "%";
     } else if (Number.isInteger(message) === false) {
     // } else if (Number.isInteger(message) === true && message < 100) {
-        var loadingSymbol = ["|--", "-|-", "--|"];
+        // var loadingSymbol = ["|--", "-|-", "--|"];
+        var loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
         circleNum = circleNum < loadingSymbol.length-1 ? ++circleNum : 0;
         message = loadingSymbol[circleNum];
         // console.log("circleNum > " + circleNum);
