@@ -127,7 +127,7 @@ function wait(sec) {
       // console.log("!wait"+sec);
       return false;
     }
-    if (sec < 1000) {
+    if (sec < 100) {
       sec = sec * 1000;
     }
     // console.log("sec"+sec);
