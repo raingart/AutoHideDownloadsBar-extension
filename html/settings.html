@@ -10,6 +10,8 @@
 	<link rel="stylesheet" href="/css/tooltip/tooltip.min.css" />
 	<link rel="stylesheet" href="/css/tooltip/tooltip-animation.min.css" />
 
+	<!-- <link rel="stylesheet" href="/css/tabs.min.css" /> -->
+
 	<link rel="stylesheet" href="/css/style.min.css" type="text/css" />
 </head>
 
@@ -17,60 +19,89 @@
 	<div class="container">
 		<div class="row">
 			<div class="twelve column">
-				<h2>__MSG_extName__ __MSG_optSetting__ <a href="https://github.com/Artlant/AutoHideDownloadsBar-extension" tooltip="Open Github Page" flow="left">github</a></h2>
+				<h2>__MSG_extName__ __MSG_optSetting__ <!-- <a href="https://github.com/Artlant/AutoHideDownloadsBar-extension" tooltip="Open Github Page" flow="left">github</a> --></h2>
 			</div>
 		</div>
+
+		<!-- <hr /> -->
+
+		<!-- <div class="tabbed">
+			<input type="radio" name="tabs" id="tab-nav-1" checked>
+			<label for="tab-nav-1">options</label>
+			<input type="radio" name="tabs" id="tab-nav-2">
+			<label for="tab-nav-2">about</label>
+			<input type="radio" name="tabs" id="tab-nav-3"> -->
+			<!-- <label for="tab-nav-3">Javascript</label>
+			<input type="radio" name="tabs" id="tab-nav-4">
+			<label for="tab-nav-4">Output</label> -->
+
+
+			<!-- <div class="tabs"> -->
+
+				<hr />
+
+				<div class="row" id="option">
+
+					<div class="row">
+						<div class="twelve columns">
+							<input type="checkbox" id="checkbox_ShowDownBar" tooltip="__MSG_optShowDownBar_tooltip__" flow="up" />
+							<label for="checkbox_ShowDownBar">__MSG_optShowDownBar__</label><br />
+							<span>__MSG_optDescShowDownBar__</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="twelve columns">
+							<input type="checkbox" id="checkbox_HideIconInfo" tooltip="__MSG_optHideIconInfo_tooltip__" flow="up" />
+							<label for="checkbox_HideIconInfo">__MSG_optHideIconInfo__</label><br />
+							<span>__MSG_optDescHideIconInfo__</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="twelve columns">
+							<input type="checkbox" id="checkbox_ShowLastProgress" tooltip="__MSG_optShowLastProgress_tooltip__" flow="up" />
+							<label for="checkbox_ShowLastProgress">__MSG_optShowLastProgress__</label><br />
+							<span>__MSG_optDescShowLastProgress__</span>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- <div class="about">
+						<a href="https://github.com/Artlant/AutoHideDownloadsBar-extension" tooltip="Open Source Code" flow="right">Github Page Project</a></br>
+						<a href="https://github.com/Artlant/AutoHideDownloadsBar-extension/issues" tooltip="Need GitHub account" flow="right">Report a bug</a></br>
+						<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H9WXQ38JQSFLA"  tooltip="Donate with PayPal" flow="right">__MSG_optDonate__</a></br>
+						<span>You can donate online using your PayPal account or a credit card (PayPal account not required).</span>
+				</div> -->
+
+
+			<!-- </div> -->
+		<!-- </div> -->
 
 		<hr />
 
-		<div class="row" id="option">
+		<div class="row">
+			<div class="twelve columns">
 
-			<div class="row">
-				<div class="twelve columns">
-					<input type="checkbox" id="checkbox_ShowDownBar" tooltip="__MSG_optShowDownBar_tooltip__" flow="up" />
-					<label for="checkbox_ShowDownBar">__MSG_optShowDownBar__</label><br />
-					<span>__MSG_optDescShowDownBar__</span>
-				</div>
+
+
+				<!-- <form style="position:absolute; right:0" action="https://www.paypal.com/cgi-bin/webscr" method="get" target="_blank">
+					<input type="hidden" name="cmd" value="_s-xclick">
+					<input type="hidden" name="hosted_button_id" value="H9WXQ38JQSFLA">
+					<input type="submit" value="&#xf08a; __MSG_optDonate__!" />
+				</form> -->
+
+				<button id="optButtonSave" class="button button-primary">__MSG_optButtonSave__</button>
+
 			</div>
-
-			<div class="row">
-				<div class="twelve columns">
-					<input type="checkbox" id="checkbox_HideIconInfo" tooltip="__MSG_optHideIconInfo_tooltip__" flow="up" />
-					<label for="checkbox_HideIconInfo">__MSG_optHideIconInfo__</label><br />
-					<span>__MSG_optDescHideIconInfo__</span>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="twelve columns">
-					<input type="checkbox" id="checkbox_ShowLastProgress" tooltip="__MSG_optShowLastProgress_tooltip__" flow="up" />
-					<label for="checkbox_ShowLastProgress">__MSG_optShowLastProgress__</label><br />
-					<span>__MSG_optDescShowLastProgress__</span>
-				</div>
-			</div>
-
-			<hr />
-
-			<div class="row">
-				<div class="twelve columns">
-
-					<!-- <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H9WXQ38JQSFLA" style="position:absolute; right:0">__MSG_optDonate__</a> -->
-
-					<form style="position:absolute; right:0" action="https://www.paypal.com/cgi-bin/webscr" method="get" target="_blank">
-						<input type="hidden" name="cmd" value="_s-xclick">
-						<input type="hidden" name="hosted_button_id" value="H9WXQ38JQSFLA">
-				   	<input type="submit" value="&#xf08a; __MSG_optDonate__!" />
-					</form>
-
-					<button id="optButtonSave" class="button button-primary">__MSG_optButtonSave__</button>
-
-				</div>
-			</div>
-
 		</div>
+
+
 	</div>
 
 	<script src="/lib/localization.min.js"></script>
+	<script src="/lib/storage.min.js"></script>
 	<script src="/js/settings.min.js"></script>
 
 </body>

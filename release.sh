@@ -21,5 +21,7 @@ zip -r $FILENAME.zip \
                   js/bg.min.js \
                   js/settings.min.js \
                   lib/localization.min.js \
+                  lib/storage.min.js \
                   manifest.json \
+                  # css/tabs.min.css \
 # -z $TODAY

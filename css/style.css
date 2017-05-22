@@ -5,6 +5,11 @@ body {
     min-width: 450px;
 }
 
+::selection {
+  background-color: #03a9f4;
+  color: #fff;
+}
+
 h2 {
     font-size: 2rem;
     margin: 1rem auto 0;
@@ -45,7 +50,7 @@ button[disabled] {
     opacity: 0.5;
 }
 
-#option > div.row:not(:last-child) {
+#option div.row:not(:last-child) {
     margin: 5px 0;
     /*padding: 0 0 5px;*/
     border-bottom: 1px solid #e0e0e0;

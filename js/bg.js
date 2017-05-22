@@ -1,5 +1,20 @@
 'use strict';
 
+
+var optionsStorage = {
+    'ShowDownBar'     : false,
+    'HideIconInfo'    : false,
+    'ShowLastProgress': false
+};
+
+function setDefaultSettings() {
+    chrome.storage.sync.set(optionsStorage, function(items) {
+        console.info("sync.get>"+items)
+        //~ console.log(items)
+        console.log('setDefautSettings');
+    });
+}
+
 chrome.downloads.onCreated.addListener(function(item) {
     downloadCreated();
 });
@@ -15,16 +30,19 @@ chrome.runtime.onStartup.addListener(function() {
 Extension is onStartup
 */
 chrome.runtime.onInstalled.addListener(function(details) {
-    console.log("Extension Installed:" + details.reason);
+    console.log("Extension onInstalled:" + details.reason);
     // var onInstalledPage = '/html/welcome.html';
-    // if (details.reason === 'install') {
+    if (details.reason === 'install') {
     //     chrome.tabs.create({ url: onInstalledPage });
-    // } else if (details.reason === 'update') {
-    //   if (localStorage.showdownbar == "true") {
-    //     localStorage.ShowDownBar = true;
-    //     localStorage.removeItem("showdownbar");
-    //   }
-    // }
+        setDefaultSettings();
+    } else if (details.reason === 'update') {
+        setDefaultSettings();
+        localStorage.clear();
+        var updateUrl = 'https://github.com/Artlant/AutoHideDownloadsBar-extension/wiki/Notification-version-1.5';
+        // sync.set({'new-version': runtime.getManifest().version});
+        chrome.tabs.create({url: updateUrl});
+    }
+
     downloadChanged();
 
 });
@@ -204,9 +222,9 @@ function downloadChanged() {
 var circleNum = 0;
 
 function flashBadge(message) {
-    if (message === 0) {
+    if (message === 0 || message >= 100) {
         message = "";
-    } else if (message <= 100 ) {
+    } else if (message < 100 ) {
     // } else if (100 <= message > 0) {
         // message = Math.round(message);
         message = Math.floor(message);
