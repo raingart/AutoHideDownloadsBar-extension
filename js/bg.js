@@ -1,5 +1,5 @@
-'use strict';
-
+// 'use strict';
+;
 
 var optionsStorage = {
     'ShowDownBar'     : false,
@@ -38,9 +38,9 @@ chrome.runtime.onInstalled.addListener(function(details) {
     } else if (details.reason === 'update') {
         setDefaultSettings();
         localStorage.clear();
-        var updateUrl = 'https://github.com/Artlant/AutoHideDownloadsBar-extension/wiki/Notification-version-1.5';
+        var updateUrl = 'https://github.com/Artlant/AutoHideDownloadsBar-extension/wiki/Notification-version--1.5';
         // sync.set({'new-version': runtime.getManifest().version});
-        chrome.tabs.create({url: updateUrl});
+        //chrome.tabs.create({url: updateUrl});
     }
 
     downloadChanged();
@@ -126,17 +126,32 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 });
 
+function getSetting1(options) {
+  //console.log("getSetting1", options);
+    localStorage.ShowDownBar = options.ShowDownBar ? true : false;
+    localStorage.HideIconInfo = options.HideIconInfo ? true : false;
+    localStorage.ShowLastProgress = options.ShowLastProgress ? true : false;
+}
 function getSetting(optionParam) {
-    var e = localStorage.getItem(optionParam);
-    // console.log(optionParam+"- "+e);
-    if (e == "true") {
+  Storage.getParams(null, getSetting1, chrome.storage.sync);
+  /*var e = *//*chrome.storage.sync.get(optionParam, function(data) {
+      // console.log("data", data);
+      console.log("data"+optionParam, data[optionParam]);
+      e = data[optionParam];
+      return e;
+    });*/
+    //var e = localStorage.getItem(optionParam);
+    console.log(optionParam+"- "+e);
+    if (e)
+    // if (e == "true")
         return true;
-    }
     return false;
 }
 
 function downloadCreated() {
-    chrome.downloads.setShelfEnabled(getSetting("ShowDownBar"));
+    getSetting("ShowDownBar");
+    chrome.downloads.setShelfEnabled(localStorage.ShowDownBar);
+    // chrome.downloads.setShelfEnabled(getSetting("ShowDownBar"));
 }
 
 function wait(sec) {
@@ -173,7 +188,7 @@ function downloadChanged() {
         var total_Received = 0;
 
         items.forEach(function(item) {
-            // console.log(item.state);
+            //console.log(item.state);
             if (item.state == 'in_progress') {
                 now_progress = true;
                 count = ++count;
@@ -222,7 +237,7 @@ function downloadChanged() {
 var circleNum = 0;
 
 function flashBadge(message) {
-    if (message === 0 || message >= 100) {
+    if (message === 0) {
         message = "";
     } else if (message < 100 ) {
     // } else if (100 <= message > 0) {

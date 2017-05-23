@@ -32,9 +32,9 @@ function saveOptions(buttonSave) {
 
 // Restores select box state to saved value from localStorage.
 function restoreOptions(options) {
-    checkbox_ShowDownBar.checked = options.ShowDownBar === true ? true : false;
-    checkbox_HideIconInfo.checked = options.HideIconInfo === true ? true : false;
-    checkbox_ShowLastProgress.checked = options.ShowLastProgress === true ? true : false;
+    checkbox_ShowDownBar.checked = options.ShowDownBar ? true : false;
+    checkbox_HideIconInfo.checked = options.HideIconInfo ? true : false;
+    checkbox_ShowLastProgress.checked = options.ShowLastProgress ? true : false;
     // checkbox_ShowDownBar.checked = localStorage.ShowDownBar == "true";
     // checkbox_HideIconInfo.checked = localStorage.HideIconInfo == "true";
     // checkbox_ShowLastProgress.checked = localStorage.ShowLastProgress == "true";

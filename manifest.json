@@ -14,7 +14,7 @@
   	"downloads.shelf"
   ],
   "background": {
-    "scripts": [ "js/bg.min.js" ]
+    "scripts": [ "lib/storage.min.js", "js/bg.js" ]
   },
   "browser_action": {
       "default_title": "__MSG_extTitle__"
