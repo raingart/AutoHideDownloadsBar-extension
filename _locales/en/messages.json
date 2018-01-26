@@ -3,76 +3,86 @@
       "description": "Extension's Localization",
       "message": "en"
    },
-   "extName": {
+   "app_name": {
       "description": "Extension's name",
       "message": "AutoHideDownloadsBar"
    },
-   "extShortName": {
+   "app_short_name": {
       "description": "Extension's short name",
       "message": "AutoHideDownloadsBar"
    },
-   "extDescription": {
+   "app_description": {
       "description": "Extension's description",
       "message": "This extension hides annoying downloads bar in the bottom of the screen."
    },
-   "extTitle": {
+   "app_title": {
       "description": "Extension's title",
       "message": "Open Downloads Page"
    },
-   "optSetting": {
+
+   "opt_setting": {
       "description": "setting title",
       "message": "settings"
    },
-   "optShowDownBar": {
+
+   "github_page_tooltip": {
+      "description": "github link tooltip",
+      "message": "Open"
+   },
+   
+   "opt_show_download_panel": {
       "description": "short description option - ShowDownbar",
       "message": "Show downloads bar when downloading is active"
    },
-   "optShowDownBar_tooltip": {
+   "opt_show_download_panel_tooltip": {
       "description": "short description tooltip",
-      "message": "Default is off"
+      "message": "Default: off"
    },
-   "optDescShowDownBar": {
+   "opt_show_download_panel_desc": {
       "description": "full description option - ShowDownbar",
       "message": "Hiding the downloads bar occurs only after downloads finished"
    },
-   "optHideIconInfo": {
+
+   "opt_hide_icon_info": {
       "description": "short description option - HideIconInfo",
-      "message": "Hide toolbar info (percent)"
+      "message": "Replace the graphic indicator with text"
    },
-   "optHideIconInfo_tooltip": {
+   "opt_hide_icon_info_tooltip": {
       "description": "short description tooltip - HideIconInfo",
-      "message": "Default is off"
+      "message": "Default: off"
    },
-   "optDescHideIconInfo": {
+   "opt_hide_icon_info_desc": {
       "description": "full description option - HideIconInfo",
       "message": "Сan significantly reduce the load on the system"
    },
-   "optShowLastProgress": {
+
+   "opt_show_last_progress": {
       "description": "short description option - ShowLastProgress",
       "message": "Show download progress only last downloaded file"
    },
-   "optShowLastProgress_tooltip": {
+   "opt_show_last_progress_tooltip": {
       "description": "short description tooltip - ShowLastProgress",
-      "message": "Default is off"
+      "message": "Default: off"
    },
-   "optDescShowLastProgress": {
+   "opt_show_last_progress_desc": {
       "description": "full description option - ShowLastProgress",
       "message": "By default, it displays the download progress of ALL downloaded files is now"
    },
-   "optButtonSave": {
-      "description": "Save button name",
+
+   "opt_bth_save_settings": {
+      "description": "option save settings",
       "message": "Save Changes"
    },
-   "optButtonSave_process": {
-      "description": "Save button name",
+   "opt_bth_save_settings_process": {
+      "description": "option save button settings is processed",
       "message": "Saving..."
    },
-   "optButtonSave_processed": {
-      "description": "Save button name",
-      "message": "Changes Saved!"
+   "opt_bth_save_settings_processed": {
+      "description": "option save button settings is processed",
+      "message": "Saved"
    },
-   "optDonate": {
-      "description": "Donate button",
-      "message": "Donate"
+   "opt_bth_save_settings_tooltip": {
+      "description": "option save button settings title",
+      "message": "the extension will restart"
    }
 }

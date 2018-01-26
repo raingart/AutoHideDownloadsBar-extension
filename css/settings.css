@@ -1,0 +1,86 @@
+body {
+   margin: 0 auto;
+   font-size: 13px;
+   min-width: 450px;
+   line-height: 1.4;
+}
+
+/* .button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+   height: 35px;
+   padding: 0 20px;
+   line-height: 35px;
+   color: #FFF;
+   background-color: #33C3F0;
+   border-color: #33C3F0;
+} */
+
+hr {
+   margin: 5px auto 8px;
+}
+
+.container {
+   /* padding: 0 10px 10px; */
+   padding: 5px 25px;
+}
+
+.container>div.item {
+   /* margin: 5px 0; */
+   padding: 8px 0;
+}
+
+.container>div.item:not(:last-child) {
+   border-top: 1px solid #E1E1E1;
+}
+
+/* div.container>div.item:last-child {
+} */
+
+.containerL>div.item:first-child {
+   /* margin: 0 10px 0 5px; */
+   margin: 0 5px;
+   border-top: 0 !important;
+}
+
+label {
+   cursor: pointer;
+}
+
+label>span {
+   display: block;
+   color: grey;
+   font-size: 12px;
+}
+
+label>span>q {
+   font-style: italic;
+   color: #006b9e;
+   quotes: "\00ab" "\00bb";
+}
+
+.containerL {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+
+.containerR {
+   display: flex;
+   flex-direction: column;
+}
+
+h2 {
+   font-weight: normal;
+   margin: 0;
+}
+
+h2 > a {
+   /* text-transform: capitalize; */
+   position: absolute !important;
+   right: 0;
+   font-size: 13px;
+   text-decoration: none;
+}

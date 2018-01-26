@@ -1,50 +1,60 @@
-'use strict';
+console.log(chrome.i18n.getMessage("app_name") + ": init settings.js");
 
-// console.log('start options');
+window.addEventListener('load', (evt) => {
 
-// var opt_html = ["ShowDownBar", "HideIconInfo", "ShowLastProgress"];
+   const App = {
+      // debug: true,
 
-// Saves options to localStorage.
-function saveOptions(buttonSave) {
-    buttonSave.innerHTML = chrome.i18n.getMessage("optButtonSave_process");
+      getUI: {
+         bthSave: document.getElementById('bth-save-settings'),
+         ShowDownBar: document.getElementById("ShowDownBar"),
+         HideIconInfo: document.getElementById("HideIconInfo"),
+         ShowLastProgress: document.getElementById("ShowLastProgress")
+      },
 
-    // for (i,i,i++) {
-    //   localStorage.i = "checkbox_"+i.checked ? true : false;
-    // }
+      bthAnimation: function (k) {
+         k.innerHTML = chrome.i18n.getMessage("opt_bth_save_settings_process");
+         k.classList.add("disabled");
+         k.classList.add("in-progress");
+         setTimeout(function () {
+            k.innerHTML = chrome.i18n.getMessage("opt_bth_save_settings_processed");
+            k.classList.remove("in-progress");
+         }, 1000);
+         setTimeout(function () {
+            k.innerHTML = chrome.i18n.getMessage("opt_bth_save_settings");
+            // k.classList.toggle("in-progress");
+            k.classList.remove("disabled");
+         }, 2000);
+      },
 
-    /*localStorage.ShowDownBar = checkbox_ShowDownBar.checked ? true : false;
-    localStorage.HideIconInfo = checkbox_HideIconInfo.checked ? true : false;
-    localStorage.ShowLastProgress = checkbox_ShowLastProgress.checked ? true : false;*/
-    var options_Storage = {
-        ShowDownBar    : checkbox_ShowDownBar.checked ? true : false,
-        HideIconInfo: checkbox_HideIconInfo.checked ? true : false,
-        ShowLastProgress: checkbox_ShowLastProgress.checked ? true : false
-    };
+      // Saves options to localStorage/chromeSync.
+      saveOptions: function (b) {
+         var optionsSave = {};
+         optionsSave['ShowDownBar'] = App.getUI.ShowDownBar.checked ? true : false;
+         optionsSave['HideIconInfo'] = App.getUI.HideIconInfo.checked ? true : false;
+         optionsSave['ShowLastProgress'] = App.getUI.ShowLastProgress.checked ? true : false;
 
-    Storage.setParams(options_Storage, chrome.storage.sync);
+         // Storage.setParams(optionsSave, false /*local*/ );
+         Storage.setParams(optionsSave, true /*sync*/ );
 
-    buttonSave.innerHTML = chrome.i18n.getMessage("optButtonSave_processed");
-    setTimeout(function() {
-        buttonSave.innerHTML = chrome.i18n.getMessage("optButtonSave");
-    }, 2000);
-}
+         App.bthAnimation(b)
+         chrome.runtime.reload();
+      },
 
+      init: function () {
+         var callback = (res) => Storage.restoreOptions(res);
+         // Storage.getParams(null, callback, false /*local*/ );
+         Storage.getParams(null, callback, true /*sync*/ );
+      },
 
-// Restores select box state to saved value from localStorage.
-function restoreOptions(options) {
-    checkbox_ShowDownBar.checked = options.ShowDownBar ? true : false;
-    checkbox_HideIconInfo.checked = options.HideIconInfo ? true : false;
-    checkbox_ShowLastProgress.checked = options.ShowLastProgress ? true : false;
-    // checkbox_ShowDownBar.checked = localStorage.ShowDownBar == "true";
-    // checkbox_HideIconInfo.checked = localStorage.HideIconInfo == "true";
-    // checkbox_ShowLastProgress.checked = localStorage.ShowLastProgress == "true";
-}
+      log: (msg, arg1) => {
+         if (App.debug) console.log('[+] ' + msg.toString(), arg1 || '')
+      }
+   }
 
-var buttonSave = document.getElementById("optButtonSave");
+   App.init();
 
-buttonSave.addEventListener("click", function(e) {
-    saveOptions(buttonSave);
+   App.getUI.bthSave.addEventListener("click", function () {
+      App.saveOptions(this)
+   });
 });
-
-window.onload = Storage.getParams(null, restoreOptions, chrome.storage.sync);
-// window.onload = restoreOptions;

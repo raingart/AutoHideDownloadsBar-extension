@@ -10,18 +10,13 @@ rm -v $FILENAME.zip
 # zip -rf $FILENAME.zip \
 zip -r $FILENAME.zip \
                   _locales \
-                  css/skeleton/skeleton.min.css \
-                  css/skeleton/normalize.min.css \
-                  css/skeleton/normalize.min.css \
-                  css/tooltip/tooltip.min.css \
-                  css/tooltip/tooltip-animation.min.css \
-                  css/style.min.css \
-                  html/settings.html \
-                  icons \
-                  js/bg.min.js \
-                  js/settings.min.js \
-                  lib/localization.min.js \
-                  lib/storage.min.js \
+                  css/*/*.css \
+                  css/*.css \
+                  html/*.html \
+                  icons/16.png \
+                  icons/48.png \
+                  icons/128.png \
+                  js/*.js \
+                  lib/*.min.js \
                   manifest.json \
-                  # css/tabs.min.css \
 # -z $TODAY
