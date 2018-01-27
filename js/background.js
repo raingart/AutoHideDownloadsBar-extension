@@ -4,7 +4,7 @@ var i = 0;
 
 const App = {
 
-   debug: true,
+   // debug: true,
 
    signal: {
       downloadCreated: function () {
@@ -37,18 +37,16 @@ const App = {
 
    clearS: function () {
       var manifest = chrome.runtime.getManifest();
-
-      chrome.browserAction.setIcon({
-         path: manifest.icons['16']
-      });
-      chrome.browserAction.setBadgeText({
-         text: ''
-      });
+      /* beautify preserve:start */
+      chrome.browserAction.setIcon({ path: manifest.icons['16'] });
+      chrome.browserAction.setBadgeText({ text: '' });
+      chrome.browserAction.setTitle({ title: chrome.i18n.getMessage("app_title") });
+      /* beautify preserve:end */
    },
 
    showProgress: function (progressRatio) {
 
-      if ( !App.tempSaveStorage['HideIconInfo'] ) {
+      if (!App.tempSaveStorage['HideIconInfo']) {
 
          var options = {
             'color': {
@@ -67,12 +65,13 @@ const App = {
          var color = percentageToHsl(1, options.color.startingHue, options.color.endingHue);
          // var color = percentageToHsl((progressRatio * 3.6), options.color.startingHue, options.color.endingHue);
 
+         var progressPercent = Math.round(progressRatio * 100);
+
          var dataForDrawing = {
             'color': color,
             'progressRatio': progressRatio || 0,
             // 'outText': Math.round(100 - (progressRatio * 100)),
-            'outText': Number.isInteger(progressRatio) ? Math.round(progressRatio * 100) : Array((++i % 4) + 1).join("."),
-            // 'outText': Math.round(progressRatio * 100),
+            'outText': Number.isInteger(progressPercent) ? progressPercent : Array((++i % 4) + 1).join("."),
          }
          App.log('dataForDrawing ', JSON.stringify(dataForDrawing));
 
@@ -80,9 +79,9 @@ const App = {
 
       } else {
 
-         if (Number.isInteger(progressRatio)) {  
+         if (Number.isInteger(progressRatio * 100)) {
             var progressPercent = Math.round(progressRatio * 100) + '%';
-            
+
          } else {
             var loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
             App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
@@ -151,7 +150,7 @@ const App = {
 
                   // The download is currently receiving data from the server.
                case 'in_progress':
-                  // App.log('item: '+JSON.stringify(item));
+                  // console.log('item: ' + JSON.stringify(item));
                   // App.info('in_progress');
                   countActive = ++countActive;
 
@@ -166,7 +165,7 @@ const App = {
                   //    break;
             }
 
-            if (App.tempSaveStorage["ShowLastProgress"] && count === 1) {
+            if (App.tempSaveStorage["ShowLastProgress"] && countActive === 1) {
                App.log('ShowLastProgress: ', App.tempSaveStorage["ShowLastProgress"]);
                break;
             }
@@ -174,8 +173,17 @@ const App = {
          };
 
          if (countActive <= 0) {
-            chrome.downloads.setShelfEnabled( false );
+            chrome.downloads.setShelfEnabled(false);
             App.singer(false);
+         } else {
+            var titleOut = String(progressRatio * 100) + '%';
+            
+            if (countActive > 1) {
+               titleOut += ' ' + chrome.i18n.getMessage("title_count_active") + ': ' + countActive;
+            }
+            chrome.browserAction.setTitle({
+               title: titleOut.toString()
+            });
          }
 
          App.log('countActive ', countActive);
@@ -233,7 +241,7 @@ const App = {
    },
 
    log: (msg, arg1) => {
-      if (App.debug) console.log('[+] ' + msg.toString() +' '+ arg1 || '')
+      if (App.debug) console.log('[+] ' + msg.toString() + ' ' + arg1 || '')
    },
 }
 

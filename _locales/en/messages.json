@@ -20,6 +20,11 @@
       "message": "Open Downloads Page"
    },
 
+   "title_count_active": {
+      "description": "Extension's title",
+      "message": "active"
+   },
+
    "opt_setting": {
       "description": "setting title",
       "message": "settings"
