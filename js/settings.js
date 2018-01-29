@@ -8,7 +8,6 @@ window.addEventListener('load', (evt) => {
       getUI: {
          bthSave: document.getElementById('bth-save-settings'),
          ShowDownBar: document.getElementById("ShowDownBar"),
-         // HideIconInfo: document.getElementById("HideIconInfo"),
          typeIconInfo: document.getElementById("typeIconInfo"),
          ShowLastProgress: document.getElementById("ShowLastProgress"),
          colorPicker: document.getElementById("colorPicker"),
@@ -35,7 +34,6 @@ window.addEventListener('load', (evt) => {
          var optionsSave = {};
          optionsSave['ShowDownBar'] = App.getUI.ShowDownBar.checked ? true : false;
          optionsSave['ShowLastProgress'] = App.getUI.ShowLastProgress.checked ? true : false;
-         // optionsSave['HideIconInfo'] = App.getUI.HideIconInfo.checked ? true : false;
          optionsSave['typeIconInfo'] = App.getUI.typeIconInfo.value || false;
          optionsSave['colorPicker'] = App.getUI.colorPicker.value || false;
 
@@ -46,7 +44,12 @@ window.addEventListener('load', (evt) => {
       },
 
       init: function () {
-         var callback = (res) => Storage.restoreOptions(res);
+         var callback = (res) => {
+            Storage.restoreOptions(res);
+
+            if (App.getUI.typeIconInfo.value == 'false')
+               document.getElementById('typeIconInfo_req').classList.add("hide");
+         }
          // Storage.getParams(null, callback, false /*local*/ );
          Storage.getParams(null, callback, true /*sync*/ );
       },
@@ -72,5 +75,14 @@ window.addEventListener('load', (evt) => {
       else
          document.getElementById('typeIconInfo_req').classList.remove("hide");
 
+   });
+
+   document.getElementById('donate').addEventListener("click", function (e) {
+      const manifest = chrome.runtime.getManifest();
+      var payment = '1DbKD1rQXobztpsqx2dPZeMz1nKyRJCm9b';
+      // if (window.prompt("BTC payment:", payment))
+      var url = 'https://blockchain.info/payment_request?address=' + payment;
+      url += '&message=' + manifest.short_name + '+project';
+      var win = window.open(url, '_blank');
    });
 });

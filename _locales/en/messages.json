@@ -41,24 +41,24 @@
    },
    "opt_show_download_panel_tooltip": {
       "description": "short description tooltip - show_download_panel",
-      "message": "Default: off"
+      "message": "Default: Off"
    },
    "opt_show_download_panel_desc": {
       "description": "full description option - show_download_panel",
       "message": "Hiding the downloads bar occurs only after downloads finished"
    },
 
-   "opt_hide_icon_info": {
-      "description": "short description option - HideIconInfo",
-      "message": "Replace the graphic indicator with text"
+   "opt_show_last_progress": {
+      "description": "short description option - show_last_progress",
+      "message": "Show download progress only last downloaded file"
    },
-   "opt_hide_icon_info_tooltip": {
-      "description": "short description tooltip - HideIconInfo",
-      "message": "Default: off"
+   "opt_show_last_progress_tooltip": {
+      "description": "short description tooltip - show_last_progress",
+      "message": "Default: Off"
    },
-   "opt_hide_icon_info_desc": {
-      "description": "full description option - HideIconInfo",
-      "message": "Сan significantly reduce the load on the system"
+   "opt_show_last_progress_desc": {
+      "description": "full description option - show_last_progress",
+      "message": "By default, it displays the download progress of ALL downloaded files is now"
    },
 
    "opt_type_icon_info": {
@@ -67,7 +67,7 @@
    },
    "opt_type_icon_info_tooltip": {
       "description": "short description tooltip - type_icon_info",
-      "message": "Default: graphic"
+      "message": "Default: Graphic"
    },
    "opt_type_icon_info_desc": {
       "description": "full description option - type_icon_info",
@@ -80,24 +80,11 @@
    },
    "opt_color_icon_info_tooltip": {
       "description": "short description tooltip - color_icon_info",
-      "message": "Default: lime (#00ff00)"
+      "message": "Default: Gradient Red to Green"
    },
    "opt_color_icon_info_desc": {
       "description": "full description option - color_icon_info",
-      "message": "??????????????????????????"
-   },
-
-   "opt_show_last_progress": {
-      "description": "short description option - show_last_progress",
-      "message": "Show download progress only last downloaded file"
-   },
-   "opt_show_last_progress_tooltip": {
-      "description": "short description tooltip - show_last_progress",
-      "message": "Default: off"
-   },
-   "opt_show_last_progress_desc": {
-      "description": "full description option - show_last_progress",
-      "message": "By default, it displays the download progress of ALL downloaded files is now"
+      "message": "Allows you to set the download color in the icon"
    },
 
    "opt_bth_save_settings": {
@@ -115,5 +102,14 @@
    "opt_bth_save_settings_tooltip": {
       "description": "option save button settings title",
       "message": "the extension will restart"
+   },
+
+   "donate_tooltip": {
+      "description": "donate link title",
+      "message": "Help the project"
+   },
+   "donate": {
+      "description": "donate link",
+      "message": "Donate"
    }
 }

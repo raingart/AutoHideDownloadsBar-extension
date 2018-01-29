@@ -6,7 +6,7 @@ var i = 0;
 
 const App = {
 
-   debug: true,
+   // debug: true,
 
    signal: {
       downloadCreated: function () {
@@ -21,7 +21,6 @@ const App = {
 
          // if (id) 
             App.getDownloadProgress(App.initInterval);
-
       },
    },
 
@@ -72,7 +71,8 @@ const App = {
       }
 
       function graphical (progressRatio) {
-         if (App.tempSaveStorage['colorPicker'])
+         // #00ff00 is default value 
+         if (App.tempSaveStorage['colorPicker'] && App.tempSaveStorage['colorPicker'] != '#00ff00')
             var color = App.tempSaveStorage['colorPicker'];
             
          else {
@@ -91,7 +91,7 @@ const App = {
                return 'hsla(' + hue + ', ' + options.color.saturation + '%, ' + options.color.lightness + '%, 0.8)';
             }
 
-            var color = percentageToHsl(30, options.color.startingHue, options.color.endingHue);
+            var color = percentageToHsl(progressRatio, options.color.startingHue, options.color.endingHue);
             // var color = percentageToHsl((progressRatio * 3.6), options.color.startingHue, options.color.endingHue);
          }
 
@@ -181,7 +181,7 @@ const App = {
          };
 
          // hide panel
-         if (countActive <= 0 && !App.tempSaveStorage["ShowDownBar"]) {
+         if (countActive <= 0) {
             chrome.downloads.setShelfEnabled(false);
             
          // set toolbar Title
@@ -278,7 +278,7 @@ const manifest = chrome.runtime.getManifest();
 
 // when install or update new version fired
 chrome.runtime.onInstalled && chrome.runtime.onInstalled.addListener(function (details) {
-   console.log('app ' + details.reason + ' ', manifest.version);
+   // console.log('app ' + details.reason + ' ', manifest.version);
 
    // if (details.reason === 'update') {
    if (details.reason === 'install') {

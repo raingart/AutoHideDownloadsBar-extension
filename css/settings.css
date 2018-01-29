@@ -42,6 +42,7 @@ hr {
 /* .containerL>div.item {
    flex-grow: 2;
 } */
+
 .containerL>div.item:first-child {
    /* margin: 0 10px 0 5px; */
    margin: 0 5px;
@@ -81,10 +82,16 @@ h2 {
    margin: 0;
 }
 
-h2 > a {
+h2>a {
    /* text-transform: capitalize; */
    position: absolute !important;
    right: 0;
    font-size: 13px;
    text-decoration: none;
+}
+
+div.donate {
+   justify-content: space-between;
+   display: flex;
+   flex-direction: row;
 }
