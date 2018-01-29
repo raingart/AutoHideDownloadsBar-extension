@@ -43,13 +43,39 @@
 				</div>
 			</div>
 
-			<div class="item containerL">
+			<!-- <div class="item containerL">
 				<div class="item" tooltip="__MSG_opt_hide_icon_info_tooltip__" flow="right">
 					<input type="checkbox" id="HideIconInfo" />
 				</div>
 				<div class="item containerR">
 					<label for="HideIconInfo">__MSG_opt_hide_icon_info__
 						<span>__MSG_opt_hide_icon_info_desc__</span>
+					</label>
+				</div>
+			</div> -->
+
+			<div class="item containerL">
+				<div class="item" tooltip="__MSG_opt_type_icon_info_tooltip__" flow="right">
+					<select id="typeIconInfo">
+                  <option selected value="svg">graphic</option>
+                  <option value="text">text</option>
+                  <option value="false">off</option>
+               </select>
+				</div>
+				<div class="item containerR">
+					<label for="typeIconInfo">__MSG_opt_type_icon_info__
+						<span>__MSG_opt_type_icon_info_desc__</span>
+					</label>
+				</div>
+			</div>
+
+			<div class="item containerL" id="typeIconInfo_req">
+				<div class="item" tooltip="__MSG_opt_color_icon_info_tooltip__" flow="right">
+					<input type="color" id="colorPicker" value="#00ff00" />
+				</div>
+				<div class="item containerR">
+					<label for="colorPicker">__MSG_opt_color_icon_info__
+						<span>__MSG_opt_color_icon_info_desc__</span>
 					</label>
 				</div>
 			</div>

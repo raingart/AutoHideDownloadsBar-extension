@@ -1,10 +1,12 @@
 // 'use strict';
 
+// Need for a counter
+// (TODO) but i do not know how to get rid of it
 var i = 0;
 
 const App = {
 
-   // debug: true,
+   debug: true,
 
    signal: {
       downloadCreated: function () {
@@ -14,28 +16,36 @@ const App = {
          chrome.downloads.setShelfEnabled(isShowPanel);
       },
 
-      downloadChanged: function () {
+      downloadChanged: function (id) {
          App.log('downloadChanged init');
 
-         App.clearS();
-         App.getDownloadProgress(App.singer);
+         // if (id) 
+            App.getDownloadProgress(App.initInterval);
 
       },
    },
 
-   singer: function (status) {
-      App.log('setInterval', status);
-
-      if (App.temploadingMessage && !status) {
+   initInterval: function (statusDownload) {
+      // App.log('initInterval: ', statusDownload);
+      if (statusDownload) {
+         if (!App.isBusy) {
+            App.log('setInterval');
+            App.isBusy = true;
+            App.temploadingMessage = setInterval(function () {
+               App.getDownloadProgress(App.showProgress);
+               App.log('setInterval RUN');
+            }, 1000);
+         }
+      } else if (App.isBusy) {
+         App.log('clearInterval');
+         App.isBusy = false;
          clearInterval(App.temploadingMessage);
-      } else {
-         App.temploadingMessage = setInterval(function () {
-            App.getDownloadProgress(App.showProgress);
-         }, 300);
-      }
+         App.clearToolbar();
+      } else
+         App.log('initInterval skip');
    },
 
-   clearS: function () {
+   clearToolbar: function () {
       var manifest = chrome.runtime.getManifest();
       /* beautify preserve:start */
       chrome.browserAction.setIcon({ path: manifest.icons['16'] });
@@ -46,24 +56,44 @@ const App = {
 
    showProgress: function (progressRatio) {
 
-      if (!App.tempSaveStorage['HideIconInfo']) {
+      switch (App.tempSaveStorage['typeIconInfo']/*.toLowerCase()*/) {
+         case 'svg':
+            graphical(progressRatio);
+            break;
+         case 'false':
+            return false;
+            break;
+         case 'text':
+            texter(progressRatio);
+            break;
+         default:
+            // return false;
+            graphical(progressRatio);
+      }
 
-         var options = {
-            'color': {
-               'startingHue': 0,
-               'endingHue': 120,
-               'saturation': 100,
-               'lightness': 50
+      function graphical (progressRatio) {
+         if (App.tempSaveStorage['colorPicker'])
+            var color = App.tempSaveStorage['colorPicker'];
+            
+         else {
+            var options = {
+               'color': {
+                  'startingHue': 0,
+                  'endingHue': 120,
+                  'saturation': 100,
+                  'lightness': 50
+               }
             }
-         }
 
-         var percentageToHsl = function (percentage, fromHue, toHue) {
-            var hue = Math.round((percentage * (toHue - fromHue)) + fromHue);
-            return 'hsla(' + hue + ', ' + options.color.saturation + '%, ' + options.color.lightness + '%, 0.8)';
-         }
+            // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+            var percentageToHsl = function (percentage, fromHue, toHue) {
+               var hue = Math.round((percentage * (toHue - fromHue)) + fromHue);
+               return 'hsla(' + hue + ', ' + options.color.saturation + '%, ' + options.color.lightness + '%, 0.8)';
+            }
 
-         var color = percentageToHsl(1, options.color.startingHue, options.color.endingHue);
-         // var color = percentageToHsl((progressRatio * 3.6), options.color.startingHue, options.color.endingHue);
+            var color = percentageToHsl(30, options.color.startingHue, options.color.endingHue);
+            // var color = percentageToHsl((progressRatio * 3.6), options.color.startingHue, options.color.endingHue);
+         }
 
          var progressPercent = Math.round(progressRatio * 100);
 
@@ -75,9 +105,11 @@ const App = {
          }
          App.log('dataForDrawing ', JSON.stringify(dataForDrawing));
 
-         App.draw(dataForDrawing);
+         draw(dataForDrawing);
 
-      } else {
+      }
+      
+      function texter(progressRatio) {
 
          if (Number.isInteger(progressRatio * 100)) {
             var progressPercent = Math.round(progressRatio * 100) + '%';
@@ -89,95 +121,73 @@ const App = {
          }
 
          chrome.browserAction.setBadgeBackgroundColor({
-            color: "black"
+            color: App.tempSaveStorage['colorPicker'] || "black"
          });
          chrome.browserAction.setBadgeText({
             text: progressPercent.toString() || 'err'
          });
       }
 
-   },
+      function draw (dataForDrawing) {
+         var canvas = document.createElement('canvas');
+         canvas.width = 16;
+         canvas.height = 16;
+   
+         var context = canvas.getContext('2d');
+         context.fillStyle = 'hsla( 0, 0%, 0%, 0.1)';
+         context.fillRect(0, 0, 16, 16);
+         context.fillStyle = dataForDrawing.color;
+         context.fillRect(0, 0, 16 * dataForDrawing.progressRatio, 16);
+   
+         context.fillStyle = '#888';
+         context.textAlign = 'center';
+         context.textBaseline = 'middle';
+         context.font = '11px Arial';
+         // context.fillText(dataForDrawing.outText, 8, 8);
+         context.fillText(dataForDrawing.outText.toString(), 8, 8);
+   
+         chrome.browserAction.setIcon({
+            imageData: context.getImageData(0, 0, 16, 16)
+         });
+      }
 
-   draw: function (dataForDrawing) {
-      var canvas = document.createElement('canvas');
-      canvas.width = 16;
-      canvas.height = 16;
-
-      var context = canvas.getContext('2d');
-      context.fillStyle = 'hsla( 0, 0%, 0%, 0.1)';
-      context.fillRect(0, 0, 16, 16);
-      context.fillStyle = dataForDrawing.color;
-      context.fillRect(0, 0, 16 * dataForDrawing.progressRatio, 16);
-
-      context.fillStyle = '#888';
-      context.textAlign = 'center';
-      context.textBaseline = 'middle';
-      context.font = '11px Arial';
-      context.fillText(dataForDrawing.outText, 8, 8);
-
-      chrome.browserAction.setIcon({
-         imageData: context.getImageData(0, 0, 16, 16)
-      });
    },
 
    getDownloadProgress: function (callback) {
 
-      chrome.downloads.search({}, function (items) {
+      var searchObj = {
+         state: 'in_progress',
+         // paused: false,
+         orderBy: ['-startTime']
+      }
+
+      if (App.tempSaveStorage["ShowLastProgress"]) {
+         searchObj['limit'] = 1;
+      }
+
+      chrome.downloads.search(searchObj, function (downloads) {
 
          var totalSize = 0,
             totalReceived = 0,
             progressRatio = 0,
-            countActive = 0;
+            countActive = downloads.length;
 
-         for (var item of items) {
-            // App.log('item: '+JSON.stringify(item));
-
-            // skip paused
-            if (item.paused) {
-               App.log('item.paused');
-               continue;
-            }
-
-            // The download state.
-            switch (item.state) {
-               // The download completed successfully.
-               case 'complete':
-                  if ((item.state.current == 'complete') && item.endTime && !item.error)
-                     console.warn(item.error);
-                  else
-                     App.log('done');
-                  break;
-
-                  // The download is currently receiving data from the server.
-               case 'in_progress':
-                  // console.log('item: ' + JSON.stringify(item));
-                  // App.info('in_progress');
-                  countActive = ++countActive;
-
-                  totalSize += item.fileSize || item.totalBytes
-                  totalReceived += item.bytesReceived;
-                  progressRatio = (totalReceived / totalSize).toFixed(2);
-                  break;
-
-                  // An error broke the connection with the file host.
-                  // case 'interrupted':
-                  //    App.info('interrupted');
-                  //    break;
-            }
-
-            if (App.tempSaveStorage["ShowLastProgress"] && countActive === 1) {
-               App.log('ShowLastProgress: ', App.tempSaveStorage["ShowLastProgress"]);
-               break;
-            }
-
+         for (var download of downloads) {
+            // console.log('download: ' + JSON.stringify(download));
+            
+            totalSize += download.fileSize || download.totalBytes
+            totalReceived += download.bytesReceived;
+            progressRatio = (totalReceived / totalSize).toFixed(2);
          };
 
-         if (countActive <= 0) {
+         // hide panel
+         if (countActive <= 0 && !App.tempSaveStorage["ShowDownBar"]) {
             chrome.downloads.setShelfEnabled(false);
-            App.singer(false);
+            
+         // set toolbar Title
          } else {
             var titleOut = String(progressRatio * 100) + '%';
-            
+
             if (countActive > 1) {
                titleOut += ' ' + chrome.i18n.getMessage("title_count_active") + ': ' + countActive;
             }
@@ -224,7 +234,7 @@ const App = {
    confStorage: {
       load: () => {
          var callback = function (res) {
-            App.log('res', JSON.stringify(res));
+            App.log('confStorage', JSON.stringify(res));
             App.tempSaveStorage = res;
 
             App.signal.downloadCreated();
@@ -241,10 +251,10 @@ const App = {
    },
 
    log: (msg, arg1) => {
-      if (App.debug) console.log('[+] ' + msg.toString() + ' ' + arg1 || '')
+      var arg1 = arg1 === undefined ? '' : arg1;
+      if (App.debug) console.log('[+] ' + msg.toString().trim(), arg1)
    },
 }
-
 
 App.init();
 
@@ -254,12 +264,37 @@ chrome.downloads.onCreated.addListener(function (item) {
 });
 
 chrome.downloads.onChanged.addListener(function (item) {
-   App.signal.downloadChanged();
+   App.signal.downloadChanged(item.id);
+   App.log('item' + JSON.stringify(item));
 });
 
 // called when the icon is clicked
 chrome.browserAction.onClicked.addListener(function (tab) {
    App.openTab('chrome://downloads/');
-   // App.signal.downloadCreated();
-   // App.signal.downloadChanged();
+});
+
+
+const manifest = chrome.runtime.getManifest();
+
+// when install or update new version fired
+chrome.runtime.onInstalled && chrome.runtime.onInstalled.addListener(function (details) {
+   console.log('app ' + details.reason + ' ', manifest.version);
+
+   // if (details.reason === 'update') {
+   if (details.reason === 'install') {
+   } else if (details.reason === 'update') {
+   }
+});
+
+var uninstallUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdgDabLtk8vapLTEXKoXucHVXLrDujBrXZg418mGrLE0zND2g/viewform?usp=pp_url&entry.1936476946&entry.1337380930&entry.1757501795=";
+uninstallUrl += encodeURIComponent(manifest.short_name + ' (v' + manifest.version + ')');
+
+if (!App.debug)
+chrome.runtime.setUninstallURL(uninstallUrl, function (details) {
+   var lastError = chrome.runtime.lastError;
+   if (lastError && lastError.message) {
+      console.warn("Unable to set uninstall URL: " + lastError.message);
+   } else {
+      // The url is set
+   }
 });

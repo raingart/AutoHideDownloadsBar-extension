@@ -8,8 +8,10 @@ window.addEventListener('load', (evt) => {
       getUI: {
          bthSave: document.getElementById('bth-save-settings'),
          ShowDownBar: document.getElementById("ShowDownBar"),
-         HideIconInfo: document.getElementById("HideIconInfo"),
-         ShowLastProgress: document.getElementById("ShowLastProgress")
+         // HideIconInfo: document.getElementById("HideIconInfo"),
+         typeIconInfo: document.getElementById("typeIconInfo"),
+         ShowLastProgress: document.getElementById("ShowLastProgress"),
+         colorPicker: document.getElementById("colorPicker"),
       },
 
       bthAnimation: function (k) {
@@ -24,6 +26,7 @@ window.addEventListener('load', (evt) => {
             k.innerHTML = chrome.i18n.getMessage("opt_bth_save_settings");
             // k.classList.toggle("in-progress");
             k.classList.remove("disabled");
+            chrome.runtime.reload();
          }, 2000);
       },
 
@@ -31,14 +34,15 @@ window.addEventListener('load', (evt) => {
       saveOptions: function (b) {
          var optionsSave = {};
          optionsSave['ShowDownBar'] = App.getUI.ShowDownBar.checked ? true : false;
-         optionsSave['HideIconInfo'] = App.getUI.HideIconInfo.checked ? true : false;
          optionsSave['ShowLastProgress'] = App.getUI.ShowLastProgress.checked ? true : false;
+         // optionsSave['HideIconInfo'] = App.getUI.HideIconInfo.checked ? true : false;
+         optionsSave['typeIconInfo'] = App.getUI.typeIconInfo.value || false;
+         optionsSave['colorPicker'] = App.getUI.colorPicker.value || false;
 
          // Storage.setParams(optionsSave, false /*local*/ );
          Storage.setParams(optionsSave, true /*sync*/ );
 
          App.bthAnimation(b)
-         chrome.runtime.reload();
       },
 
       init: function () {
@@ -56,5 +60,17 @@ window.addEventListener('load', (evt) => {
 
    App.getUI.bthSave.addEventListener("click", function () {
       App.saveOptions(this)
+   });
+
+   App.getUI.colorPicker.addEventListener("change", function (e) {
+      console.log('color', this.value);
+   });
+
+   App.getUI.typeIconInfo.addEventListener("change", function (e) {
+      if (this.value == 'false')
+         document.getElementById('typeIconInfo_req').classList.add("hide");
+      else
+         document.getElementById('typeIconInfo_req').classList.remove("hide");
+
    });
 });

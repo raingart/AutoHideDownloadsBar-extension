@@ -8,7 +8,8 @@ body {
 
 a {
    /* color: #3d3d3d; */
-   color: rgb(27, 167, 209);
+   /* color: rgb(27, 167, 209); */
+   color: deepskyblue;
    /* text-decoration: none; */
 }
 
@@ -49,8 +50,10 @@ input[type=button] {
    padding: 0 20px;
    line-height: 35px;
    color: #FFF;
-   background-color: #33C3F0;
-   border-color: #33C3F0;
+   background-color: deepskyblue;
+   border-color: deepskyblue;
+   /* background-color: #33C3F0;
+   border-color: #33C3F0; */
 }
 
 .button:focus,
@@ -113,7 +116,7 @@ legend {
 }
 
 .hide {
-   display: none;
+   display: none !important;
 }
 
 .in-progress {

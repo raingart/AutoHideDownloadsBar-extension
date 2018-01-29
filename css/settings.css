@@ -39,10 +39,14 @@ hr {
 /* div.container>div.item:last-child {
 } */
 
+/* .containerL>div.item {
+   flex-grow: 2;
+} */
 .containerL>div.item:first-child {
    /* margin: 0 10px 0 5px; */
    margin: 0 5px;
    border-top: 0 !important;
+   /* flex-grow: 0.1; */
 }
 
 label {

@@ -36,15 +36,15 @@
    },
    
    "opt_show_download_panel": {
-      "description": "short description option - ShowDownbar",
+      "description": "short description option - show_download_panel",
       "message": "Show downloads bar when downloading is active"
    },
    "opt_show_download_panel_tooltip": {
-      "description": "short description tooltip",
+      "description": "short description tooltip - show_download_panel",
       "message": "Default: off"
    },
    "opt_show_download_panel_desc": {
-      "description": "full description option - ShowDownbar",
+      "description": "full description option - show_download_panel",
       "message": "Hiding the downloads bar occurs only after downloads finished"
    },
 
@@ -61,16 +61,42 @@
       "message": "Сan significantly reduce the load on the system"
    },
 
+   "opt_type_icon_info": {
+      "description": "short description option - type_icon_info",
+      "message": "Select the type of indication on the toolbar"
+   },
+   "opt_type_icon_info_tooltip": {
+      "description": "short description tooltip - type_icon_info",
+      "message": "Default: graphic"
+   },
+   "opt_type_icon_info_desc": {
+      "description": "full description option - type_icon_info",
+      "message": "Off can significantly reduce the load on the system"
+   },
+
+   "opt_color_icon_info": {
+      "description": "short description option - color_icon_info",
+      "message": "Color of indication in icon"
+   },
+   "opt_color_icon_info_tooltip": {
+      "description": "short description tooltip - color_icon_info",
+      "message": "Default: lime (#00ff00)"
+   },
+   "opt_color_icon_info_desc": {
+      "description": "full description option - color_icon_info",
+      "message": "??????????????????????????"
+   },
+
    "opt_show_last_progress": {
-      "description": "short description option - ShowLastProgress",
+      "description": "short description option - show_last_progress",
       "message": "Show download progress only last downloaded file"
    },
    "opt_show_last_progress_tooltip": {
-      "description": "short description tooltip - ShowLastProgress",
+      "description": "short description tooltip - show_last_progress",
       "message": "Default: off"
    },
    "opt_show_last_progress_desc": {
-      "description": "full description option - ShowLastProgress",
+      "description": "full description option - show_last_progress",
       "message": "By default, it displays the download progress of ALL downloaded files is now"
    },
 
