@@ -6,7 +6,7 @@ var i = 0;
 
 const App = {
 
-   // debug: true,
+   debug: true,
 
    signal: {
       downloadCreated: function () {
@@ -16,11 +16,38 @@ const App = {
          chrome.downloads.setShelfEnabled(isShowPanel);
       },
 
-      downloadChanged: function (id) {
+      downloadChanged: function (item) {
          App.log('downloadChanged init');
+
+         App.log('onChanged item', JSON.stringify(item));
 
          // if (id) 
             App.getDownloadProgress(App.initInterval);
+
+         if (App.tempSaveStorage["showNotification"] && item 
+            && item.state && item.state.previous === 'in_progress') {
+               switch (item.state.current) {
+                  // The download completed successfully.
+                  case 'complete':
+                     var msg = chrome.i18n.getMessage("noti_download_complete");
+                     break;
+                  // An error broke the connection with the file host.
+                  case 'interrupted':
+                     var msg;
+                     if (item.error.current === 'USER_CANCELED')
+                        msg = chrome.i18n.getMessage("noti_download_canceled");
+                     else 
+                        msg = chrome.i18n.getMessage("noti_download_interrupted");
+                     break;
+                  // The download is currently receiving data from the server.
+                  // case 'in_progress':
+                  //    break;
+                  default:
+                     return false;
+               }
+            App.notification(chrome.i18n.getMessage("noti_download_title"), msg);
+         }
+         
       },
    },
 
@@ -55,7 +82,7 @@ const App = {
 
    showProgress: function (progressRatio) {
 
-      switch (App.tempSaveStorage['typeIconInfo']/*.toLowerCase()*/) {
+      switch (App.tempSaveStorage['typeIconInfo'] /*.toLowerCase()*/ ) {
          case 'svg':
             graphical(progressRatio);
             break;
@@ -70,11 +97,11 @@ const App = {
             graphical(progressRatio);
       }
 
-      function graphical (progressRatio) {
+      function graphical(progressRatio) {
          // #00ff00 is default value 
          if (App.tempSaveStorage['colorPicker'] && App.tempSaveStorage['colorPicker'] != '#00ff00')
             var color = App.tempSaveStorage['colorPicker'];
-            
+
          else {
             var options = {
                'color': {
@@ -108,7 +135,7 @@ const App = {
          draw(dataForDrawing);
 
       }
-      
+
       function texter(progressRatio) {
 
          if (Number.isInteger(progressRatio * 100)) {
@@ -128,24 +155,24 @@ const App = {
          });
       }
 
-      function draw (dataForDrawing) {
+      function draw(dataForDrawing) {
          var canvas = document.createElement('canvas');
          canvas.width = 16;
          canvas.height = 16;
-   
+
          var context = canvas.getContext('2d');
          context.fillStyle = 'hsla( 0, 0%, 0%, 0.1)';
          context.fillRect(0, 0, 16, 16);
          context.fillStyle = dataForDrawing.color;
          context.fillRect(0, 0, 16 * dataForDrawing.progressRatio, 16);
-   
+
          context.fillStyle = '#888';
          context.textAlign = 'center';
          context.textBaseline = 'middle';
          context.font = '11px Arial';
          // context.fillText(dataForDrawing.outText, 8, 8);
          context.fillText(dataForDrawing.outText.toString(), 8, 8);
-   
+
          chrome.browserAction.setIcon({
             imageData: context.getImageData(0, 0, 16, 16)
          });
@@ -174,7 +201,7 @@ const App = {
 
          for (var download of downloads) {
             // console.log('download: ' + JSON.stringify(download));
-            
+
             totalSize += download.fileSize || download.totalBytes
             totalReceived += download.bytesReceived;
             progressRatio = (totalReceived / totalSize).toFixed(2);
@@ -183,10 +210,10 @@ const App = {
          // hide panel
          if (countActive <= 0) {
             chrome.downloads.setShelfEnabled(false);
-            
-         // set toolbar Title
+
+            // set toolbar Title
          } else {
-            var titleOut = String(progressRatio * 100) + '%';
+            var titleOut = Math.round(progressRatio * 100) + '%';
 
             if (countActive > 1) {
                titleOut += ' ' + chrome.i18n.getMessage("title_count_active") + ': ' + countActive;
@@ -203,6 +230,20 @@ const App = {
             return callback(progressRatio);
          }
 
+      });
+   },
+
+   notification: function (title, msg, icon) {
+      chrome.notifications.create('info', {
+         type: 'basic',
+         iconUrl: '/icons/' + icon === undefined ? '' : '/icons/128.png',
+         title: title || chrome.i18n.getMessage("app_name"),
+         message: msg || '',
+      }, function (notificationId) {
+         chrome.notifications.onClicked.addListener(function (callback) {
+            chrome.notifications.clear(notificationId);
+            // chrome.notifications.clear(notificationId, callback);
+         });
       });
    },
 
@@ -264,8 +305,7 @@ chrome.downloads.onCreated.addListener(function (item) {
 });
 
 chrome.downloads.onChanged.addListener(function (item) {
-   App.signal.downloadChanged(item.id);
-   App.log('item' + JSON.stringify(item));
+   App.signal.downloadChanged(item);
 });
 
 // called when the icon is clicked
@@ -278,11 +318,15 @@ const manifest = chrome.runtime.getManifest();
 
 // when install or update new version fired
 chrome.runtime.onInstalled && chrome.runtime.onInstalled.addListener(function (details) {
-   // console.log('app ' + details.reason + ' ', manifest.version);
-
-   // if (details.reason === 'update') {
+   console.log('app ' + details.reason + ' ', manifest.version);
    if (details.reason === 'install') {
-   } else if (details.reason === 'update') {
+      var defaultSetting = {
+         'showNotification': true,
+      }
+      Storage.setParams(defaultSetting, true /*sync*/ );
+   } 
+   else if (details.reason === 'update') {
+
    }
 });
 
@@ -290,11 +334,11 @@ var uninstallUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdgDabLtk8vapLTEXKo
 uninstallUrl += encodeURIComponent(manifest.short_name + ' (v' + manifest.version + ')');
 
 if (!App.debug)
-chrome.runtime.setUninstallURL(uninstallUrl, function (details) {
-   var lastError = chrome.runtime.lastError;
-   if (lastError && lastError.message) {
-      console.warn("Unable to set uninstall URL: " + lastError.message);
-   } else {
-      // The url is set
-   }
-});
+   chrome.runtime.setUninstallURL(uninstallUrl, function (details) {
+      var lastError = chrome.runtime.lastError;
+      if (lastError && lastError.message) {
+         console.warn("Unable to set uninstall URL: " + lastError.message);
+      } else {
+         // The url is set
+      }
+   });

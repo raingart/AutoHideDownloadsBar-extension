@@ -25,6 +25,23 @@
       "message": "active"
    },
 
+   "noti_download_title": {
+      "description": "notification message download is complete",
+      "message": "The download file"
+   },
+   "noti_download_complete": {
+      "description": "notification message download is complete",
+      "message": "Completed successfully"
+   },
+   "noti_download_interrupted": {
+      "description": "notification message download is interrupted",
+      "message": "An error"
+   },
+   "noti_download_canceled": {
+      "description": "notification message download is canceled",
+      "message": "Canceled"
+   },
+
    "opt_setting": {
       "description": "setting title",
       "message": "settings"
@@ -59,6 +76,19 @@
    "opt_show_last_progress_desc": {
       "description": "full description option - show_last_progress",
       "message": "By default, it displays the download progress of ALL downloaded files is now"
+   },
+
+   "opt_show_notification": {
+      "description": "short description option - show_last_progress",
+      "message": "Show notification"
+   },
+   "opt_show_notification_tooltip": {
+      "description": "short description tooltip - show_last_progress",
+      "message": "Default: On"
+   },
+   "opt_show_notification_desc": {
+      "description": "full description option - show_last_progress",
+      "message": "Show notification if file downloading status has changed"
    },
 
    "opt_type_icon_info": {

@@ -95,3 +95,6 @@ div.donate {
    display: flex;
    flex-direction: row;
 }
+div.donate > a {
+   align-self: center;
+}

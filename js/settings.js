@@ -11,6 +11,7 @@ window.addEventListener('load', (evt) => {
          typeIconInfo: document.getElementById("typeIconInfo"),
          ShowLastProgress: document.getElementById("ShowLastProgress"),
          colorPicker: document.getElementById("colorPicker"),
+         showNotification: document.getElementById("showNotification"),
       },
 
       bthAnimation: function (k) {
@@ -34,6 +35,7 @@ window.addEventListener('load', (evt) => {
          var optionsSave = {};
          optionsSave['ShowDownBar'] = App.getUI.ShowDownBar.checked ? true : false;
          optionsSave['ShowLastProgress'] = App.getUI.ShowLastProgress.checked ? true : false;
+         optionsSave['showNotification'] = App.getUI.showNotification.checked ? true : false;
          optionsSave['typeIconInfo'] = App.getUI.typeIconInfo.value || false;
          optionsSave['colorPicker'] = App.getUI.colorPicker.value || false;
 
