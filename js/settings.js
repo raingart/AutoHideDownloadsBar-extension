@@ -3,7 +3,7 @@ console.log(chrome.i18n.getMessage("app_name") + ": init settings.js");
 window.addEventListener('load', (evt) => {
 
    const App = {
-      // debug: true,
+      debug: true,
 
       getUI: {
          bthSave: document.getElementById('bth-save-settings'),
@@ -84,7 +84,7 @@ window.addEventListener('load', (evt) => {
       var payment = '1DbKD1rQXobztpsqx2dPZeMz1nKyRJCm9b';
       // if (window.prompt("BTC payment:", payment))
       var url = 'https://blockchain.info/payment_request?address=' + payment;
-      url += '&message=' + manifest.short_name + '+project';
+      url += '&message=' + encodeURIComponent(manifest.short_name) + '+project';
       var win = window.open(url, '_blank');
    });
 });
