@@ -58,7 +58,7 @@
    },
    "opt_show_download_panel_tooltip": {
       "description": "short description tooltip - show_download_panel",
-      "message": "Default: Off"
+      "message": "Default: OFF"
    },
    "opt_show_download_panel_desc": {
       "description": "full description option - show_download_panel",
@@ -71,7 +71,7 @@
    },
    "opt_show_last_progress_tooltip": {
       "description": "short description tooltip - show_last_progress",
-      "message": "Default: Off"
+      "message": "Default: OFF"
    },
    "opt_show_last_progress_desc": {
       "description": "full description option - show_last_progress",
@@ -84,7 +84,7 @@
    },
    "opt_show_notification_tooltip": {
       "description": "short description tooltip - show_last_progress",
-      "message": "Default: On"
+      "message": "Default: ON"
    },
    "opt_show_notification_desc": {
       "description": "full description option - show_last_progress",
