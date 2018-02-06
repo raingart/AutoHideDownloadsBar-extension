@@ -47,6 +47,10 @@
       "message": "settings"
    },
 
+   "github_page": {
+      "description": "github link",
+      "message": "GitHub page"
+   },
    "github_page_tooltip": {
       "description": "github link tooltip",
       "message": "Open"
@@ -122,7 +126,7 @@
    },
    "opt_color_icon_info_tooltip": {
       "description": "short description tooltip - color_icon_info",
-      "message": "Default: Gradient Red to Green"
+      "message": "Default: #00FF00 (Gradient Red to Green)"
    },
    "opt_color_icon_info_desc": {
       "description": "full description option - color_icon_info",
