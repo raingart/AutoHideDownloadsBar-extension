@@ -27,12 +27,12 @@
 
 			<div class="item between">
 				<h2>__MSG_app_name__ __MSG_opt_setting__</h2>
-            <a href="https://github.com/Artlant/AutoHideDownloadsBar-extension" tooltip="__MSG_github_page_tooltip__" flow="left">GitHub page</a>
+            <a href="https://github.com/Artlant/AutoHideDownloadsBar-extension" tooltip="__MSG_github_page_tooltip__" flow="left">__MSG_github_page__</a>
 			</div>
 
 			<!-- <hr /> -->
 
-			<div class="item containerL">
+			<!-- <div class="item containerL">
 				<div class="item" tooltip="__MSG_opt_show_download_panel_tooltip__" flow="right">
 					<input type="checkbox" id="ShowDownBar" />
 				</div>
@@ -62,6 +62,39 @@
 					<label for="showNotification">__MSG_opt_show_notification__
 						<span>__MSG_opt_show_notification_desc__</span>
 					</label>
+				</div>
+			</div> -->
+
+         <div class="item containerL">
+				<div class="item containerR">
+					<label for="ShowDownBar">__MSG_opt_show_download_panel__
+						<span>__MSG_opt_show_download_panel_desc__</span>
+					</label>
+				</div>
+				<div class="item" tooltip="__MSG_opt_show_download_panel_tooltip__" flow="left">
+					<input type="checkbox" id="ShowDownBar" />
+				</div>
+			</div>
+
+			<div class="item containerL">
+				<div class="item containerR">
+					<label for="ShowLastProgress">__MSG_opt_show_last_progress__
+						<span>__MSG_opt_show_last_progress_desc__</span>
+					</label>
+				</div>
+				<div class="item" tooltip="__MSG_opt_show_last_progress_tooltip__" flow="left">
+					<input type="checkbox" id="ShowLastProgress" />
+				</div>
+			</div>
+
+			<div class="item containerL">
+				<div class="item containerR">
+					<label for="showNotification">__MSG_opt_show_notification__
+						<span>__MSG_opt_show_notification_desc__</span>
+					</label>
+				</div>
+				<div class="item" tooltip="__MSG_opt_show_notification_tooltip__" flow="left">
+					<input type="checkbox" id="showNotification" />
 				</div>
 			</div>
 
