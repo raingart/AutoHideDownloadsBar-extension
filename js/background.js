@@ -1,139 +1,158 @@
 // 'use strict';
 
+console.log(i18n("app_name") + ": init background.js");
+
 // Need for a counter
 // (TODO) but i do not know how to get rid of it
 var i = 0;
 
 const App = {
 
-   debug: true,
+   // debug: true,
 
-   signal: {
-      downloadCreated: function () {
-         App.log('downloadCreated init');
-
-         var isShowPanel = App.tempSaveStorage["ShowDownBar"] || false;
-         chrome.downloads.setShelfEnabled(isShowPanel);
-      },
-
-      downloadChanged: function (item) {
-         App.log('downloadChanged init');
-
-         App.log('onChanged item', JSON.stringify(item));
-
-         // if (id) 
-            App.getDownloadProgress(App.initInterval);
-
-         if (App.tempSaveStorage["showNotification"] && item 
-            && item.state && item.state.previous === 'in_progress') {
-               switch (item.state.current) {
-                  // The download completed successfully.
-                  case 'complete':
-                     var msg = chrome.i18n.getMessage("noti_download_complete");
-                     break;
-                  // An error broke the connection with the file host.
-                  case 'interrupted':
-                     var msg;
-                     if (item.error.current === 'USER_CANCELED')
-                        msg = chrome.i18n.getMessage("noti_download_canceled");
-                     else 
-                        msg = chrome.i18n.getMessage("noti_download_interrupted");
-                     break;
-                  // The download is currently receiving data from the server.
-                  // case 'in_progress':
-                  //    break;
-                  default:
-                     return false;
-               }
-            App.notification(chrome.i18n.getMessage("noti_download_title"), msg);
-         }
-         
-      },
-   },
-
-   initInterval: function (statusDownload) {
+   initInterval: (statusDownload) => {
       // App.log('initInterval: ', statusDownload);
       if (statusDownload) {
+
          if (!App.isBusy) {
             App.log('setInterval');
             App.isBusy = true;
             App.temploadingMessage = setInterval(function () {
-               App.getDownloadProgress(App.showProgress);
+               App.getDownloadProgress(App.updateBrowserActionIcon);
                App.log('setInterval RUN');
-            }, 1000);
+            }, 800);
          }
+
       } else if (App.isBusy) {
          App.log('clearInterval');
          App.isBusy = false;
          clearInterval(App.temploadingMessage);
          App.clearToolbar();
+
       } else
          App.log('initInterval skip');
    },
 
-   clearToolbar: function () {
+   clearToolbar: () => {
       var manifest = chrome.runtime.getManifest();
-      /* beautify preserve:start */
-      chrome.browserAction.setIcon({ path: manifest.icons['16'] });
-      chrome.browserAction.setBadgeText({ text: '' });
-      chrome.browserAction.setTitle({ title: chrome.i18n.getMessage("app_title") });
-      /* beautify preserve:end */
+      App.toolbar.setIcon({
+         path: manifest.icons['16']
+      });
+      App.toolbar.setBadgeText("");
+      App.toolbar.setTitle(i18n("app_title"));
    },
 
-   showProgress: function (progressRatio) {
+   updateBrowserActionIcon: (progressRatio) => {
+
+      var progressRatio = progressRatio || 0;
 
       switch (App.tempSaveStorage['typeIconInfo'] /*.toLowerCase()*/ ) {
          case 'svg':
-            graphical(progressRatio);
-            break;
-         case 'false':
-            return false;
+            HProgressBar(progressRatio);
             break;
          case 'text':
             texter(progressRatio);
             break;
+         case 'false':
+            return false;
          default:
             // return false;
-            graphical(progressRatio);
+            HProgressBar(progressRatio);
       }
 
-      function graphical(progressRatio) {
-         // #00ff00 is default value 
-         if (App.tempSaveStorage['colorPicker'] && App.tempSaveStorage['colorPicker'] != '#00ff00')
-            var color = App.tempSaveStorage['colorPicker'];
+      function HProgressBar() {
+         var getDataDrawing = dataForDrawing(progressRatio);
 
-         else {
-            var options = {
-               'color': {
-                  'startingHue': 0,
-                  'endingHue': 120,
-                  'saturation': 100,
-                  'lightness': 50
+         draw(getDataDrawing);
+
+         function dataForDrawing(progressRatio) {
+            // #00ff00 is default value 
+            if (App.tempSaveStorage['colorPicker'] && App.tempSaveStorage['colorPicker'] != '#00ff00')
+               var color = App.tempSaveStorage['colorPicker'];
+
+            // set gradient
+            else {
+               var options = {
+                  'color': {
+                     'startingHue': 0,
+                     'endingHue': 120,
+                     'saturation': 100,
+                     'lightness': 50
+                  }
                }
+
+               // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+               var percentageToHsl = (percentage, fromHue, toHue) => {
+                  var hue = Math.round((percentage * (toHue - fromHue)) + fromHue);
+                  return 'hsla(' + hue + ', ' + options.color.saturation + '%, ' + options.color.lightness + '%, 0.8)';
+               }
+
+               var color = percentageToHsl(progressRatio, options.color.startingHue, options.color.endingHue);
             }
 
-            // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
-            var percentageToHsl = function (percentage, fromHue, toHue) {
-               var hue = Math.round((percentage * (toHue - fromHue)) + fromHue);
-               return 'hsla(' + hue + ', ' + options.color.saturation + '%, ' + options.color.lightness + '%, 0.8)';
+            var progressPercent = Math.round(progressRatio * 100);
+
+            var dataForDrawing = {
+               'color': color,
+               'progressRatio': progressRatio,
+               'outText': Number.isInteger(progressPercent) ? progressPercent : Array((++i % 4) + 1).join("."),
+               // 'outText': Math.round(100 - (progressRatio * 100)), // left percent
+            }
+            App.log('dataForDrawing ', JSON.stringify(dataForDrawing));
+
+            return dataForDrawing;
+         }
+
+         function draw(dataForDrawing) {
+            var canvas = genCanvas();
+            var context = canvas.getContext('2d')
+
+            context = drawToCanvas(dataForDrawing.progressRatio)
+               .getImageData(0, 0, canvas.width, canvas.height);
+
+            App.toolbar.setIcon({
+               imageData: context
+            });
+
+            function drawToCanvas(percentage) {
+               var ctx = context;
+
+               // add background
+               ctx.fillStyle = 'hsla( 0, 0%, 0%, 0.1)';
+               ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+               // add progress
+               ctx.fillStyle = dataForDrawing.color;
+               ctx.fillRect(0, 0, parseInt(canvas.width * percentage), canvas.height);
+
+               // create style text
+               ctx.fillStyle = '#888';
+               ctx.textAlign = 'center';
+               ctx.textBaseline = 'middle';
+               ctx.font = '11px Arial';
+
+               //set position text
+               ctx.fillText(
+                  dataForDrawing.outText.toString(),
+                  parseInt(canvas.width / 2), parseInt(canvas.height / 2)
+               );
+
+               return ctx;
             }
 
-            var color = percentageToHsl(progressRatio, options.color.startingHue, options.color.endingHue);
-            // var color = percentageToHsl((progressRatio * 3.6), options.color.startingHue, options.color.endingHue);
+            function genCanvas() {
+               var cvs;
+               cvs = document.createElement('canvas');
+
+               // cvs.setAttribute('width', 19);
+               // cvs.setAttribute('height', 6);
+               cvs.width = 16;
+               cvs.height = 16;
+
+               return cvs;
+            }
+
          }
-
-         var progressPercent = Math.round(progressRatio * 100);
-
-         var dataForDrawing = {
-            'color': color,
-            'progressRatio': progressRatio || 0,
-            // 'outText': Math.round(100 - (progressRatio * 100)),
-            'outText': Number.isInteger(progressPercent) ? progressPercent : Array((++i % 4) + 1).join("."),
-         }
-         App.log('dataForDrawing ', JSON.stringify(dataForDrawing));
-
-         draw(dataForDrawing);
-
       }
 
       function texter(progressRatio) {
@@ -147,40 +166,14 @@ const App = {
             var progressPercent = loadingSymbol[App.circleNum];
          }
 
-         chrome.browserAction.setBadgeBackgroundColor({
-            color: App.tempSaveStorage['colorPicker'] || "black"
-         });
-         chrome.browserAction.setBadgeText({
-            text: progressPercent.toString() || 'err'
-         });
-      }
+         App.toolbar.setBadgeBackgroundColor(App.tempSaveStorage['colorPicker']);
 
-      function draw(dataForDrawing) {
-         var canvas = document.createElement('canvas');
-         canvas.width = 16;
-         canvas.height = 16;
-
-         var context = canvas.getContext('2d');
-         context.fillStyle = 'hsla( 0, 0%, 0%, 0.1)';
-         context.fillRect(0, 0, 16, 16);
-         context.fillStyle = dataForDrawing.color;
-         context.fillRect(0, 0, 16 * dataForDrawing.progressRatio, 16);
-
-         context.fillStyle = '#888';
-         context.textAlign = 'center';
-         context.textBaseline = 'middle';
-         context.font = '11px Arial';
-         // context.fillText(dataForDrawing.outText, 8, 8);
-         context.fillText(dataForDrawing.outText.toString(), 8, 8);
-
-         chrome.browserAction.setIcon({
-            imageData: context.getImageData(0, 0, 16, 16)
-         });
+         App.toolbar.setBadgeText(progressPercent || 'err');
       }
 
    },
 
-   getDownloadProgress: function (callback) {
+   getDownloadProgress: (callback) => {
 
       var searchObj = {
          state: 'in_progress',
@@ -197,6 +190,7 @@ const App = {
          var totalSize = 0,
             totalReceived = 0,
             progressRatio = 0,
+            progressPercent = 0,
             countActive = downloads.length;
 
          for (var download of downloads) {
@@ -205,22 +199,25 @@ const App = {
             totalSize += download.fileSize || download.totalBytes
             totalReceived += download.bytesReceived;
             progressRatio = (totalReceived / totalSize).toFixed(2);
+
+            progressPercent = Math.round(progressRatio * 100);
          };
 
          // hide panel
          if (countActive <= 0) {
             chrome.downloads.setShelfEnabled(false);
 
-            // set toolbar Title
          } else {
-            var titleOut = Math.round(progressRatio * 100) + '%';
+            // set toolbar Title
+            var titleOut = '';
+            // not Infinity
+            if (Number.isInteger(progressPercent))
+               titleOut = progressPercent + '%';
 
-            if (countActive > 1) {
-               titleOut += ' ' + chrome.i18n.getMessage("title_count_active") + ': ' + countActive;
-            }
-            chrome.browserAction.setTitle({
-               title: titleOut.toString()
-            });
+            if (countActive > 1)
+               titleOut += ' ' + i18n("title_count_active") + ': ' + countActive;
+
+            App.toolbar.setTitle(titleOut);
          }
 
          App.log('countActive ', countActive);
@@ -233,11 +230,66 @@ const App = {
       });
    },
 
-   notification: function (title, msg, icon) {
+   toolbar: {
+      setIcon: (obj) => {
+         chrome.browserAction.setIcon(obj);
+      },
+
+      setTitle: (title) => {
+         var obj = {
+            "title": title.toString().trim() || ''
+         };
+         chrome.browserAction.setTitle(obj);
+      },
+
+      setBadgeText: (text) => {
+         var obj = {
+            "text": text.toString().trim() || ''
+         };
+         chrome.browserAction.setBadgeText(obj);
+      },
+
+      setBadgeBackgroundColor: (color) => {
+         var obj = {
+            color: color || "black"
+         };
+         chrome.browserAction.setBadgeBackgroundColor(obj);
+      },
+   },
+
+   notificationCheck: (item) => {
+      if (App.tempSaveStorage["showNotification"] &&
+         item && item.state && item.state.previous === 'in_progress') {
+
+         switch (item.state.current) {
+            // The download completed successfully.
+            case 'complete':
+               var msg = i18n("noti_download_complete");
+               break;
+               // An error broke the connection with the file host.
+            case 'interrupted':
+               var msg;
+               if (item.error.current === 'USER_CANCELED')
+                  msg = i18n("noti_download_canceled");
+               else
+                  msg = i18n("noti_download_interrupted");
+               break;
+               // The download is currently receiving data from the server.
+               // case 'in_progress':
+               //    break;
+            default:
+               return false;
+         }
+
+         App.showNotification(i18n("noti_download_title"), msg);
+      }
+   },
+
+   showNotification: (title, msg, icon) => {
       chrome.notifications.create('info', {
          type: 'basic',
          iconUrl: '/icons/' + icon === undefined ? '' : '/icons/128.png',
-         title: title || chrome.i18n.getMessage("app_name"),
+         title: title || i18n("app_name"),
          message: msg || '',
       }, function (notificationId) {
          chrome.notifications.onClicked.addListener(function (callback) {
@@ -247,7 +299,7 @@ const App = {
       });
    },
 
-   openTab: function (url) {
+   openTab: (url) => {
       var openUrl = url || 'chrome://newtab';
 
       // chrome.tabs.getAllInWindow(null, function (tabs) {
@@ -274,20 +326,17 @@ const App = {
    // Saves/Load options to localStorage/chromeSync.
    confStorage: {
       load: () => {
-         var callback = function (res) {
+         var callback = (res) => {
             App.log('confStorage', JSON.stringify(res));
             App.tempSaveStorage = res;
-
-            App.signal.downloadCreated();
-            App.signal.downloadChanged();
          };
          // load store settings
-         // Storage.getParams(null /*all*/ , callback, false /*local*/ );
          Storage.getParams(null /*all*/ , callback, true /*sync*/ );
+         // Storage.getParams(null /*all*/ , callback, false /*local*/ );
       },
    },
 
-   init: function () {
+   init: () => {
       App.confStorage.load();
    },
 
@@ -301,11 +350,26 @@ App.init();
 
 // Register the event handlers.
 chrome.downloads.onCreated.addListener(function (item) {
-   App.signal.downloadCreated();
+   App.log('downloadCreated init');
+
+   // var isShowPanel = App.tempSaveStorage["ShowDownBar"] || false;
+   // chrome.downloads.setShelfEnabled(isShowPanel);
+
+   chrome.storage.sync.get('ShowDownBar', function (obj) {
+      var showShelf = obj.showShelf || false;
+      console.log('on downloads created ', showShelf);
+
+      chrome.downloads.setShelfEnabled(showShelf);
+   });
 });
 
 chrome.downloads.onChanged.addListener(function (item) {
-   App.signal.downloadChanged(item);
+   App.log('downloadChanged init');
+   App.log('onChanged item', JSON.stringify(item));
+
+   App.getDownloadProgress(App.initInterval);
+
+   App.notificationCheck(item);
 });
 
 // called when the icon is clicked
@@ -316,16 +380,23 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 
 const manifest = chrome.runtime.getManifest();
 
-// when install or update new version fired
-chrome.runtime.onInstalled && chrome.runtime.onInstalled.addListener(function (details) {
-   console.log('app ' + details.reason + ' ', manifest.version);
+// Check whether new version is installed
+chrome.runtime.onInstalled.addListener(function (details) {
+   console.log('app ' + details.reason + ' ' + details.previousVersion + ' to ' + manifest.version);
    if (details.reason === 'install') {
       var defaultSetting = {
          'showNotification': true,
       }
       Storage.setParams(defaultSetting, true /*sync*/ );
-   } 
-   else if (details.reason === 'update') {
+
+      chrome.runtime.openOptionsPage();
+
+   } else if (details.reason === 'update') {
+      if (!App.debug) {
+         var url = 'https://github.com/Artlant/AutoHideDownloadsBar-extension/wiki/Localization';
+         App.openTab(url)
+         console.log("New tab launched with", url);
+      }
 
    }
 });

@@ -79,15 +79,15 @@
    },
 
    "opt_show_notification": {
-      "description": "short description option - show_last_progress",
+      "description": "short description option - show_notification",
       "message": "Show notification"
    },
    "opt_show_notification_tooltip": {
-      "description": "short description tooltip - show_last_progress",
+      "description": "short description tooltip - show_notification",
       "message": "Default: ON"
    },
    "opt_show_notification_desc": {
-      "description": "full description option - show_last_progress",
+      "description": "full description option - show_notification",
       "message": "Show notification if file downloading status has changed"
    },
 
@@ -102,6 +102,18 @@
    "opt_type_icon_info_desc": {
       "description": "full description option - type_icon_info",
       "message": "Off can significantly reduce the load on the system"
+   },
+   "opt_type_icon_info_option_svg": {
+      "description": "type_icon_info option=svg",
+      "message": "Graphic"
+   },
+   "opt_type_icon_info_option_text": {
+      "description": "type_icon_info option=text",
+      "message": "Text"
+   },
+   "opt_type_icon_info_option_off": {
+      "description": "type_icon_info option=false",
+      "message": "Off"
    },
 
    "opt_color_icon_info": {
@@ -127,7 +139,7 @@
    },
    "opt_bth_save_settings_processed": {
       "description": "option save button settings is processed",
-      "message": "Saved"
+      "message": "Saved!"
    },
    "opt_bth_save_settings_tooltip": {
       "description": "option save button settings title",
