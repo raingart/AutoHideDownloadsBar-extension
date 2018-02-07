@@ -9,9 +9,8 @@ This extension hides annoying downloads bar in the bottom of the screen Chrome (
 [Download the extension from the Chrome store.](https://chrome.google.com/webstore/detail/auto-hide-downloads-bar/gkmndgjgpolmikgnipipfekglbbgjcel)(It's free.)
 
 OR 
-You can now load the extension into your browser through the browser's extension tools page:
 
-Chrome (Chromium):
+You can now load the extension into your browser through the browser's extension tools page:
 - Type `chrome://extensions` in your address bar to bring up the extensions page.
 - Enable developer mode (checkbox)
 - Click the "Load unpacked extension" button, navigate to the build folder of your local extension instance, and click "Ok".
