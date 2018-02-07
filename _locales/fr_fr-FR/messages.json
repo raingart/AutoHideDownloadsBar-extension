@@ -1,0 +1,150 @@
+{
+   "localization": {
+      "description": "Extension's Localization",
+      "message": "en"
+   },
+   "app_name": {
+      "description": "Extension's name",
+      "message": "AutoHideDownloadsBar"
+   },
+   "app_short_name": {
+      "description": "Extension's short name",
+      "message": "AutoHideDownloadsBar"
+   },
+   "app_description": {
+      "description": "Extension's description",
+      "message": "This extension hides annoying downloads bar in the bottom of the screen."
+   },
+   "app_title": {
+      "description": "Extension's title",
+      "message": "Open Downloads Page"
+   },
+   "title_count_active": {
+      "description": "Extension's title",
+      "message": "active"
+   },
+   "noti_download_title": {
+      "description": "notification message download is complete",
+      "message": "The download file"
+   },
+   "noti_download_complete": {
+      "description": "notification message download is complete",
+      "message": "Completed successfully"
+   },
+   "noti_download_interrupted": {
+      "description": "notification message download is interrupted",
+      "message": "An error"
+   },
+   "noti_download_canceled": {
+      "description": "notification message download is canceled",
+      "message": "Canceled"
+   },
+   "opt_setting": {
+      "description": "setting title",
+      "message": "settings"
+   },
+   "github_page": {
+      "description": "github link",
+      "message": "GitHub page"
+   },
+   "github_page_tooltip": {
+      "description": "github link tooltip",
+      "message": "Open"
+   },
+   "opt_show_download_panel": {
+      "description": "short description option - show_download_panel",
+      "message": "Show downloads bar when downloading is active"
+   },
+   "opt_show_download_panel_tooltip": {
+      "description": "short description tooltip - show_download_panel",
+      "message": "Default: OFF"
+   },
+   "opt_show_download_panel_desc": {
+      "description": "full description option - show_download_panel",
+      "message": "Hiding the downloads bar occurs only after downloads finished"
+   },
+   "opt_show_last_progress": {
+      "description": "short description option - show_last_progress",
+      "message": "Show download progress only last downloaded file"
+   },
+   "opt_show_last_progress_tooltip": {
+      "description": "short description tooltip - show_last_progress",
+      "message": "Default: OFF"
+   },
+   "opt_show_last_progress_desc": {
+      "description": "full description option - show_last_progress",
+      "message": "By default, it displays the download progress of ALL downloaded files is now"
+   },
+   "opt_show_notification": {
+      "description": "short description option - show_notification",
+      "message": "Show notification"
+   },
+   "opt_show_notification_tooltip": {
+      "description": "short description tooltip - show_notification",
+      "message": "Default: ON"
+   },
+   "opt_show_notification_desc": {
+      "description": "full description option - show_notification",
+      "message": "Show notification if file downloading status has changed"
+   },
+   "opt_type_icon_info": {
+      "description": "short description option - type_icon_info",
+      "message": "Select the type of indication on the toolbar"
+   },
+   "opt_type_icon_info_tooltip": {
+      "description": "short description tooltip - type_icon_info",
+      "message": "Default: Graphic"
+   },
+   "opt_type_icon_info_desc": {
+      "description": "full description option - type_icon_info",
+      "message": "Off can significantly reduce the load on the system"
+   },
+   "opt_type_icon_info_option_svg": {
+      "description": "type_icon_info option=svg",
+      "message": "Graphic"
+   },
+   "opt_type_icon_info_option_text": {
+      "description": "type_icon_info option=text",
+      "message": "Text"
+   },
+   "opt_type_icon_info_option_off": {
+      "description": "type_icon_info option=false",
+      "message": "Off"
+   },
+   "opt_color_icon_info": {
+      "description": "short description option - color_icon_info",
+      "message": "Color of indication in icon"
+   },
+   "opt_color_icon_info_tooltip": {
+      "description": "short description tooltip - color_icon_info",
+      "message": "Default: #00FF00 (Gradient Red to Green)"
+   },
+   "opt_color_icon_info_desc": {
+      "description": "full description option - color_icon_info",
+      "message": "Allows you to set the download color in the icon"
+   },
+   "opt_bth_save_settings": {
+      "description": "option save settings",
+      "message": "Save Changes"
+   },
+   "opt_bth_save_settings_process": {
+      "description": "option save button settings is processed",
+      "message": "Saving..."
+   },
+   "opt_bth_save_settings_processed": {
+      "description": "option save button settings is processed",
+      "message": "Saved!"
+   },
+   "opt_bth_save_settings_tooltip": {
+      "description": "option save button settings title",
+      "message": "the extension will restart"
+   },
+   "donate_tooltip": {
+      "description": "donate link title",
+      "message": "Help the project"
+   },
+   "donate": {
+      "description": "donate link",
+      "message": "Donate"
+   }
+}
