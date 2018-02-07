@@ -1,5 +1,3 @@
 files:
   - source: /_locales/*/messages.json
-    ignore:
-      - /_locales/en/messages.json
-    translation: /_locales/%two_letters_code%/messages.json
+    translation: /_locales/%two_letters_code%_%locale%/messages.json
