@@ -391,12 +391,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
       chrome.runtime.openOptionsPage();
 
-   } else if (details.reason === 'update') {
-      if (!App.debug) {
-         var url = 'https://github.com/Artlant/AutoHideDownloadsBar-extension/wiki/Localization';
-         App.openTab(url)
-         console.log("New tab launched with", url);
-      }
+   // } else if (details.reason === 'update') {
 
    }
 });
