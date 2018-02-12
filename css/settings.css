@@ -3,11 +3,20 @@ body {
 }
 
 .container {
-   margin: 5px 25px;
    position: relative;
+   margin: 5px 25px;
+}
+
+.container>div {
+   position: relative;
+   padding: 8px 0;
 }
 
 .container>div.item {
+   position: relative;
+   display: grid;
+   grid-template-columns: [left info] 1fr [right opt];
+   
    padding: 8px 0;
 }
 
@@ -15,12 +24,23 @@ body {
    border-bottom: 1px solid #e0e0e0;
 } */
 
-.container>div.item.containerL:not(:last-child) {
+.container>div.item:not(:last-child) {
    border-top: 1px solid #e0e0e0;
 }
 
-.containerL>div.item:last-child {
+.container>div.item:last-child {
    margin: 0 5px;
+}
+
+.info {
+   grid-column: info;
+
+}
+.opt {
+   grid-column: opt;
+
+   align-self: center;
+   justify-self: center;
 }
 
 label {
@@ -37,18 +57,6 @@ label>span>q {
    font-style: italic;
    color: #006b9e;
    quotes: "\00ab" "\00bb";
-}
-
-.containerL {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-}
-
-.containerR {
-   display: flex;
-   flex-direction: column;
-   flex-grow: 1;
 }
 
 hr {

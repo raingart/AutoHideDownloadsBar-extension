@@ -25,53 +25,54 @@
 	<div class="wrapper">
 		<div class="container">
 
-			<div class="item between">
+			<div class="between">
 				<h2>__MSG_app_name__ __MSG_opt_setting__</h2>
-            <a href="https://github.com/Artlant/AutoHideDownloadsBar-extension" tooltip="__MSG_github_page_tooltip__" flow="left">__MSG_github_page__</a>
+            <!-- <a href="https://github.com/raingart/AutoHideDownloadsBar-extension" tooltip="__MSG_github_page_tooltip__" flow="left">__MSG_github_page__</a> -->
+            <a href="https://docs.google.com/spreadsheets/d/1dLJcZYM7VJGuehrz0Ezok2TGLCO79KSQWZqPecAVl2k/edit?usp=sharing" tooltip="Help with translation" flow="left">Translate</a>
 			</div>
 
 			<!-- <hr /> -->
 
-         <div class="item containerL">
-				<div class="item containerR">
+         <div class="item">
+				<div class="info">
 					<label for="ShowDownBar">__MSG_opt_show_download_panel__
 						<span>__MSG_opt_show_download_panel_desc__</span>
 					</label>
 				</div>
-				<div class="item" tooltip="__MSG_opt_show_download_panel_tooltip__" flow="left">
+				<div class="opt" tooltip="__MSG_opt_show_download_panel_tooltip__" flow="left">
 					<input type="checkbox" id="ShowDownBar" />
 				</div>
 			</div>
 
-			<div class="item containerL">
-				<div class="item containerR">
+			<div class="item">
+				<div class="info">
 					<label for="ShowLastProgress">__MSG_opt_show_last_progress__
 						<span>__MSG_opt_show_last_progress_desc__</span>
 					</label>
 				</div>
-				<div class="item" tooltip="__MSG_opt_show_last_progress_tooltip__" flow="left">
+				<div class="opt" tooltip="__MSG_opt_show_last_progress_tooltip__" flow="left">
 					<input type="checkbox" id="ShowLastProgress" />
 				</div>
 			</div>
 
-			<div class="item containerL">
-				<div class="item containerR">
+			<div class="item">
+				<div class="info">
 					<label for="showNotification">__MSG_opt_show_notification__
 						<span>__MSG_opt_show_notification_desc__</span>
 					</label>
 				</div>
-				<div class="item" tooltip="__MSG_opt_show_notification_tooltip__" flow="left">
+				<div class="opt" tooltip="__MSG_opt_show_notification_tooltip__" flow="left">
 					<input type="checkbox" id="showNotification" />
 				</div>
 			</div>
 
-			<div class="item containerL">
-				<div class="item containerR">
+			<div class="item">
+				<div class="info">
 					<label for="typeIconInfo">__MSG_opt_type_icon_info__
 						<span>__MSG_opt_type_icon_info_desc__</span>
 					</label>
 				</div>
-				<div class="item" tooltip="__MSG_opt_type_icon_info_tooltip__" flow="left">
+				<div class="opt" tooltip="__MSG_opt_type_icon_info_tooltip__" flow="left">
 					<select id="typeIconInfo">
                   <option selected value="svg">__MSG_opt_type_icon_info_option_svg__</option>
                   <option value="text">__MSG_opt_type_icon_info_option_text__</option>
@@ -80,20 +81,20 @@
 				</div>
 			</div>
 
-			<div class="item containerL" id="typeIconInfo_req">
-				<div class="item containerR">
+			<div class="item" id="typeIconInfo_req">
+				<div class="info">
 					<label for="colorPicker">__MSG_opt_color_icon_info__
 						<span>__MSG_opt_color_icon_info_desc__</span>
 					</label>
 				</div>
-				<div class="item" tooltip="__MSG_opt_color_icon_info_tooltip__" flow="left">
+				<div class="opt" tooltip="__MSG_opt_color_icon_info_tooltip__" flow="left">
 					<input type="color" id="colorPicker" value="#00ff00" />
 				</div>
          </div>
          
 			<hr />
 
-			<div class="item between">
+			<div class="between">
             <button id="bth-save-settings" tooltip="__MSG_opt_bth_save_settings_tooltip__" flow="up">__MSG_opt_bth_save_settings__</button>
             
             <a href="#" id="donate" tooltip="__MSG_donate_tooltip__" flow="left">__MSG_donate__</a>

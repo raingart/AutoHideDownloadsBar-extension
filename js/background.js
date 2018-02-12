@@ -338,6 +338,7 @@ const App = {
 
    init: () => {
       App.confStorage.load();
+      App.clearToolbar();
    },
 
    log: (msg, arg1) => {

@@ -79,7 +79,7 @@
    },
    "opt_show_last_progress_desc": {
       "description": "full description option - show_last_progress",
-      "message": "By default, it displays the download progress of ALL downloaded files is now"
+      "message": "By default, it displays the download progress of ALL downloading files is now"
    },
 
    "opt_show_notification": {

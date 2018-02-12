@@ -12,17 +12,6 @@ a {
    /* text-decoration: none; */
 }
 
-.container {
-   display: flex;
-   flex-direction: column;
-   flex-wrap: wrap;
-   position: relative;
-}
-
-div.item {
-   position: relative;
-}
-
 .button,
 button,
 input,
