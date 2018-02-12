@@ -329,11 +329,18 @@ const App = {
          var callback = (res) => {
             App.log('confStorage', JSON.stringify(res));
             App.tempSaveStorage = res;
+
+            App.start();
          };
          // load store settings
          Storage.getParams(null /*all*/ , callback, true /*sync*/ );
          // Storage.getParams(null /*all*/ , callback, false /*local*/ );
       },
+   },
+
+   start: (item) => {
+      App.getDownloadProgress(App.initInterval);
+      App.notificationCheck(item);
    },
 
    init: () => {
@@ -358,7 +365,7 @@ chrome.downloads.onCreated.addListener(function (item) {
 
    chrome.storage.sync.get('ShowDownBar', function (obj) {
       var showShelf = obj.showShelf || false;
-      console.log('on downloads created ', showShelf);
+      App.log('on downloads created ', showShelf);
 
       chrome.downloads.setShelfEnabled(showShelf);
    });
@@ -368,9 +375,7 @@ chrome.downloads.onChanged.addListener(function (item) {
    App.log('downloadChanged init');
    App.log('onChanged item', JSON.stringify(item));
 
-   App.getDownloadProgress(App.initInterval);
-
-   App.notificationCheck(item);
+   App.start(item);
 });
 
 // called when the icon is clicked
@@ -392,7 +397,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
       chrome.runtime.openOptionsPage();
 
-   // } else if (details.reason === 'update') {
+      // } else if (details.reason === 'update') {
 
    }
 });
