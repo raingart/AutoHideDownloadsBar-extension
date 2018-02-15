@@ -2,13 +2,11 @@
 
 console.log(i18n("app_name") + ": init background.js");
 
-// Need for a counter
-// (TODO) but i do not know how to get rid of it
-var i = 0;
-
 const App = {
 
    // debug: true,
+
+   counterTemp: 0,
 
    initInterval: (statusDownload) => {
       // App.log('initInterval: ', statusDownload);
@@ -43,7 +41,6 @@ const App = {
    },
 
    updateBrowserActionIcon: (progressRatio) => {
-
       var progressRatio = progressRatio || 0;
 
       switch (App.tempSaveStorage['typeIconInfo'] /*.toLowerCase()*/ ) {
@@ -95,7 +92,7 @@ const App = {
             var dataForDrawing = {
                'color': color,
                'progressRatio': progressRatio,
-               'outText': Number.isInteger(progressPercent) ? progressPercent : Array((++i % 4) + 1).join("."),
+               'outText': Number.isInteger(progressPercent) ? progressPercent : Array((++App.counterTemp % 4) + 1).join("."),
                // 'outText': Math.round(100 - (progressRatio * 100)), // left percent
             }
             App.log('dataForDrawing ', JSON.stringify(dataForDrawing));
@@ -156,7 +153,6 @@ const App = {
       }
 
       function texter(progressRatio) {
-
          if (Number.isInteger(progressRatio * 100)) {
             var progressPercent = Math.round(progressRatio * 100) + '%';
 
@@ -174,7 +170,6 @@ const App = {
    },
 
    getDownloadProgress: (callback) => {
-
       var searchObj = {
          state: 'in_progress',
          // paused: false,
@@ -186,7 +181,6 @@ const App = {
       }
 
       chrome.downloads.search(searchObj, function (downloads) {
-
          var totalSize = 0,
             totalReceived = 0,
             progressRatio = 0,
@@ -194,7 +188,11 @@ const App = {
             countActive = downloads.length;
 
          for (var download of downloads) {
-            // console.log('download: ' + JSON.stringify(download));
+            console.log('download: ' + JSON.stringify(download));
+         
+            // skip crx
+            if (download.mime === "application/x-chrome-extension")
+               continue;
 
             totalSize += download.fileSize || download.totalBytes
             totalReceived += download.bytesReceived;
@@ -203,11 +201,7 @@ const App = {
             progressPercent = Math.round(progressRatio * 100);
          };
 
-         // hide panel
-         if (countActive <= 0) {
-            chrome.downloads.setShelfEnabled(false);
-
-         } else {
+         if (countActive) {
             // set toolbar Title
             var titleOut = '';
             // not Infinity
@@ -218,6 +212,10 @@ const App = {
                titleOut += ' ' + i18n("title_count_active") + ': ' + countActive;
 
             App.toolbar.setTitle(titleOut);
+
+         // hide panel
+         } else {
+            chrome.downloads.setShelfEnabled(false);
          }
 
          App.log('countActive ', countActive);
@@ -360,9 +358,6 @@ App.init();
 chrome.downloads.onCreated.addListener(function (item) {
    App.log('downloadCreated init');
 
-   // var isShowPanel = App.tempSaveStorage["ShowDownBar"] || false;
-   // chrome.downloads.setShelfEnabled(isShowPanel);
-
    chrome.storage.sync.get('ShowDownBar', function (obj) {
       var showShelf = obj.showShelf || false;
       App.log('on downloads created ', showShelf);
@@ -382,35 +377,3 @@ chrome.downloads.onChanged.addListener(function (item) {
 chrome.browserAction.onClicked.addListener(function (tab) {
    App.openTab('chrome://downloads/');
 });
-
-
-const manifest = chrome.runtime.getManifest();
-
-// Check whether new version is installed
-chrome.runtime.onInstalled.addListener(function (details) {
-   console.log('app ' + details.reason + ' ' + details.previousVersion + ' to ' + manifest.version);
-   if (details.reason === 'install') {
-      var defaultSetting = {
-         'showNotification': true,
-      }
-      Storage.setParams(defaultSetting, true /*sync*/ );
-
-      chrome.runtime.openOptionsPage();
-
-      // } else if (details.reason === 'update') {
-
-   }
-});
-
-var uninstallUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdgDabLtk8vapLTEXKoXucHVXLrDujBrXZg418mGrLE0zND2g/viewform?usp=pp_url&entry.1936476946&entry.1337380930&entry.1757501795=";
-uninstallUrl += encodeURIComponent(manifest.short_name + ' (v' + manifest.version + ')');
-
-if (!App.debug)
-   chrome.runtime.setUninstallURL(uninstallUrl, function (details) {
-      var lastError = chrome.runtime.lastError;
-      if (lastError && lastError.message) {
-         console.warn("Unable to set uninstall URL: " + lastError.message);
-      } else {
-         // The url is set
-      }
-   });

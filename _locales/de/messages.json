@@ -1,161 +1,124 @@
 {
    "localization": {
-      "description": "Extension's Localization",
       "message": "de"
    },
    "app_name": {
-      "description": "Extension's name",
       "message": "AutoHideDownloadsBar"
    },
    "app_short_name": {
-      "description": "Extension's short name",
       "message": "AutoHideDownloadsBar"
    },
    "app_description": {
-      "description": "Extension's description",
       "message": "Diese Erweiterung blendet die lästige Download-Leiste an der Unterseite des Bildschirms aus."
    },
    "app_title": {
-      "description": "Extension's title",
       "message": "Öffne Download Seite"
    },
 
    "title_count_active": {
-      "description": "Extension's title",
       "message": "aktiv"
    },
 
    "noti_download_title": {
-      "description": "notification message download is complete",
       "message": "Die Download-Datei"
    },
    "noti_download_complete": {
-      "description": "notification message download is complete",
       "message": "Erfolgreich beendet"
    },
    "noti_download_interrupted": {
-      "description": "notification message download is interrupted",
       "message": "Ein Fehler"
    },
    "noti_download_canceled": {
-      "description": "notification message download is canceled",
       "message": "Abgebrochen"
    },
 
    "opt_setting": {
-      "description": "setting title",
       "message": "settings"
    },
 
    "github_page": {
-      "description": "github link",
       "message": "GitHub Seite"
    },
    "github_page_tooltip": {
-      "description": "github link tooltip",
       "message": "Öffnen"
    },
    
    "opt_show_download_panel": {
-      "description": "short description option - show_download_panel",
       "message": "Download-Leiste anzeigen, wenn der Download aktiv ist"
    },
    "opt_show_download_panel_tooltip": {
-      "description": "short description tooltip - show_download_panel",
       "message": "Standardwert ist deaktiviert"
    },
    "opt_show_download_panel_desc": {
-      "description": "full description option - show_download_panel",
       "message": "Das Verstecken der Download-Leiste erfolgt erst nach dem Download"
    },
 
    "opt_show_last_progress": {
-      "description": "short description option - show_last_progress",
       "message": "Zeige nur den Download Fortschritt der letzte heruntergeladenen Datei"
    },
    "opt_show_last_progress_tooltip": {
-      "description": "short description tooltip - show_last_progress",
       "message": "Standardwert ist deaktiviert"
    },
    "opt_show_last_progress_desc": {
-      "description": "full description option - show_last_progress",
       "message": "Standardmäßig wird der Download-Fortschritt aller heruntergeladenen Dateien angezeigt"
    },
 
    "opt_show_notification": {
-      "description": "short description option - show_notification",
       "message": "Benachrichtigung anzeigen"
    },
    "opt_show_notification_tooltip": {
-      "description": "short description tooltip - show_notification",
       "message": "Standard: EIN"
    },
    "opt_show_notification_desc": {
-      "description": "full description option - show_notification",
       "message": "Benachrichtigung anzeigen, wenn sich der Downloadstatus der Datei geändert hat"
    },
 
    "opt_type_icon_info": {
-      "description": "short description option - type_icon_info",
       "message": "Standard wird der Download-Fortschritt aller heruntergeladenen Dateien angezeigt"
    },
    "opt_type_icon_info_tooltip": {
-      "description": "short description tooltip - type_icon_info",
       "message": "Standard: Grafik"
    },
    "opt_type_icon_info_desc": {
-      "description": "full description option - type_icon_info",
       "message": "Aus kann die Systembelastung erheblich reduzieren"
    },
    "opt_type_icon_info_option_svg": {
-      "description": "type_icon_info option=svg",
       "message": "Grafik"
    },
    "opt_type_icon_info_option_text": {
-      "description": "type_icon_info option=text",
       "message": "Text"
    },
    "opt_type_icon_info_option_off": {
-      "description": "type_icon_info option=false",
       "message": "Aus"
    },
 
    "opt_color_icon_info": {
-      "description": "short description option - color_icon_info",
       "message": "Farbe der Anzeige in der Ikone"
    },
    "opt_color_icon_info_tooltip": {
-      "description": "short description tooltip - color_icon_info",
       "message": "Standard: #00FF00 (Farbverlauf Rot zu Grün)"
    },
    "opt_color_icon_info_desc": {
-      "description": "full description option - color_icon_info",
       "message": "Ermöglicht Ihnen, die Download-Farbe im Symbol festzulegen"
    },
 
    "opt_bth_save_settings": {
-      "description": "option save settings",
       "message": "Einstellungen speichern"
    },
    "opt_bth_save_settings_process": {
-      "description": "option save button settings is processed",
       "message": "Speichern..."
    },
    "opt_bth_save_settings_processed": {
-      "description": "option save button settings is processed",
       "message": "Einstellungen gespeichert!"
    },
    "opt_bth_save_settings_tooltip": {
-      "description": "option save button settings title",
       "message": "Die Erweiterung wird neu gestartet"
    },
 
    "donate_tooltip": {
-      "description": "donate link title",
       "message": "Helfen Sie dem Projekt"
    },
    "donate": {
-      "description": "donate link",
       "message": "Spenden"
    }
 }

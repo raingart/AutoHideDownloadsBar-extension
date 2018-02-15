@@ -1,161 +1,124 @@
 {
    "localization": {
-      "description": "Extension's Localization",
       "message": "tr"
    },
    "app_name": {
-      "description": "Extension's name",
       "message": "AutoHideDownloadsBar"
    },
    "app_short_name": {
-      "description": "Extension's short name",
       "message": "AutoHideDownloadsBar"
    },
    "app_description": {
-      "description": "Extension's description",
       "message": "Bu uzantı, ekranın altındaki can sıkıcı indirme çubuğunu gizler."
    },
    "app_title": {
-      "description": "Extension's title",
       "message": "İndirilenler Sayfasını Aç"
    },
 
    "title_count_active": {
-      "description": "Extension's title",
       "message": "aktif"
    },
 
    "noti_download_title": {
-      "description": "notification message download is complete",
       "message": "İndirilen dosya"
    },
    "noti_download_complete": {
-      "description": "notification message download is complete",
       "message": "Başarıyla tamamlandı"
    },
    "noti_download_interrupted": {
-      "description": "notification message download is interrupted",
       "message": "Hata"
    },
    "noti_download_canceled": {
-      "description": "notification message download is canceled",
       "message": "İptal edildi"
    },
 
    "opt_setting": {
-      "description": "setting title",
       "message": "ayarlar"
    },
 
    "github_page": {
-      "description": "github link",
       "message": "GitHub sayfası"
    },
    "github_page_tooltip": {
-      "description": "github link tooltip",
       "message": "Aç"
    },
    
    "opt_show_download_panel": {
-      "description": "short description option - show_download_panel",
       "message": "İndirme sırasında, indirilenler çubuğunu göster"
    },
    "opt_show_download_panel_tooltip": {
-      "description": "short description tooltip - show_download_panel",
       "message": "Varsayılan: KAPALI"
    },
    "opt_show_download_panel_desc": {
-      "description": "full description option - show_download_panel",
       "message": "İndirilenler çubuğu, indirmeler tamamlandıktan sonra gizlenir"
    },
 
    "opt_show_last_progress": {
-      "description": "short description option - show_last_progress",
       "message": "Son dosya indirildikten sonra, indirme işlemini göster"
    },
    "opt_show_last_progress_tooltip": {
-      "description": "short description tooltip - show_last_progress",
       "message": "Varsayılan: KAPALI"
    },
    "opt_show_last_progress_desc": {
-      "description": "full description option - show_last_progress",
       "message": "Varsayılan olarak, indirilmiş TÜM dosyaların indirme ilerlemesini şimdi gösterir."
    },
 
    "opt_show_notification": {
-      "description": "short description option - show_notification",
       "message": "Bildirimleri göster"
    },
    "opt_show_notification_tooltip": {
-      "description": "short description tooltip - show_notification",
       "message": "Varsayılan: AÇIK"
    },
    "opt_show_notification_desc": {
-      "description": "full description option - show_notification",
       "message": "Dosya indirme durumu değiştiğinde bildirim göster"
    },
 
    "opt_type_icon_info": {
-      "description": "short description option - type_icon_info",
       "message": "Araç çubuğundan belirteç türünü seçin"
    },
    "opt_type_icon_info_tooltip": {
-      "description": "short description tooltip - type_icon_info",
       "message": "Varsayılan: Grafik"
    },
    "opt_type_icon_info_desc": {
-      "description": "full description option - type_icon_info",
       "message": "Kapalı konum, sistemdeki yükü önemli ölçüde azaltabilir"
    },
    "opt_type_icon_info_option_svg": {
-      "description": "type_icon_info option=svg",
       "message": "Grafik"
    },
    "opt_type_icon_info_option_text": {
-      "description": "type_icon_info option=text",
       "message": "Metin"
    },
    "opt_type_icon_info_option_off": {
-      "description": "type_icon_info option=false",
       "message": "Kapalı"
    },
 
    "opt_color_icon_info": {
-      "description": "short description option - color_icon_info",
       "message": "Simgedeki belirteçin rengi"
    },
    "opt_color_icon_info_tooltip": {
-      "description": "short description tooltip - color_icon_info",
       "message": "Varsayılan: Default: #00FF00 (Kırmızıdan Yeşile Kayan)"
    },
    "opt_color_icon_info_desc": {
-      "description": "full description option - color_icon_info",
       "message": "Simgedeki indirme rengini belirlemenizi sağlar"
    },
 
    "opt_bth_save_settings": {
-      "description": "option save settings",
       "message": "Değişiklikleri Kaydet"
    },
    "opt_bth_save_settings_process": {
-      "description": "option save button settings is processed",
       "message": "Kaydediliyor..."
    },
    "opt_bth_save_settings_processed": {
-      "description": "option save button settings is processed",
       "message": "Kaydedildi!"
    },
    "opt_bth_save_settings_tooltip": {
-      "description": "option save button settings title",
       "message": "eklenti yeniden başlatılacak"
    },
 
    "donate_tooltip": {
-      "description": "donate link title",
       "message": "Projeye yardım edin"
    },
    "donate": {
-      "description": "donate link",
       "message": "Bağış yapın"
    }
 }

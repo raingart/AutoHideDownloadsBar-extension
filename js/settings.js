@@ -14,7 +14,7 @@ window.addEventListener('load', (evt) => {
          showNotification: document.getElementById("showNotification"),
       },
 
-      bthAnimation: function (k) {
+      bthAnimation: (k) => {
          k.innerHTML = i18n("opt_bth_save_settings_process");
          k.classList.add("disabled");
          k.classList.add("in-progress");
@@ -22,7 +22,7 @@ window.addEventListener('load', (evt) => {
             k.innerHTML = i18n("opt_bth_save_settings_processed");
             k.classList.remove("in-progress");
          }, 1000);
-         setTimeout(function () {
+         setTimeout(() => {
             k.innerHTML = i18n("opt_bth_save_settings");
             // k.classList.toggle("in-progress");
             k.classList.remove("disabled");
@@ -31,7 +31,7 @@ window.addEventListener('load', (evt) => {
       },
 
       // Saves options to localStorage/chromeSync.
-      saveOptions: function (b) {
+      saveOptions: (b) => {
          var optionsSave = {};
          optionsSave['ShowDownBar'] = App.getUI.ShowDownBar.checked ? true : false;
          optionsSave['ShowLastProgress'] = App.getUI.ShowLastProgress.checked ? true : false;
@@ -45,7 +45,7 @@ window.addEventListener('load', (evt) => {
          App.bthAnimation(b)
       },
 
-      init: function () {
+      init: () => {
          var callback = (res) => {
             Storage.retrieveOptions(res);
 
