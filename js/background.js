@@ -4,7 +4,7 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   // debug: true,
+   debug: true,
 
    counterTemp: 0,
 
