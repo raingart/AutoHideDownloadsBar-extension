@@ -4,7 +4,7 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   debug: true,
+   // debug: true,
 
    counterTemp: 0,
 
@@ -358,12 +358,16 @@ App.init();
 chrome.downloads.onCreated.addListener(function (item) {
    App.log('downloadCreated init');
 
-   chrome.storage.sync.get('ShowDownBar', function (obj) {
-      var showShelf = obj.showShelf || false;
-      App.log('on downloads created ', showShelf);
+   var showShelf = App.tempSaveStorage.ShowDownBar || false;
+   
+   chrome.downloads.setShelfEnabled(showShelf);
 
-      chrome.downloads.setShelfEnabled(showShelf);
-   });
+   // chrome.storage.sync.get('ShowDownBar', function (obj) {
+   //    var showShelf = obj.showShelf || false;
+   //    App.log('on downloads created ', showShelf);
+
+   //    chrome.downloads.setShelfEnabled(showShelf);
+   // });
 });
 
 chrome.downloads.onChanged.addListener(function (item) {
