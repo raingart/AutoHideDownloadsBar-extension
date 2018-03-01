@@ -36,7 +36,7 @@ const App = {
       App.toolbar.setIcon({
          path: manifest.icons['16']
       });
-      App.toolbar.setBadgeText("");
+      App.toolbar.setBadgeText('');
       App.toolbar.setTitle(i18n("app_title"));
    },
 
@@ -92,7 +92,7 @@ const App = {
             var dataForDrawing = {
                'color': color,
                'progressRatio': progressRatio,
-               'outText': Number.isInteger(progressPercent) ? progressPercent : Array((++App.counterTemp % 4) + 1).join("."),
+               'outText': Number.isInteger(progressPercent) ? progressPercent : Array((++App.counterTemp % 4) + 1).join('.'),
                // 'outText': Math.round(100 - (progressRatio * 100)), // left percent
             }
             App.log('dataForDrawing ', JSON.stringify(dataForDrawing));
@@ -115,7 +115,7 @@ const App = {
                var ctx = context;
 
                // add background
-               ctx.fillStyle = 'hsla( 0, 0%, 0%, 0.1)';
+               ctx.fillStyle = 'hsla(0, 0%, 0%, 0.1)';
                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                // add progress
@@ -123,16 +123,14 @@ const App = {
                ctx.fillRect(0, 0, parseInt(canvas.width * percentage), canvas.height);
 
                // create style text
-               ctx.fillStyle = '#888';
                ctx.textAlign = 'center';
                ctx.textBaseline = 'middle';
                ctx.font = '11px Arial';
-
-               //set position text
-               ctx.fillText(
-                  dataForDrawing.outText.toString(),
-                  parseInt(canvas.width / 2), parseInt(canvas.height / 2)
-               );
+               // ctx.shadowColor = 'white';
+               // ctx.shadowBlur = 1;
+               ctx.fillStyle = App.tempSaveStorage['colorPickerText'] || '#888';
+               
+               ctx.fillText(dataForDrawing.outText.toString(), canvas.width/2, canvas.height/2);
 
                return ctx;
             }
@@ -188,8 +186,8 @@ const App = {
             countActive = downloads.length;
 
          for (var download of downloads) {
-            console.log('download: ' + JSON.stringify(download));
-         
+            App.log('download: ' + JSON.stringify(download));
+
             // skip crx
             if (download.mime === "application/x-chrome-extension")
                continue;
@@ -208,12 +206,14 @@ const App = {
             if (Number.isInteger(progressPercent))
                titleOut = progressPercent + '%';
 
+            // if (!App.tempSaveStorage["ShowLastProgress"]) {
             if (countActive > 1)
                titleOut += ' ' + i18n("title_count_active") + ': ' + countActive;
+            // }
 
             App.toolbar.setTitle(titleOut);
 
-         // hide panel
+            // hide panel
          } else {
             chrome.downloads.setShelfEnabled(false);
          }
@@ -259,18 +259,19 @@ const App = {
       if (App.tempSaveStorage["showNotification"] &&
          item && item.state && item.state.previous === 'in_progress') {
 
+         var msg;
+
          switch (item.state.current) {
             // The download completed successfully.
             case 'complete':
-               var msg = i18n("noti_download_complete");
+               msg = i18n("noti_download_complete");
                break;
                // An error broke the connection with the file host.
             case 'interrupted':
-               var msg;
-               if (item.error.current === 'USER_CANCELED')
-                  msg = i18n("noti_download_canceled");
-               else
+               if (item.error.current !== 'USER_CANCELED')
                   msg = i18n("noti_download_interrupted");
+               // else
+               // msg = i18n("noti_download_canceled");
                break;
                // The download is currently receiving data from the server.
                // case 'in_progress':
@@ -279,8 +280,33 @@ const App = {
                return false;
          }
 
-         App.showNotification(i18n("noti_download_title"), msg);
+         if (msg)
+            chrome.downloads.search({
+               id: item.id
+            }, function (downloads) {
+               var download = downloads[0];
+               var timeLong = Date.parse(download.endTime) - Date.parse(download.startTime);
+               // skip notifity small file or small size
+               if (timeLong < 3000 || download.fileSize <= 1)
+                  return false;
+
+               // console.log('timeLong', timeLong);
+               // console.log('download.fileSize', download.fileSize);
+               App.log('Done notificationCheck get id', JSON.stringify(download));
+
+               var fileName = App.getFileNameFromPatch(download.filename);
+               if (fileName.length > 50)
+                  fileName = fileName.substr(0, 30) + '...';
+
+               App.showNotification(i18n("noti_download_title"), fileName + '\n' + msg);
+            });
+
+         // App.showNotification(i18n("noti_download_title"), msg);
       }
+   },
+
+   getFileNameFromPatch: (patch) => {
+      return patch.split(/(\\|\/)/g).pop();
    },
 
    showNotification: (title, msg, icon) => {
@@ -331,8 +357,7 @@ const App = {
             App.start();
          };
          // load store settings
-         Storage.getParams(null /*all*/ , callback, true /*sync*/ );
-         // Storage.getParams(null /*all*/ , callback, false /*local*/ );
+         Storage.getParams(null /*all*/ , callback, true /*sync*/ ); // true=sync, false=local 
       },
    },
 
@@ -359,15 +384,7 @@ chrome.downloads.onCreated.addListener(function (item) {
    App.log('downloadCreated init');
 
    var showShelf = App.tempSaveStorage.ShowDownBar || false;
-   
    chrome.downloads.setShelfEnabled(showShelf);
-
-   // chrome.storage.sync.get('ShowDownBar', function (obj) {
-   //    var showShelf = obj.showShelf || false;
-   //    App.log('on downloads created ', showShelf);
-
-   //    chrome.downloads.setShelfEnabled(showShelf);
-   // });
 });
 
 chrome.downloads.onChanged.addListener(function (item) {
@@ -380,4 +397,28 @@ chrome.downloads.onChanged.addListener(function (item) {
 // called when the icon is clicked
 chrome.browserAction.onClicked.addListener(function (tab) {
    App.openTab('chrome://downloads/');
+});
+
+
+chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
+   switch (request.name) {
+      case 'getOptions':
+         //   var defaults = {};
+         //   var resp = {};
+         //   for (var key in defaults) {
+         //       if (!(key in localStorage)) {
+         //           localStorage[key] = defaults[key];
+         //       }
+         //       resp[key] = localStorage[key];
+         //   }
+         //   sendResponse(resp);
+         break;
+      case 'setOptions':
+         App.tempSaveStorage = request.options;
+         //   var options = request.options;
+         //   for (var key in options)
+         //       localStorage[key] = options[key];
+         // Storage.setParams(request.options, true /*sync*/ ); // false /*local*/ | true /*sync*/
+         break;
+   }
 });

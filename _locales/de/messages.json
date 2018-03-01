@@ -102,6 +102,16 @@
       "message": "Ermöglicht Ihnen, die Download-Farbe im Symbol festzulegen"
    },
 
+   "opt_color_icon_text_info": {
+      "message": "Tekstkleur van indicatie in pictogram"
+   },
+   "opt_color_icon_text_info_tooltip": {
+      "message": "Standard: #888888"
+   },
+   "opt_color_icon_text_info_desc": {
+      "message": "Stel de downloadkleur voor de tekst in het pictogram in"
+   },
+
    "opt_bth_save_settings": {
       "message": "Einstellungen speichern"
    },

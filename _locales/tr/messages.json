@@ -96,10 +96,20 @@
       "message": "Simgedeki belirteçin rengi"
    },
    "opt_color_icon_info_tooltip": {
-      "message": "Varsayılan: Default: #00FF00 (Kırmızıdan Yeşile Kayan)"
+      "message": "Varsayılan: #00FF00 (Kırmızıdan Yeşile Kayan)"
    },
    "opt_color_icon_info_desc": {
       "message": "Simgedeki indirme rengini belirlemenizi sağlar"
+   },
+
+   "opt_color_icon_text_info": {
+      "message": "Göstergedeki metin rengi simgedir"
+   },
+   "opt_color_icon_text_info_tooltip": {
+      "message": "Varsayılan: #888888"
+   },
+   "opt_color_icon_text_info_desc": {
+      "message": "Simgenin metninin karşıdan yükleme rengini ayarlama"
    },
 
    "opt_bth_save_settings": {
@@ -112,7 +122,7 @@
       "message": "Kaydedildi!"
    },
    "opt_bth_save_settings_tooltip": {
-      "message": "eklenti yeniden başlatılacak"
+      "message": "Onmiddellijk toegepast"
    },
 
    "donate_tooltip": {
