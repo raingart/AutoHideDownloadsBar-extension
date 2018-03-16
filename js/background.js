@@ -122,15 +122,18 @@ const App = {
                ctx.fillStyle = dataForDrawing.color;
                ctx.fillRect(0, 0, parseInt(canvas.width * percentage), canvas.height);
 
-               // create style text
-               ctx.textAlign = 'center';
-               ctx.textBaseline = 'middle';
-               ctx.font = '11px Arial';
-               // ctx.shadowColor = 'white';
-               // ctx.shadowBlur = 1;
-               ctx.fillStyle = App.tempSaveStorage['colorPickerText'] || '#888';
-               
-               ctx.fillText(dataForDrawing.outText.toString(), canvas.width/2, canvas.height/2);
+               // add pt
+               if (App.tempSaveStorage['typeIconInfo'] != 'svg_notext') {
+                  // create style text
+                  ctx.textAlign = 'center';
+                  ctx.textBaseline = 'middle';
+                  ctx.font = '11px Arial';
+                  // ctx.shadowColor = 'white';
+                  // ctx.shadowBlur = 1;
+                  ctx.fillStyle = App.tempSaveStorage['colorPickerText'] || '#888';
+                  
+                  ctx.fillText(dataForDrawing.outText.toString(), canvas.width/2, canvas.height/2);
+               }
 
                return ctx;
             }

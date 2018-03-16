@@ -111,6 +111,10 @@
       "description": "type_icon_info option=svg",
       "message": "Graphic"
    },
+   "opt_type_icon_info_option_svg_notext": {
+      "description": "type_icon_info option=svg_notext",
+      "message": "Graphic (no %)"
+   },
    "opt_type_icon_info_option_text": {
       "description": "type_icon_info option=text",
       "message": "Text"

@@ -85,6 +85,9 @@
    "opt_type_icon_info_option_svg": {
       "message": "Grafik"
    },
+   "opt_type_icon_info_option_svg_notext": {
+      "message": "Graphic (je %)"
+   },
    "opt_type_icon_info_option_text": {
       "message": "Text"
    },
