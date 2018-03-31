@@ -4,7 +4,6 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <title>__MSG_app_name__ settings</title>
 
    <link rel="stylesheet" href="/css/normalize.min.css">
@@ -12,19 +11,21 @@
    <link rel="stylesheet" href="/css/tooltip/tooltip-animation.min.css" />
    <link rel="stylesheet" href="/css/switch_checkbox.min.css" />
 
-   <link rel="stylesheet" href="/css/global.css" />
-   <link rel="stylesheet" href="/css/settings.css" />
+   <link rel="stylesheet" href="/css/globals.css" />
+   <link rel="stylesheet" href="/css/options.css" />
 
    <script src="/lib/localization.min.js"></script>
+   <!-- <script src="/lib/storage.js"></script> -->
    <script src="/lib/storage.min.js"></script>
 
+   <!-- <script src="/lib/retrieve-ui.js"></script> -->
    <script src="/lib/retrieve-ui.min.js"></script>
    <script src="/js/options.js"></script>
 </head>
 
 <body>
    <div class="wrapper">
-      <div class="container">
+      <form enctype="multipart/form-data" class="container">
 
          <div class="between">
             <h2>__MSG_app_name__ __MSG_opt_setting__</h2>
@@ -35,23 +36,23 @@
 
          <div class="item">
             <div class="info">
-               <label for="ShowDownBar">__MSG_opt_show_download_panel__
+               <label for="shelfEnabled">__MSG_opt_show_download_panel__
                   <span>__MSG_opt_show_download_panel_desc__</span>
                </label>
             </div>
             <div class="opt" tooltip="__MSG_opt_show_download_panel_tooltip__" flow="left">
-               <input type="checkbox" id="ShowDownBar" />
+               <input type="checkbox" name="shelfEnabled" id="shelfEnabled" />
             </div>
          </div>
 
          <div class="item">
             <div class="info">
-               <label for="ShowLastProgress">__MSG_opt_show_last_progress__
+               <label for="showLastProgress">__MSG_opt_show_last_progress__
                   <span>__MSG_opt_show_last_progress_desc__</span>
                </label>
             </div>
             <div class="opt" tooltip="__MSG_opt_show_last_progress_tooltip__" flow="left">
-               <input type="checkbox" id="ShowLastProgress" />
+               <input type="checkbox" name="showLastProgress" id="showLastProgress" />
             </div>
          </div>
 
@@ -62,7 +63,7 @@
                </label>
             </div>
             <div class="opt" tooltip="__MSG_opt_show_notification_tooltip__" flow="left">
-               <input type="checkbox" id="showNotification" />
+               <input type="checkbox" name="showNotification" id="showNotification" />
             </div>
          </div>
 
@@ -73,7 +74,7 @@
                </label>
             </div>
             <div class="opt" tooltip="__MSG_opt_type_icon_info_tooltip__" flow="left">
-               <select id="typeIconInfo">
+               <select name="typeIconInfo" id="typeIconInfo">
                   <option selected value="svg">__MSG_opt_type_icon_info_option_svg__</option>
                   <option value="svg_notext">__MSG_opt_type_icon_info_option_svg_notext__</option>
                   <option value="text">__MSG_opt_type_icon_info_option_text__</option>
@@ -82,37 +83,37 @@
             </div>
          </div>
 
-         <div class="item typeIconInfo_req">
+         <div class="item" data-dependent='{"typeIconInfo":["svg", "svg_notext"]}'>
             <div class="info">
                <label for="colorPicker">__MSG_opt_color_icon_info__
                   <span>__MSG_opt_color_icon_info_desc__</span>
                </label>
             </div>
             <div class="opt" tooltip="__MSG_opt_color_icon_info_tooltip__" flow="left">
-               <input type="color" id="colorPicker" value="#00ff00" />
+               <input type="color" name="colorPicker" id="colorPicker" value="#00ff00" />
             </div>
          </div>
 
-         <div class="item typeIconInfo_req typeIconInfo_req2">
+         <div class="item" data-dependent='{"typeIconInfo":["svg", "text"]}'>
             <div class="info">
                <label for="colorPicker">__MSG_opt_color_icon_text_info__
                   <span>__MSG_opt_color_icon_text_info_desc__</span>
                </label>
             </div>
             <div class="opt" tooltip="__MSG_opt_color_icon_text_info_tooltip__" flow="left">
-               <input type="color" id="colorPickerText" value="#888888" />
+               <input type="color" name="colorPickerText" id="colorPickerText" value="#888888" />
             </div>
          </div>
 
          <hr />
 
          <div class="between">
-            <button id="bth-save-settings" tooltip="__MSG_opt_bth_save_settings_tooltip__" flow="right">__MSG_opt_bth_save_settings__</button>
+            <button type="submit" tooltip="__MSG_opt_bth_save_settings_tooltip__" flow="right">__MSG_opt_bth_save_settings__</button>
 
             <a href="#" id="donate" tooltip="__MSG_donate_tooltip__" flow="left">__MSG_donate__</a>
          </div>
 
-      </div>
+      </form>
    </div>
 
 </body>

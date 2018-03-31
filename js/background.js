@@ -6,12 +6,9 @@ const App = {
 
    // debug: true,
 
-   counterTemp: 0,
-
-   initInterval: (statusDownload) => {
-      // App.log('initInterval: ', statusDownload);
+   runInterval: (statusDownload) => {
+      // App.log('runInterval: ', statusDownload);
       if (statusDownload) {
-
          if (!App.isBusy) {
             App.log('setInterval');
             App.isBusy = true;
@@ -28,7 +25,7 @@ const App = {
          App.clearToolbar();
 
       } else
-         App.log('initInterval skip');
+         App.log('runInterval skip');
    },
 
    clearToolbar: () => {
@@ -41,60 +38,75 @@ const App = {
    },
 
    updateBrowserActionIcon: (progressRatio) => {
-      var progressRatio = progressRatio || 0;
 
       switch (App.tempSaveStorage['typeIconInfo'] /*.toLowerCase()*/ ) {
-         case 'svg':
-            HProgressBar(progressRatio);
-            break;
-         case 'text':
-            texter(progressRatio);
-            break;
          case 'false':
             return false;
+         case 'text':
+            var badgeText = texterProgressBar(progressRatio);
+            App.toolbar.setBadgeBackgroundColor(App.tempSaveStorage['colorPicker']);
+            App.toolbar.setBadgeText(badgeText);
+            break;
          default:
-            // return false;
-            HProgressBar(progressRatio);
+            App.toolbar.setIcon({
+               imageData: graficProgressBar(progressRatio)
+            });
       }
 
-      function HProgressBar() {
+      function graficProgressBar() {
          var getDataDrawing = dataForDrawing(progressRatio);
 
-         draw(getDataDrawing);
+         return draw(getDataDrawing);
 
          function dataForDrawing(progressRatio) {
-            // #00ff00 is default value 
-            if (App.tempSaveStorage['colorPicker'] && App.tempSaveStorage['colorPicker'] != '#00ff00')
-               var color = App.tempSaveStorage['colorPicker'];
+            var color = (function () {
+               var color;
+               // #00ff00 is default value 
+               if (App.tempSaveStorage['colorPicker'] && App.tempSaveStorage['colorPicker'] != '#00ff00') {
+                  color = App.tempSaveStorage['colorPicker'];
 
-            // set gradient
-            else {
-               var options = {
-                  'color': {
-                     'startingHue': 0,
-                     'endingHue': 120,
-                     'saturation': 100,
-                     'lightness': 50
+                  // set gradient
+               } else {
+                  var options = {
+                     'color': {
+                        'startingHue': 0,
+                        'endingHue': 120,
+                        'saturation': 100,
+                        'lightness': 50
+                     }
                   }
+
+                  // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+                  var percentageToHsl = (percentage, fromHue, toHue) => {
+                     var hue = Math.round((percentage * (toHue - fromHue)) + fromHue);
+                     return 'hsla(' + hue + ', ' + options.color.saturation + '%, ' + options.color.lightness + '%, 0.8)';
+                  }
+
+                  color = percentageToHsl(progressRatio, options.color.startingHue, options.color.endingHue);
                }
-
-               // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
-               var percentageToHsl = (percentage, fromHue, toHue) => {
-                  var hue = Math.round((percentage * (toHue - fromHue)) + fromHue);
-                  return 'hsla(' + hue + ', ' + options.color.saturation + '%, ' + options.color.lightness + '%, 0.8)';
-               }
-
-               var color = percentageToHsl(progressRatio, options.color.startingHue, options.color.endingHue);
-            }
-
-            var progressPercent = Math.round(progressRatio * 100);
+               return color;
+            })();
 
             var dataForDrawing = {
-               'color': color,
+               'color_bg': color,
+               'color_text': App.tempSaveStorage['colorPickerText'],
                'progressRatio': progressRatio,
-               'outText': Number.isInteger(progressPercent) ? progressPercent : Array((++App.counterTemp % 4) + 1).join('.'),
+               'outText': Math.round(progressRatio * 100),
                // 'outText': Math.round(100 - (progressRatio * 100)), // left percent
             }
+
+            // if ask loadig
+            if (progressRatio == "!") {
+               dataForDrawing.outText = App.flashing(2, progressRatio);
+               dataForDrawing.color_text = 'red';
+            } else if (!Number.isInteger(dataForDrawing.outText)) {
+               dataForDrawing.outText = App.flashing();
+            }
+
+            // var loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+            // App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
+            // dataForDrawing.outText = loadingSymbol[App.circleNum];
+
             App.log('dataForDrawing ', JSON.stringify(dataForDrawing));
 
             return dataForDrawing;
@@ -104,12 +116,8 @@ const App = {
             var canvas = genCanvas();
             var context = canvas.getContext('2d')
 
-            context = drawToCanvas(dataForDrawing.progressRatio)
+            return drawToCanvas(dataForDrawing.progressRatio)
                .getImageData(0, 0, canvas.width, canvas.height);
-
-            App.toolbar.setIcon({
-               imageData: context
-            });
 
             function drawToCanvas(percentage) {
                var ctx = context;
@@ -119,7 +127,7 @@ const App = {
                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                // add progress
-               ctx.fillStyle = dataForDrawing.color;
+               ctx.fillStyle = dataForDrawing.color_bg;
                ctx.fillRect(0, 0, parseInt(canvas.width * percentage), canvas.height);
 
                // add pt
@@ -130,17 +138,16 @@ const App = {
                   ctx.font = '11px Arial';
                   // ctx.shadowColor = 'white';
                   // ctx.shadowBlur = 1;
-                  ctx.fillStyle = App.tempSaveStorage['colorPickerText'] || '#888';
-                  
-                  ctx.fillText(dataForDrawing.outText.toString(), canvas.width/2, canvas.height/2);
+                  ctx.fillStyle = dataForDrawing.color_text || '#888';
+
+                  ctx.fillText(dataForDrawing.outText.toString(), canvas.width / 2, canvas.height / 2);
                }
 
                return ctx;
             }
 
             function genCanvas() {
-               var cvs;
-               cvs = document.createElement('canvas');
+               var cvs = document.createElement('canvas');
 
                // cvs.setAttribute('width', 19);
                // cvs.setAttribute('height', 6);
@@ -153,7 +160,7 @@ const App = {
          }
       }
 
-      function texter(progressRatio) {
+      function texterProgressBar(progressRatio) {
          if (Number.isInteger(progressRatio * 100)) {
             var progressPercent = Math.round(progressRatio * 100) + '%';
 
@@ -162,10 +169,7 @@ const App = {
             App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
             var progressPercent = loadingSymbol[App.circleNum];
          }
-
-         App.toolbar.setBadgeBackgroundColor(App.tempSaveStorage['colorPicker']);
-
-         App.toolbar.setBadgeText(progressPercent || 'err');
+         return progressPercent;
       }
 
    },
@@ -177,7 +181,7 @@ const App = {
          orderBy: ['-startTime']
       }
 
-      if (App.tempSaveStorage["ShowLastProgress"]) {
+      if (App.tempSaveStorage["showLastProgress"]) {
          searchObj['limit'] = 1;
       }
 
@@ -195,8 +199,22 @@ const App = {
             if (download.mime === "application/x-chrome-extension")
                continue;
 
-            totalSize += download.fileSize || download.totalBytes
+            var fileSize = download.fileSize || download.totalBytes;
+
+            // if undefined totalSize file
+            // if (!fileSize)
+            //    continue;
+
+            totalSize += fileSize;
+
             totalReceived += download.bytesReceived;
+
+            // skip downloaded file ask: keep/discard
+            if (download.danger != "safe" && totalReceived === fileSize)
+               if (callback && typeof (callback) === "function") {
+                  return callback("!");
+               }
+
             progressRatio = (totalReceived / totalSize).toFixed(2);
 
             progressPercent = Math.round(progressRatio * 100);
@@ -232,30 +250,24 @@ const App = {
    },
 
    toolbar: {
-      setIcon: (obj) => {
-         chrome.browserAction.setIcon(obj);
-      },
+      /* beautify preserve:start */
+      setIcon: (obj) => { chrome.browserAction.setIcon(obj); },
 
       setTitle: (title) => {
-         var obj = {
-            "title": title.toString().trim() || ''
-         };
+         var obj = { "title": title.toString().trim() || '' };
          chrome.browserAction.setTitle(obj);
       },
 
       setBadgeText: (text) => {
-         var obj = {
-            "text": text.toString().trim() || ''
-         };
+         var obj = { "text": text.toString().trim() || ''  };
          chrome.browserAction.setBadgeText(obj);
       },
 
       setBadgeBackgroundColor: (color) => {
-         var obj = {
-            color: color || "black"
-         };
+         var obj = { color: color || "black" };
          chrome.browserAction.setBadgeBackgroundColor(obj);
       },
+      /* beautify preserve:end */
    },
 
    notificationCheck: (item) => {
@@ -311,6 +323,13 @@ const App = {
    getFileNameFromPatch: (patch) => {
       return patch.split(/(\\|\/)/g).pop();
    },
+   
+   counter_tmp: 0,
+
+   flashing: (count, outText) => {
+      count = count || 4;
+      return Array((++App.counter_tmp % count) + 1).join(outText || '.');;
+   },
 
    showNotification: (title, msg, icon) => {
       chrome.notifications.create('info', {
@@ -357,71 +376,70 @@ const App = {
             App.log('confStorage', JSON.stringify(res));
             App.tempSaveStorage = res;
 
-            App.start();
+            App.pulse();
          };
          // load store settings
-         Storage.getParams(null /*all*/ , callback, true /*sync*/ ); // true=sync, false=local 
+         Storage.getParams(null /*all*/ , callback, true /* true=sync, false=local */ );
       },
    },
 
-   start: (item) => {
-      App.getDownloadProgress(App.initInterval);
+   // Register the event handlers.
+   eventListener: () => {
+      chrome.downloads.onCreated.addListener(function (item) {
+         App.log('downloadCreated init');
+
+         var shelf = App.tempSaveStorage.shelfEnabled || App.tempSaveStorage.ShowDownBar || false;
+         chrome.downloads.setShelfEnabled(shelf);
+      });
+
+      chrome.downloads.onChanged.addListener(function (item) {
+         App.log('downloadChanged init');
+         App.log('onChanged item', JSON.stringify(item));
+
+         App.pulse(item);
+      });
+
+      // called when the icon is clicked
+      chrome.browserAction.onClicked.addListener(function (tab) {
+         App.openTab('chrome://downloads/');
+      });
+
+      chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
+         switch (request.name) {
+            // case 'getOptions':
+            //   var defaults = {};
+            //   var resp = {};
+            //   for (var key in defaults) {
+            //       if (!(key in localStorage)) {
+            //           localStorage[key] = defaults[key];
+            //       }
+            //       resp[key] = localStorage[key];
+            //   }
+            //   sendResponse(resp);
+            // break;
+            case 'setOptions':
+               App.tempSaveStorage = request.options;
+               App.clearToolbar();
+               break;
+         }
+      });
+   },
+
+   pulse: (item) => {
+      App.getDownloadProgress(App.runInterval);
       App.notificationCheck(item);
    },
 
    init: () => {
       App.confStorage.load();
+      App.eventListener();
       App.clearToolbar();
    },
 
-   log: (msg, arg1) => {
-      var arg1 = arg1 === undefined ? '' : arg1;
-      if (App.debug) console.log('[+] ' + msg.toString().trim(), arg1)
+   log: (msg, arg) => {
+      var arg = arg === undefined ? '' : arg;
+      if (App.debug) console.log('[+] ' + msg.toString().trim(), arg)
    },
 }
 
 App.init();
-
-// Register the event handlers.
-chrome.downloads.onCreated.addListener(function (item) {
-   App.log('downloadCreated init');
-
-   var showShelf = App.tempSaveStorage.ShowDownBar || false;
-   chrome.downloads.setShelfEnabled(showShelf);
-});
-
-chrome.downloads.onChanged.addListener(function (item) {
-   App.log('downloadChanged init');
-   App.log('onChanged item', JSON.stringify(item));
-
-   App.start(item);
-});
-
-// called when the icon is clicked
-chrome.browserAction.onClicked.addListener(function (tab) {
-   App.openTab('chrome://downloads/');
-});
-
-
-chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
-   switch (request.name) {
-      case 'getOptions':
-         //   var defaults = {};
-         //   var resp = {};
-         //   for (var key in defaults) {
-         //       if (!(key in localStorage)) {
-         //           localStorage[key] = defaults[key];
-         //       }
-         //       resp[key] = localStorage[key];
-         //   }
-         //   sendResponse(resp);
-         break;
-      case 'setOptions':
-         App.tempSaveStorage = request.options;
-         //   var options = request.options;
-         //   for (var key in options)
-         //       localStorage[key] = options[key];
-         // Storage.setParams(request.options, true /*sync*/ ); // false /*local*/ | true /*sync*/
-         break;
-   }
-});

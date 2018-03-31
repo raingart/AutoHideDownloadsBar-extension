@@ -3,100 +3,125 @@ console.log(i18n("Conf_name") + ": init settings.js");
 window.addEventListener('load', (evt) => {
 
    const Conf = {
-      UI: {
-         bthSave: document.getElementById('bth-save-settings'),
-         ShowDownBar: document.getElementById("ShowDownBar"),
-         typeIconInfo: document.getElementById("typeIconInfo"),
-         ShowLastProgress: document.getElementById("ShowLastProgress"),
-         colorPicker: document.getElementById("colorPicker"),
-         colorPickerText: document.getElementById("colorPickerText"),
-         showNotification: document.getElementById("showNotification"),
-         listReq: document.getElementsByClassName('typeIconInfo_req'),
-         listReq2: document.getElementsByClassName('typeIconInfo_req2'),
+
+      checkDependencies: () => {
+         let highlightedItems = document.querySelectorAll("[data-dependent]");
+
+         highlightedItems.forEach(function (dependentItem) {
+            // let dependentsList = dependentItem.getAttribute('data-dependent').split(',').map(i => i.trim());
+            let dependentsJson = JSON.parse(dependentItem.getAttribute('data-dependent').toString());
+            showOrHide(dependentItem, dependentsJson);
+         })
+
+         function showOrHide(dependentItem, dependentsList) {
+            for (let name in dependentsList)
+               for (let thisVal of dependentsList[name]) {
+                  let reqParent = document.getElementsByName(name)[0];
+
+                  if (reqParent.value == thisVal) {
+                     dependentItem.classList.remove("hide");
+                     // console.log(reqParent.value + '==' + thisVal);
+                     break;
+                  } else {
+                     dependentItem.classList.add("hide");
+                     // console.log(reqParent.value + '!=' + thisVal);
+                  }
+               }
+         }
+
       },
 
       // Saves options to localStorage/chromeSync.
-      saveOptions: (saveBth) => {
-         saveBth.innerHTML = i18n("opt_bth_save_settings_process");
-         saveBth.classList.add("disabled");
-         saveBth.classList.add("in-progress");
+      saveOptions: (form, callback) => {
+         let formData = new FormData(form);
+         let newOptions = {};
 
-         var newOptions = {};
-         newOptions['ShowDownBar'] = Conf.UI.ShowDownBar.checked ? true : false;
-         newOptions['ShowLastProgress'] = Conf.UI.ShowLastProgress.checked ? true : false;
-         newOptions['showNotification'] = Conf.UI.showNotification.checked ? true : false;
-         newOptions['typeIconInfo'] = Conf.UI.typeIconInfo.value || false;
-         newOptions['colorPicker'] = Conf.UI.colorPicker.value || false;
-         newOptions['colorPickerText'] = Conf.UI.colorPickerText.value || false;
+         // add unchecked checkboxes
+         // NOTE broked checkbox fill
+         // let inputs = document.getElementsByTagName("input");
+         // for (let i in inputs) {
+         //    let el = inputs[i];
+         //    if (el.type == "checkbox") {
+         //       // formData.append(el.name, el.checked ? el.value : false);
+         //       formData.append(el.name, el.checked ? true : false);
+         //    }
+         // }
 
-         var callback = () => {
-            setTimeout(function () {
-               saveBth.innerHTML = i18n("opt_bth_save_settings_processed");
-               saveBth.classList.remove("in-progress");
-            }, 100);
-
-            setTimeout(function () {
-               saveBth.innerHTML = i18n("opt_bth_save_settings");
-               saveBth.classList.remove("disabled");
-            }, 300);
+         for (const [key, value] of formData.entries()) {
+            newOptions[key] = value;
+            // console.log(key, value);
          }
 
-         Storage.setParams(newOptions, callback, true /*sync*/ ); // false /*local*/ | true /*sync*/
+         Storage.setParams(newOptions, true /* true=sync, false=local */ );
 
          chrome.extension.sendMessage({
             "name": 'setOptions',
             "options": newOptions
-         }, function (resp) {});
+         }, function (resp) {
+            if (callback && typeof (callback) === "function") {
+               return callback();
+            }
+         });
       },
 
-      showOrHide: (equally, list) => {
-         for (var item of list) {
-            if (equally) {
-               item.classList.add("hide");
-            } else {
-               item.classList.remove("hide");
-            }
-         }
+      bthSaveAnimation: {
+         outputStatus: document.querySelector("button"),
+
+         _process: () => {
+            Conf.bthSaveAnimation.outputStatus.innerHTML = i18n("opt_bth_save_settings_process");
+            Conf.bthSaveAnimation.outputStatus.classList.add("disabled");
+            Conf.bthSaveAnimation.outputStatus.classList.add("in-progress");
+         },
+
+         _processed: () => {
+            Conf.bthSaveAnimation.outputStatus.innerHTML = i18n("opt_bth_save_settings_processed");
+            Conf.bthSaveAnimation.outputStatus.classList.remove("in-progress");
+         },
+
+         _defaut: () => {
+            setTimeout(function () {
+               Conf.bthSaveAnimation.outputStatus.innerHTML = i18n("opt_bth_save_settings");
+               Conf.bthSaveAnimation.outputStatus.classList.remove("disabled");
+            }, 300);
+         },
+      },
+
+      // Register the event handlers.
+      eventListener: () => {
+         let form = document.forms[0];
+         // let form = document.querySelector('form');
+
+         form.addEventListener('submit', function (ev) {
+            ev.preventDefault();
+            Conf.bthSaveAnimation._process();
+            Conf.saveOptions(this, Conf.bthSaveAnimation._processed);
+            Conf.bthSaveAnimation._defaut();
+         }, false);
+
+         form['typeIconInfo'].addEventListener("change", function () {
+            Conf.checkDependencies();
+         });
+
+         document.getElementById('donate').addEventListener("click", function () {
+            const manifest = chrome.runtime.getManifest();
+            const payment = '1DbKD1rQXobztpsqx2dPZeMz1nKyRJCm9b';
+            // if (window.prompt("BTC payment:", payment))
+            let url = 'https://blockchain.info/reqPayment_parentuest?address=' + payment;
+            url += '&message=' + encodeURIComponent(manifest.short_name) + '+project';
+            window.open(url, '_blank');
+         });
       },
 
       init: () => {
-         var callback = (res) => {
+         let callback = (res) => {
             UIr.restoreElmValue(res);
-            var isHide = Conf.UI.typeIconInfo.value == 'false' ? true : false;
-            Conf.showOrHide(isHide, Conf.UI.listReq);
-      
-            var isHide2 = Conf.UI.typeIconInfo.value != 'svg' ? true : false;
-            Conf.showOrHide(isHide2, Conf.UI.listReq2);
+            Conf.checkDependencies();
          };
+         Storage.getParams(null, callback, true /* true=sync, false=local */ );
 
-         Storage.getParams(null, callback, true /*sync*/ ); // true=sync, false=local 
+         Conf.eventListener();
       },
    }
 
    Conf.init();
-
-   Conf.UI.bthSave.addEventListener("click", function () {
-      Conf.saveOptions(this)
-   });
-
-   Conf.UI.colorPicker.addEventListener("change", function () {
-      console.log('color', this.value);
-   });
-
-   Conf.UI.typeIconInfo.addEventListener("change", function () {
-      var isHide = this.value == 'false' ? true : false;
-      Conf.showOrHide(isHide, Conf.UI.listReq);
-
-      var isHide2 = this.value != 'svg' ? true : false;
-      Conf.showOrHide(isHide2, Conf.UI.listReq2);
-   });
-
-   document.getElementById('donate').addEventListener("click", function () {
-      const manifest = chrome.runtime.getManifest();
-      var payment = '1DbKD1rQXobztpsqx2dPZeMz1nKyRJCm9b';
-      // if (window.prompt("BTC payment:", payment))
-      var url = 'https://blockchain.info/payment_request?address=' + payment;
-      url += '&message=' + encodeURIComponent(manifest.short_name) + '+project';
-      window.open(url, '_blank');
-   });
 });
