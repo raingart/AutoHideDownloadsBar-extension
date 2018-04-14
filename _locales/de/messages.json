@@ -47,7 +47,7 @@
       "message": "Download-Leiste anzeigen, wenn der Download aktiv ist"
    },
    "opt_show_download_panel_tooltip": {
-      "message": "Standardwert ist deaktiviert"
+      "message": "Standard: AUS"
    },
    "opt_show_download_panel_desc": {
       "message": "Das Verstecken der Download-Leiste erfolgt erst nach dem Download"
@@ -57,7 +57,7 @@
       "message": "Zeige nur den Download Fortschritt der letzte heruntergeladenen Datei"
    },
    "opt_show_last_progress_tooltip": {
-      "message": "Standardwert ist deaktiviert"
+      "message": "Standard: AUS"
    },
    "opt_show_last_progress_desc": {
       "message": "Standardmäßig wird der Download-Fortschritt aller heruntergeladenen Dateien angezeigt"
@@ -73,6 +73,17 @@
       "message": "Benachrichtigung anzeigen, wenn sich der Downloadstatus der Datei geändert hat"
    },
 
+   "opt_sound_notification": {
+      "message": "Benachrichtigungston abspielen"
+   },
+   "opt_sound_notification_tooltip": {
+      "message": "Standard: AUS"
+   },
+   "opt_sound_notification_desc": {
+      "message": "Deaktivieren Sie diese Option, wenn Ihr Benachrichtigungssystem bereits eine Audiowarnung verwendet"
+   },
+
+
    "opt_type_icon_info": {
       "message": "Standard wird der Download-Fortschritt aller heruntergeladenen Dateien angezeigt"
    },
@@ -86,7 +97,7 @@
       "message": "Grafik"
    },
    "opt_type_icon_info_option_svg_notext": {
-      "message": "Graphic (je %)"
+      "message": "Graphic (nein %)"
    },
    "opt_type_icon_info_option_text": {
       "message": "Text"
@@ -129,7 +140,7 @@
    },
 
    "donate_tooltip": {
-      "message": "Helfen Sie dem Projekt"
+      "message": "Helfen Sie dem Projekt Patreon"
    },
    "donate": {
       "message": "Spenden"

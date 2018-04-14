@@ -4,10 +4,10 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   // debug: true,
+   DEBUG: true,
 
    runInterval: (statusDownload) => {
-      // App.log('runInterval: ', statusDownload);
+      App.log('runInterval: ', statusDownload);
       if (statusDownload) {
          if (!App.isBusy) {
             App.log('setInterval');
@@ -25,7 +25,7 @@ const App = {
          App.clearToolbar();
 
       } else
-         App.log('runInterval skip');
+         App.log('runInterval stop');
    },
 
    clearToolbar: () => {
@@ -37,28 +37,28 @@ const App = {
       App.toolbar.setTitle(i18n("app_title"));
    },
 
-   updateBrowserActionIcon: (progressRatio) => {
+   updateBrowserActionIcon: (pt) => {
 
       switch (App.tempSaveStorage['typeIconInfo'] /*.toLowerCase()*/ ) {
          case 'false':
             return false;
          case 'text':
-            var badgeText = texterProgressBar(progressRatio);
+            var badgeText = texterProgressBar(pt);
             App.toolbar.setBadgeBackgroundColor(App.tempSaveStorage['colorPicker']);
             App.toolbar.setBadgeText(badgeText);
             break;
          default:
             App.toolbar.setIcon({
-               imageData: graficProgressBar(progressRatio)
+               imageData: graficProgressBar(pt)
             });
       }
 
-      function graficProgressBar() {
-         var getDataDrawing = dataForDrawing(progressRatio);
+      function graficProgressBar(progress) {
+         var getDataDrawing = dataForDrawing(progress);
 
          return draw(getDataDrawing);
 
-         function dataForDrawing(progressRatio) {
+         function dataForDrawing(progress) {
             var color = (function () {
                var color;
                // #00ff00 is default value 
@@ -82,7 +82,7 @@ const App = {
                      return 'hsla(' + hue + ', ' + options.color.saturation + '%, ' + options.color.lightness + '%, 0.8)';
                   }
 
-                  color = percentageToHsl(progressRatio, options.color.startingHue, options.color.endingHue);
+                  color = percentageToHsl((progress / 100), options.color.startingHue, options.color.endingHue);
                }
                return color;
             })();
@@ -90,16 +90,15 @@ const App = {
             var dataForDrawing = {
                'color_bg': color,
                'color_text': App.tempSaveStorage['colorPickerText'],
-               'progressRatio': progressRatio,
-               'outText': Math.round(progressRatio * 100),
-               // 'outText': Math.round(100 - (progressRatio * 100)), // left percent
+               'progressRatio': (progress / 100),
+               'outText': progress,
             }
 
             // if ask loadig
-            if (progressRatio == "!") {
-               dataForDrawing.outText = App.flashing(2, progressRatio);
+            if (progress == "!") {
+               dataForDrawing.outText = App.flashing(2, progress);
                dataForDrawing.color_text = 'red';
-            } else if (!Number.isInteger(dataForDrawing.outText)) {
+            } else if (dataForDrawing.outText === 'infinity') {
                dataForDrawing.outText = App.flashing();
             }
 
@@ -160,16 +159,15 @@ const App = {
          }
       }
 
-      function texterProgressBar(progressRatio) {
-         if (Number.isInteger(progressRatio * 100)) {
-            var progressPercent = Math.round(progressRatio * 100) + '%';
-
-         } else {
+      function texterProgressBar(progress) {
+         if (Number.isInteger(progress))
+            progress += '%';
+         else {
             var loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
             App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
-            var progressPercent = loadingSymbol[App.circleNum];
+            var progress = loadingSymbol[App.circleNum];
          }
-         return progressPercent;
+         return progress;
       }
 
    },
@@ -188,22 +186,30 @@ const App = {
       chrome.downloads.search(searchObj, function (downloads) {
          var totalSize = 0,
             totalReceived = 0,
-            progressRatio = 0,
-            progressPercent = 0,
+            progress = 0,
+            timeLeft = 0,
             countActive = downloads.length;
 
          for (var download of downloads) {
-            App.log('download: ' + JSON.stringify(download));
+            App.log('downloadItem: ' + JSON.stringify(download));
 
             // skip crx
             if (download.mime === "application/x-chrome-extension")
                continue;
 
-            var fileSize = download.fileSize || download.totalBytes;
+            if (download.estimatedEndTime)
+               timeLeft += new Date(download.estimatedEndTime) - new Date();
 
-            // if undefined totalSize file
-            // if (!fileSize)
-            //    continue;
+            var fileSize = download.fileSize || download.totalBytes;
+            // var download_size = downloadItem.fileSize / 1024 / 1000;
+
+            // if undefined fileSize file
+            if (!fileSize) {
+               totalSize = false;
+               progress = 'infinity';
+               break;
+               //    continue;
+            }
 
             totalSize += fileSize;
 
@@ -215,35 +221,42 @@ const App = {
                   return callback("!");
                }
 
-            progressRatio = (totalReceived / totalSize).toFixed(2);
-
-            progressPercent = Math.round(progressRatio * 100);
+            // progress = Math.min(100, Math.floor(100 * totalReceived / totalSize) || 0) || '--';
+            progress = Math.min(100, Math.floor(100 * totalReceived / totalSize) || 0) || '0';
          };
 
          if (countActive) {
             // set toolbar Title
             var titleOut = '';
-            // not Infinity
-            if (Number.isInteger(progressPercent))
-               titleOut = progressPercent + '%';
+            
+            if (totalSize) {
+               // size
+               titleOut += App.formatBytes(totalReceived) + " of ";
+               titleOut += totalSize ? App.formatBytes(totalSize) : "unknown size";
 
-            // if (!App.tempSaveStorage["ShowLastProgress"]) {
+               // pt
+               titleOut += "\n(" + progress + "%)";
+
+               // left time
+               titleOut += ", " + App.formatInterval(timeLeft) + " left";
+            }
+
+            // count
             if (countActive > 1)
                titleOut += ' ' + i18n("title_count_active") + ': ' + countActive;
-            // }
 
             App.toolbar.setTitle(titleOut);
 
-            // hide panel
          } else {
+            // hide panel
             chrome.downloads.setShelfEnabled(false);
          }
 
          App.log('countActive ', countActive);
-         App.log('percent ', progressRatio);
+         App.log('progress ', progress);
 
          if (callback && typeof (callback) === "function") {
-            return callback(progressRatio);
+            return callback(progress);
          }
 
       });
@@ -283,14 +296,15 @@ const App = {
                break;
                // An error broke the connection with the file host.
             case 'interrupted':
-               if (item.error.current !== 'USER_CANCELED')
+               if (item.error.current === 'USER_CANCELED') {
+                  // msg = i18n("noti_download_canceled");
+               } else
                   msg = i18n("noti_download_interrupted");
-               // else
-               // msg = i18n("noti_download_canceled");
                break;
                // The download is currently receiving data from the server.
-               // case 'in_progress':
-               //    break;
+            case 'in_progress':
+               return false;
+               // break;
             default:
                return false;
          }
@@ -301,29 +315,48 @@ const App = {
             }, function (downloads) {
                var download = downloads[0];
                var timeLong = Date.parse(download.endTime) - Date.parse(download.startTime);
+
                // skip notifity small file or small size
+               // if (download_size > minimum_download_size) {
                if (timeLong < 3000 || download.fileSize <= 1)
                   return false;
-
                // console.log('timeLong', timeLong);
                // console.log('download.fileSize', download.fileSize);
                App.log('Done notificationCheck get id', JSON.stringify(download));
 
                var fileName = App.getFileNameFromPatch(download.filename);
-               if (fileName.length > 50)
-                  fileName = fileName.substr(0, 30) + '...';
+               if (fileName && fileName.length > 50)
+                  fileName = fileName.slice(0, 31) + "...";
 
                App.showNotification(i18n("noti_download_title"), fileName + '\n' + msg);
-            });
 
-         // App.showNotification(i18n("noti_download_title"), msg);
+               if (App.tempSaveStorage["soundNotification"]) {
+                  var single_file_done = new Audio('/audio/beep.wav');
+                  single_file_done.play();
+               }
+            });
       }
    },
 
-   getFileNameFromPatch: (patch) => {
-      return patch.split(/(\\|\/)/g).pop();
+   getFileNameFromPatch: (path) => {
+      if (typeof (path) !== 'undefined')
+         // return patch.split(/[^/]*$/g).pop();
+         return path.split(/(\\|\/)/g).pop();
    },
-   
+
+   formatBytes: function (bytes) {
+      var size;
+      return 0 >= bytes ? "0 B" : (
+         size = Math.floor(Math.log(bytes) / Math.log(1024)),
+         (bytes / Math.pow(1024, size)).toFixed(1) + " " + ["B", "KB", "MB", "GB", "TB"][size]
+      )
+   },
+
+   formatInterval: function (ms_timeSpan) {
+      var day, min, sec;
+      return sec = Math.floor(ms_timeSpan / 1e3), 0 >= sec ? "0 secs" : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["secs", "mins", "hours"][min]))
+   },
+
    counter_tmp: 0,
 
    flashing: (count, outText) => {
@@ -332,15 +365,17 @@ const App = {
    },
 
    showNotification: (title, msg, icon) => {
+      const manifest = chrome.runtime.getManifest();
+
       chrome.notifications.create('info', {
-         type: 'basic',
-         iconUrl: '/icons/' + icon === undefined ? '' : '/icons/128.png',
+         type: 'basic', //'basic', 'image', 'list', 'progress'
+         iconUrl: typeof (icon) === 'undefined' ? manifest.icons[128] : '/icons/' + icon,
          title: title || i18n("app_name"),
          message: msg || '',
       }, function (notificationId) {
          chrome.notifications.onClicked.addListener(function (callback) {
-            chrome.notifications.clear(notificationId);
-            // chrome.notifications.clear(notificationId, callback);
+            // chrome.notifications.clear(notificationId);
+            chrome.notifications.clear(notificationId, callback);
          });
       });
    },
@@ -355,11 +390,10 @@ const App = {
          // search for the existing tab 
          for (var tab of tabs) {
             // is finded - focus
-            if (tab.url === openUrl) {
+            if (tab.url === openUrl)
                return chrome.tabs.update(tab.id, {
                   selected: true
                });
-            }
          };
          // create new tab
          chrome.tabs.create({
@@ -423,6 +457,8 @@ const App = {
                break;
          }
       });
+
+      // single_file_done.addEventListener("ended", checkDownloadStack);
    },
 
    pulse: (item) => {
@@ -438,8 +474,35 @@ const App = {
 
    log: (msg, arg) => {
       var arg = arg === undefined ? '' : arg;
-      if (App.debug) console.log('[+] ' + msg.toString().trim(), arg)
+      App.DEBUG && console.log('[+] ' + msg.toString().trim(), arg)
    },
 }
 
 App.init();
+
+
+// chrome.notifications.onButtonClicked.addListener(function(notificationId, buttonIndex) {
+//    var buttonIndexEnum = {
+//        "SHOW_FOLDER": 0
+//    }
+
+//    DEBUG && console.log("Button Index: " + buttonIndex);
+
+//    if (buttonIndex === buttonIndexEnum.SHOW_FOLDER) {
+
+//        DEBUG && console.log("Notification Id: " + notificationId);
+//        DEBUG && console.log("Completed Downloads Stack");
+//        DEBUG && console.log(completed_downloads_stack);
+
+//        for (var i = 0; i < completed_downloads_stack.length; ++i) {
+//            var completed_item = completed_downloads_stack[i];
+
+
+//            if (notificationId === completed_item.notification_id) {
+//                DEBUG && console.log("Show Notification Download Location.");
+//                chrome.downloads.show(completed_item.download_id);
+//            }
+//        }
+
+//    }
+// });

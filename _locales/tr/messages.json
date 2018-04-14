@@ -73,6 +73,17 @@
       "message": "Dosya indirme durumu değiştiğinde bildirim göster"
    },
 
+   "opt_sound_notification": {
+      "message": "Bildirim sesini çal"
+   },
+   "opt_sound_notification_tooltip": {
+      "message": "Varsayılan: KAPALI"
+   },
+   "opt_sound_notification_desc": {
+      "message": "Bildirim sisteminiz zaten sesli uyarı kullanıyorsa devre dışı bırak"
+   },
+
+
    "opt_type_icon_info": {
       "message": "Araç çubuğundan belirteç türünü seçin"
    },
@@ -129,7 +140,7 @@
    },
 
    "donate_tooltip": {
-      "message": "Projeye yardım edin"
+      "message": "Projeye yardım et Patreon"
    },
    "donate": {
       "message": "Bağış yapın"

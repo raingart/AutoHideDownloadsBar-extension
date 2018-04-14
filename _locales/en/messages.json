@@ -95,6 +95,19 @@
       "message": "Show notification if file downloading status has changed"
    },
 
+   "opt_sound_notification": {
+      "description": "short description option - sound_notification",
+      "message": "Play notification sound"
+   },
+   "opt_sound_notification_tooltip": {
+      "description": "short description tooltip - sound_notification",
+      "message": "Default: OFF"
+   },
+   "opt_sound_notification_desc": {
+      "description": "full description option - sound_notification",
+      "message": "Disable if your notification system already uses an audio alert"
+   },
+
    "opt_type_icon_info": {
       "description": "short description option - type_icon_info",
       "message": "Select the type of indication on the toolbar"
@@ -169,7 +182,7 @@
 
    "donate_tooltip": {
       "description": "donate link title",
-      "message": "Help the project"
+      "message": "Help the project using Patreon"
    },
    "donate": {
       "description": "donate link",

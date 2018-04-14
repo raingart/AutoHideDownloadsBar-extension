@@ -1,4 +1,4 @@
-console.log(i18n("Conf_name") + ": init settings.js");
+console.log(i18n("app_name") + ": init options.js");
 
 window.addEventListener('load', (evt) => {
 
@@ -18,7 +18,10 @@ window.addEventListener('load', (evt) => {
                for (let thisVal of dependentsList[name]) {
                   let reqParent = document.getElementsByName(name)[0];
 
-                  if (reqParent.value == thisVal) {
+                  if (reqParent.checked && thisVal) {
+                     console.log('reqParent.checked');
+                     dependentItem.classList.remove("hide");
+                  } else if (reqParent.value == thisVal) {
                      dependentItem.classList.remove("hide");
                      // console.log(reqParent.value + '==' + thisVal);
                      break;
@@ -102,13 +105,9 @@ window.addEventListener('load', (evt) => {
             Conf.checkDependencies();
          });
 
-         document.getElementById('donate').addEventListener("click", function () {
-            const manifest = chrome.runtime.getManifest();
-            const payment = '1DbKD1rQXobztpsqx2dPZeMz1nKyRJCm9b';
-            // if (window.prompt("BTC payment:", payment))
-            let url = 'https://blockchain.info/reqPayment_parentuest?address=' + payment;
-            url += '&message=' + encodeURIComponent(manifest.short_name) + '+project';
-            window.open(url, '_blank');
+         form['showNotification'].addEventListener("change", function () {
+            console.log('showNotification', this.value);
+            Conf.checkDependencies();
          });
       },
 
