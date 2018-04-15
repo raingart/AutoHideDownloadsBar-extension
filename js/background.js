@@ -4,7 +4,7 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   DEBUG: true,
+   // DEBUG: true,
 
    runInterval: (statusDownload) => {
       App.log('runInterval: ', statusDownload);
@@ -29,7 +29,7 @@ const App = {
    },
 
    clearToolbar: () => {
-      var manifest = chrome.runtime.getManifest();
+      const manifest = chrome.runtime.getManifest();
       App.toolbar.setIcon({
          path: manifest.icons['16']
       });
@@ -43,7 +43,7 @@ const App = {
          case 'false':
             return false;
          case 'text':
-            var badgeText = texterProgressBar(pt);
+            let badgeText = texterProgressBar(pt);
             App.toolbar.setBadgeBackgroundColor(App.tempSaveStorage['colorPicker']);
             App.toolbar.setBadgeText(badgeText);
             break;
@@ -54,20 +54,20 @@ const App = {
       }
 
       function graficProgressBar(progress) {
-         var getDataDrawing = dataForDrawing(progress);
+         let getDataDrawing = dataForDrawing(progress);
 
          return draw(getDataDrawing);
 
          function dataForDrawing(progress) {
-            var color = (function () {
-               var color;
+            let color = (function () {
+               let color;
                // #00ff00 is default value 
                if (App.tempSaveStorage['colorPicker'] && App.tempSaveStorage['colorPicker'] != '#00ff00') {
                   color = App.tempSaveStorage['colorPicker'];
 
                   // set gradient
                } else {
-                  var options = {
+                  let options = {
                      'color': {
                         'startingHue': 0,
                         'endingHue': 120,
@@ -77,8 +77,8 @@ const App = {
                   }
 
                   // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
-                  var percentageToHsl = (percentage, fromHue, toHue) => {
-                     var hue = Math.round((percentage * (toHue - fromHue)) + fromHue);
+                  let percentageToHsl = (percentage, fromHue, toHue) => {
+                     let hue = Math.round((percentage * (toHue - fromHue)) + fromHue);
                      return 'hsla(' + hue + ', ' + options.color.saturation + '%, ' + options.color.lightness + '%, 0.8)';
                   }
 
@@ -87,7 +87,7 @@ const App = {
                return color;
             })();
 
-            var dataForDrawing = {
+            let dataForDrawing = {
                'color_bg': color,
                'color_text': App.tempSaveStorage['colorPickerText'],
                'progressRatio': (progress / 100),
@@ -102,7 +102,7 @@ const App = {
                dataForDrawing.outText = App.flashing();
             }
 
-            // var loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+            // let loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
             // App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
             // dataForDrawing.outText = loadingSymbol[App.circleNum];
 
@@ -112,14 +112,14 @@ const App = {
          }
 
          function draw(dataForDrawing) {
-            var canvas = genCanvas();
-            var context = canvas.getContext('2d')
+            let canvas = genCanvas();
+            let context = canvas.getContext('2d')
 
             return drawToCanvas(dataForDrawing.progressRatio)
                .getImageData(0, 0, canvas.width, canvas.height);
 
             function drawToCanvas(percentage) {
-               var ctx = context;
+               let ctx = context;
 
                // add background
                ctx.fillStyle = 'hsla(0, 0%, 0%, 0.1)';
@@ -146,7 +146,7 @@ const App = {
             }
 
             function genCanvas() {
-               var cvs = document.createElement('canvas');
+               let cvs = document.createElement('canvas');
 
                // cvs.setAttribute('width', 19);
                // cvs.setAttribute('height', 6);
@@ -163,9 +163,9 @@ const App = {
          if (Number.isInteger(progress))
             progress += '%';
          else {
-            var loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+            let loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
             App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
-            var progress = loadingSymbol[App.circleNum];
+            let progress = loadingSymbol[App.circleNum];
          }
          return progress;
       }
@@ -173,7 +173,7 @@ const App = {
    },
 
    getDownloadProgress: (callback) => {
-      var searchObj = {
+      let searchObj = {
          state: 'in_progress',
          // paused: false,
          orderBy: ['-startTime']
@@ -184,13 +184,13 @@ const App = {
       }
 
       chrome.downloads.search(searchObj, function (downloads) {
-         var totalSize = 0,
+         let totalSize = 0,
             totalReceived = 0,
             progress = 0,
             timeLeft = 0,
             countActive = downloads.length;
 
-         for (var download of downloads) {
+         for (let download of downloads) {
             App.log('downloadItem: ' + JSON.stringify(download));
 
             // skip crx
@@ -200,8 +200,8 @@ const App = {
             if (download.estimatedEndTime)
                timeLeft += new Date(download.estimatedEndTime) - new Date();
 
-            var fileSize = download.fileSize || download.totalBytes;
-            // var download_size = downloadItem.fileSize / 1024 / 1000;
+            let fileSize = download.fileSize || download.totalBytes;
+            // let download_size = downloadItem.fileSize / 1024 / 1000;
 
             // if undefined fileSize file
             if (!fileSize) {
@@ -227,7 +227,7 @@ const App = {
 
          if (countActive) {
             // set toolbar Title
-            var titleOut = '';
+            let titleOut = '';
             
             if (totalSize) {
                // size
@@ -267,17 +267,17 @@ const App = {
       setIcon: (obj) => { chrome.browserAction.setIcon(obj); },
 
       setTitle: (title) => {
-         var obj = { "title": title.toString().trim() || '' };
+         let obj = { "title": title.toString().trim() || '' };
          chrome.browserAction.setTitle(obj);
       },
 
       setBadgeText: (text) => {
-         var obj = { "text": text.toString().trim() || ''  };
+         let obj = { "text": text.toString().trim() || ''  };
          chrome.browserAction.setBadgeText(obj);
       },
 
       setBadgeBackgroundColor: (color) => {
-         var obj = { color: color || "black" };
+         let obj = { color: color || "black" };
          chrome.browserAction.setBadgeBackgroundColor(obj);
       },
       /* beautify preserve:end */
@@ -287,7 +287,7 @@ const App = {
       if (App.tempSaveStorage["showNotification"] &&
          item && item.state && item.state.previous === 'in_progress') {
 
-         var msg;
+         let msg;
 
          switch (item.state.current) {
             // The download completed successfully.
@@ -313,8 +313,8 @@ const App = {
             chrome.downloads.search({
                id: item.id
             }, function (downloads) {
-               var download = downloads[0];
-               var timeLong = Date.parse(download.endTime) - Date.parse(download.startTime);
+               let download = downloads[0];
+               let timeLong = Date.parse(download.endTime) - Date.parse(download.startTime);
 
                // skip notifity small file or small size
                // if (download_size > minimum_download_size) {
@@ -324,14 +324,14 @@ const App = {
                // console.log('download.fileSize', download.fileSize);
                App.log('Done notificationCheck get id', JSON.stringify(download));
 
-               var fileName = App.getFileNameFromPatch(download.filename);
+               let fileName = App.getFileNameFromPatch(download.filename);
                if (fileName && fileName.length > 50)
                   fileName = fileName.slice(0, 31) + "...";
 
                App.showNotification(i18n("noti_download_title"), fileName + '\n' + msg);
 
                if (App.tempSaveStorage["soundNotification"]) {
-                  var single_file_done = new Audio('/audio/beep.wav');
+                  let single_file_done = new Audio('/audio/beep.wav');
                   single_file_done.play();
                }
             });
@@ -345,7 +345,7 @@ const App = {
    },
 
    formatBytes: function (bytes) {
-      var size;
+      let size;
       return 0 >= bytes ? "0 B" : (
          size = Math.floor(Math.log(bytes) / Math.log(1024)),
          (bytes / Math.pow(1024, size)).toFixed(1) + " " + ["B", "KB", "MB", "GB", "TB"][size]
@@ -353,7 +353,7 @@ const App = {
    },
 
    formatInterval: function (ms_timeSpan) {
-      var day, min, sec;
+      let day, min, sec;
       return sec = Math.floor(ms_timeSpan / 1e3), 0 >= sec ? "0 secs" : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["secs", "mins", "hours"][min]))
    },
 
@@ -369,26 +369,26 @@ const App = {
 
       chrome.notifications.create('info', {
          type: 'basic', //'basic', 'image', 'list', 'progress'
-         iconUrl: typeof (icon) === 'undefined' ? manifest.icons[128] : '/icons/' + icon,
+         iconUrl: typeof (icon) === 'undefined' ? manifest.icons['48'] : '/icons/' + icon,
          title: title || i18n("app_name"),
          message: msg || '',
+         // "priority": 2,
       }, function (notificationId) {
          chrome.notifications.onClicked.addListener(function (callback) {
-            // chrome.notifications.clear(notificationId);
             chrome.notifications.clear(notificationId, callback);
          });
       });
    },
 
    openTab: (url) => {
-      var openUrl = url || 'chrome://newtab';
+      let openUrl = url || 'chrome://newtab';
 
       // chrome.tabs.getAllInWindow(null, function (tabs) {
       chrome.tabs.query({
          "currentWindow": true
       }, function (tabs) {
          // search for the existing tab 
-         for (var tab of tabs) {
+         for (let tab of tabs) {
             // is finded - focus
             if (tab.url === openUrl)
                return chrome.tabs.update(tab.id, {
@@ -406,7 +406,7 @@ const App = {
    // Saves/Load options to localStorage/chromeSync.
    confStorage: {
       load: () => {
-         var callback = (res) => {
+         let callback = (res) => {
             App.log('confStorage', JSON.stringify(res));
             App.tempSaveStorage = res;
 
@@ -422,7 +422,7 @@ const App = {
       chrome.downloads.onCreated.addListener(function (item) {
          App.log('downloadCreated init');
 
-         var shelf = App.tempSaveStorage.shelfEnabled || App.tempSaveStorage.ShowDownBar || false;
+         let shelf = App.tempSaveStorage.shelfEnabled || App.tempSaveStorage.ShowDownBar || false;
          chrome.downloads.setShelfEnabled(shelf);
       });
 
@@ -441,9 +441,9 @@ const App = {
       chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
          switch (request.name) {
             // case 'getOptions':
-            //   var defaults = {};
-            //   var resp = {};
-            //   for (var key in defaults) {
+            //   let defaults = {};
+            //   let resp = {};
+            //   for (let key in defaults) {
             //       if (!(key in localStorage)) {
             //           localStorage[key] = defaults[key];
             //       }
@@ -472,37 +472,10 @@ const App = {
       App.clearToolbar();
    },
 
-   log: (msg, arg) => {
-      var arg = arg === undefined ? '' : arg;
+   log: (msg, args) => {
+      let arg = args === undefined ? '' : args;
       App.DEBUG && console.log('[+] ' + msg.toString().trim(), arg)
    },
 }
 
 App.init();
-
-
-// chrome.notifications.onButtonClicked.addListener(function(notificationId, buttonIndex) {
-//    var buttonIndexEnum = {
-//        "SHOW_FOLDER": 0
-//    }
-
-//    DEBUG && console.log("Button Index: " + buttonIndex);
-
-//    if (buttonIndex === buttonIndexEnum.SHOW_FOLDER) {
-
-//        DEBUG && console.log("Notification Id: " + notificationId);
-//        DEBUG && console.log("Completed Downloads Stack");
-//        DEBUG && console.log(completed_downloads_stack);
-
-//        for (var i = 0; i < completed_downloads_stack.length; ++i) {
-//            var completed_item = completed_downloads_stack[i];
-
-
-//            if (notificationId === completed_item.notification_id) {
-//                DEBUG && console.log("Show Notification Download Location.");
-//                chrome.downloads.show(completed_item.download_id);
-//            }
-//        }
-
-//    }
-// });
