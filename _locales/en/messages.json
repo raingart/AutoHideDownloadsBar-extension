@@ -20,26 +20,21 @@
       "message": "Open Downloads Page"
    },
 
-   "title_count_active": {
-      "description": "Extension's title",
-      "message": "active"
-   },
-
    "noti_download_title": {
       "description": "notification message download is complete",
-      "message": "The download file"
+      "message": "Download"
    },
    "noti_download_complete": {
       "description": "notification message download is complete",
-      "message": "Completed successfully"
+      "message": "completed"
    },
    "noti_download_interrupted": {
       "description": "notification message download is interrupted",
-      "message": "An error"
+      "message": "an error"
    },
    "noti_download_canceled": {
       "description": "notification message download is canceled",
-      "message": "Canceled"
+      "message": "canceled"
    },
 
    "opt_setting": {

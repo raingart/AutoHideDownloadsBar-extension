@@ -15,21 +15,17 @@
       "message": "İndirilenler Sayfasını Aç"
    },
 
-   "title_count_active": {
-      "message": "aktif"
-   },
-
    "noti_download_title": {
-      "message": "İndirilen dosya"
+      "message": "İndirilen"
    },
    "noti_download_complete": {
-      "message": "Başarıyla tamamlandı"
+      "message": "başarıyla"
    },
    "noti_download_interrupted": {
-      "message": "Hata"
+      "message": "hata"
    },
    "noti_download_canceled": {
-      "message": "İptal edildi"
+      "message": "iptal edildi"
    },
 
    "opt_setting": {

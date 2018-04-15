@@ -228,7 +228,7 @@ const App = {
          if (countActive) {
             // set toolbar Title
             let titleOut = '';
-            
+
             if (totalSize) {
                // size
                titleOut += App.formatBytes(totalReceived) + " of ";
@@ -243,7 +243,7 @@ const App = {
 
             // count
             if (countActive > 1)
-               titleOut += ' ' + i18n("title_count_active") + ': ' + countActive;
+               titleOut += ' ' + 'active: ' + countActive;
 
             App.toolbar.setTitle(titleOut);
 
@@ -316,10 +316,15 @@ const App = {
                let download = downloads[0];
                let timeLong = Date.parse(download.endTime) - Date.parse(download.startTime);
 
+               let minimum_download_time = 3000; // ms
+
                // skip notifity small file or small size
-               // if (download_size > minimum_download_size) {
-               if (timeLong < 3000 || download.fileSize <= 1)
+               if (download.fileSize <= 1 ||
+                  // || download_size > minimum_download_size
+                  timeLong < minimum_download_time
+               )
                   return false;
+
                // console.log('timeLong', timeLong);
                // console.log('download.fileSize', download.fileSize);
                App.log('Done notificationCheck get id', JSON.stringify(download));
@@ -328,7 +333,7 @@ const App = {
                if (fileName && fileName.length > 50)
                   fileName = fileName.slice(0, 31) + "...";
 
-               App.showNotification(i18n("noti_download_title"), fileName + '\n' + msg);
+               App.showNotification(i18n("noti_download_title") + ' ' + msg, fileName);
 
                if (App.tempSaveStorage["soundNotification"]) {
                   let single_file_done = new Audio('/audio/beep.wav');

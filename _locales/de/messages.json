@@ -15,21 +15,17 @@
       "message": "Öffne Download Seite"
    },
 
-   "title_count_active": {
-      "message": "aktiv"
-   },
-
    "noti_download_title": {
-      "message": "Die Download-Datei"
+      "message": "Download"
    },
    "noti_download_complete": {
-      "message": "Erfolgreich beendet"
+      "message": "erfolgreich"
    },
    "noti_download_interrupted": {
-      "message": "Ein Fehler"
+      "message": "ein Fehler"
    },
    "noti_download_canceled": {
-      "message": "Abgebrochen"
+      "message": "abgebrochen"
    },
 
    "opt_setting": {
