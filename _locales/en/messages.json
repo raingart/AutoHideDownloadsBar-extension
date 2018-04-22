@@ -177,7 +177,7 @@
 
    "donate_tooltip": {
       "description": "donate link title",
-      "message": "Help the project using Patreon"
+      "message": "Support with Patreon"
    },
    "donate": {
       "description": "donate link",

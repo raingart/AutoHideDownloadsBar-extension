@@ -248,8 +248,10 @@ const App = {
             App.toolbar.setTitle(titleOut);
 
          } else {
+            // if ((item.state.current == 'complete') && item.endTime && !item.error) {
             // hide panel
             chrome.downloads.setShelfEnabled(false);
+             // }
          }
 
          App.log('countActive ', countActive);

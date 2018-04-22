@@ -16,5 +16,6 @@ zip -r $FILENAME.zip \
                   icons/128.png \
                   js/*.js \
                   lib/*.js \
+                  audio/* \
                   manifest.json \
 # -z $TODAY

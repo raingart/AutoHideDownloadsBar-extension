@@ -5,11 +5,11 @@
 
    const manifest = chrome.runtime.getManifest();
 
-   let uninstallUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdgDabLtk8vapLTEXKoXucHVXLrDujBrXZg418mGrLE0zND2g/viewform?usp=pp_url&entry.1936476946&entry.1337380930&entry.1757501795=";
-   uninstallUrl += encodeURIComponent(manifest.short_name + ' (v' + manifest.version + ')');
-
    if (!App.debug) {
-      chrome.runtime.setUninstallURL(uninstallUrl, function () {});
+      var uninstallGoogleFormLink = "https://docs.google.com/forms/d/e/1FAIpQLSdgDabLtk8vapLTEXKoXucHVXLrDujBrXZg418mGrLE0zND2g/viewform?usp=pp_url&entry.1936476946&entry.1337380930&entry.1757501795=";
+      uninstallGoogleFormLink += encodeURIComponent(manifest.short_name + ' (v' + manifest.version + ')');
+
+      chrome.runtime.setUninstallURL(uninstallGoogleFormLink);
    }
 
    // Check whether new version is installed
