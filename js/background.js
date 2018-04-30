@@ -4,7 +4,7 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   // DEBUG: true,
+   DEBUG: true,
 
    runInterval: (statusDownload) => {
       App.log('runInterval: ', statusDownload);
@@ -13,7 +13,7 @@ const App = {
             App.log('setInterval');
             App.isBusy = true;
             App.temploadingMessage = setInterval(function () {
-               App.getDownloadProgress(App.updateBrowserActionIcon);
+               App.getDownloadProgress(App.updateToolbarIcon.indicate);
                App.log('setInterval RUN');
             }, 800);
          }
@@ -22,13 +22,13 @@ const App = {
          App.log('clearInterval');
          App.isBusy = false;
          clearInterval(App.temploadingMessage);
-         App.clearToolbar();
+         App.clearToolbarIcon();
 
       } else
          App.log('runInterval stop');
    },
 
-   clearToolbar: () => {
+   clearToolbarIcon: () => {
       const manifest = chrome.runtime.getManifest();
       App.toolbar.setIcon({
          path: manifest.icons['16']
@@ -37,33 +37,40 @@ const App = {
       App.toolbar.setTitle(i18n("app_title"));
    },
 
-   updateBrowserActionIcon: (pt) => {
+   updateToolbarIcon: {
 
-      switch (App.tempSaveStorage['typeIconInfo'] /*.toLowerCase()*/ ) {
-         case 'false':
-            return false;
-         case 'text':
-            let badgeText = texterProgressBar(pt);
-            App.toolbar.setBadgeBackgroundColor(App.tempSaveStorage['colorPicker']);
-            App.toolbar.setBadgeText(badgeText);
-            break;
-         default:
-            App.toolbar.setIcon({
-               imageData: graficProgressBar(pt)
-            });
-      }
+      indicate: (pt) => {
+         switch (App.tempOptions['typeIconInfo'] /*.toLowerCase()*/ ) {
+            case 'false':
+               return false;
 
-      function graficProgressBar(progress) {
+            case 'text':
+               App.toolbar.setBadgeBackgroundColor(
+                  App.tempOptions['colorPicker']
+               );
+               App.toolbar.setBadgeText(
+                  App.updateToolbarIcon.textProgressBar(pt)
+               );
+               break;
+
+            default:
+               App.toolbar.setIcon({
+                  imageData: App.updateToolbarIcon.graficProgressBar(pt)
+               });
+         }
+      },
+
+      graficProgressBar: (progress) => {
          let getDataDrawing = dataForDrawing(progress);
 
-         return draw(getDataDrawing);
+         return drawToolbarIcon(getDataDrawing);
 
          function dataForDrawing(progress) {
             let color = (function () {
                let color;
                // #00ff00 is default value 
-               if (App.tempSaveStorage['colorPicker'] && App.tempSaveStorage['colorPicker'] != '#00ff00') {
-                  color = App.tempSaveStorage['colorPicker'];
+               if (App.tempOptions['colorPicker'] && App.tempOptions['colorPicker'] != '#00ff00') {
+                  color = App.tempOptions['colorPicker'];
 
                   // set gradient
                } else {
@@ -89,7 +96,7 @@ const App = {
 
             let dataForDrawing = {
                'color_bg': color,
-               'color_text': App.tempSaveStorage['colorPickerText'],
+               'color_text': App.tempOptions['colorPickerText'],
                'progressRatio': (progress / 100),
                'outText': progress,
             }
@@ -111,14 +118,14 @@ const App = {
             return dataForDrawing;
          }
 
-         function draw(dataForDrawing) {
+         function drawToolbarIcon(dataForDrawing) {
             let canvas = genCanvas();
             let context = canvas.getContext('2d')
 
-            return drawToCanvas(dataForDrawing.progressRatio)
+            return drawProgressBar(dataForDrawing.progressRatio)
                .getImageData(0, 0, canvas.width, canvas.height);
 
-            function drawToCanvas(percentage) {
+            function drawProgressBar(ratio) {
                let ctx = context;
 
                // add background
@@ -127,10 +134,10 @@ const App = {
 
                // add progress
                ctx.fillStyle = dataForDrawing.color_bg;
-               ctx.fillRect(0, 0, parseInt(canvas.width * percentage), canvas.height);
+               ctx.fillRect(0, 0, parseInt(canvas.width * ratio), canvas.height);
 
                // add pt
-               if (App.tempSaveStorage['typeIconInfo'] != 'svg_notext') {
+               if (App.tempOptions['typeIconInfo'] != 'svg_notext') {
                   // create style text
                   ctx.textAlign = 'center';
                   ctx.textBaseline = 'middle';
@@ -141,25 +148,22 @@ const App = {
 
                   ctx.fillText(dataForDrawing.outText.toString(), canvas.width / 2, canvas.height / 2);
                }
-
                return ctx;
             }
 
             function genCanvas() {
                let cvs = document.createElement('canvas');
-
                // cvs.setAttribute('width', 19);
                // cvs.setAttribute('height', 6);
                cvs.width = 16;
                cvs.height = 16;
-
                return cvs;
             }
 
          }
-      }
+      },
 
-      function texterProgressBar(progress) {
+      textProgressBar: (progress) => {
          if (Number.isInteger(progress))
             progress += '%';
          else {
@@ -175,11 +179,11 @@ const App = {
    getDownloadProgress: (callback) => {
       let searchObj = {
          state: 'in_progress',
-         // paused: false,
+         paused: false,
          orderBy: ['-startTime']
       }
 
-      if (App.tempSaveStorage["showLastProgress"]) {
+      if (App.tempOptions["showLastProgress"]) {
          searchObj['limit'] = 1;
       }
 
@@ -208,12 +212,14 @@ const App = {
                totalSize = false;
                progress = 'infinity';
                break;
-               //    continue;
             }
 
             totalSize += fileSize;
-
             totalReceived += download.bytesReceived;
+
+            // if (App.is_dangerous) {
+            //    console.log('is_dangerous ' + App.is_dangerous);
+            // }
 
             // skip downloaded file ask: keep/discard
             if (download.danger != "safe" && totalReceived === fileSize)
@@ -231,14 +237,12 @@ const App = {
 
             if (totalSize) {
                // size
-               titleOut += App.formatBytes(totalReceived) + " of ";
-               titleOut += totalSize ? App.formatBytes(totalSize) : "unknown size";
-
+               titleOut += App.bytesFormat(totalReceived) + " of ";
+               titleOut += totalSize ? App.bytesFormat(totalSize) : "unknown size";
                // pt
-               titleOut += "\n(" + progress + "%)";
-
+               titleOut += "\n" + progress + "%";
                // left time
-               titleOut += ", " + App.formatInterval(timeLeft) + " left";
+               titleOut += ", " + App.timeFormat(timeLeft) + " left";
             }
 
             // count
@@ -251,7 +255,7 @@ const App = {
             // if ((item.state.current == 'complete') && item.endTime && !item.error) {
             // hide panel
             chrome.downloads.setShelfEnabled(false);
-             // }
+            // }
          }
 
          App.log('countActive ', countActive);
@@ -286,27 +290,26 @@ const App = {
    },
 
    notificationCheck: (item) => {
-      if (App.tempSaveStorage["showNotification"] &&
+      if (App.tempOptions["showNotification"] &&
          item && item.state && item.state.previous === 'in_progress') {
 
          let msg;
 
          switch (item.state.current) {
-            // The download completed successfully.
             case 'complete':
                msg = i18n("noti_download_complete");
                break;
-               // An error broke the connection with the file host.
+
             case 'interrupted':
                if (item.error.current === 'USER_CANCELED') {
                   // msg = i18n("noti_download_canceled");
                } else
                   msg = i18n("noti_download_interrupted");
                break;
-               // The download is currently receiving data from the server.
+
             case 'in_progress':
                return false;
-               // break;
+
             default:
                return false;
          }
@@ -337,7 +340,7 @@ const App = {
 
                App.showNotification(i18n("noti_download_title") + ' ' + msg, fileName);
 
-               if (App.tempSaveStorage["soundNotification"]) {
+               if (App.tempOptions["soundNotification"]) {
                   let single_file_done = new Audio('/audio/beep.wav');
                   single_file_done.play();
                }
@@ -345,13 +348,17 @@ const App = {
       }
    },
 
+   // is_dangerous: (e) => {
+   //    return !/safe|accepted/.test(e.danger) && e.state == 'in_progress';
+   // },
+
    getFileNameFromPatch: (path) => {
       if (typeof (path) !== 'undefined')
          // return patch.split(/[^/]*$/g).pop();
          return path.split(/(\\|\/)/g).pop();
    },
 
-   formatBytes: function (bytes) {
+   bytesFormat: function (bytes) {
       let size;
       return 0 >= bytes ? "0 B" : (
          size = Math.floor(Math.log(bytes) / Math.log(1024)),
@@ -359,9 +366,19 @@ const App = {
       )
    },
 
-   formatInterval: function (ms_timeSpan) {
-      let day, min, sec;
-      return sec = Math.floor(ms_timeSpan / 1e3), 0 >= sec ? "0 secs" : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["secs", "mins", "hours"][min]))
+   //timeFormat: function (ms /*milliSeconds*/ ) {
+   /*   let day, min, sec;
+      return sec = Math.floor(ms / 1e3), 0 >= sec ? "0 secs" : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["secs", "mins", "hours"][min]))
+   },*/
+
+   timeFormat: (ms) => {
+      let s = Math.floor(ms / 1e3);
+      if (s < 60) return Math.ceil(s) + " secs";
+      if (s < 300) return Math.floor(s / 60) + " mins " + Math.ceil(s % 60) + " secs";
+      if (s < 3600) return Math.ceil(s / 60) + " mins";
+      if (s < 18000) return Math.floor(s / 3600) + " hours " + (Math.ceil(s / 60) % 60) + " mins";
+      if (s < 86400) return Math.ceil(s / 3600) + " hours";
+      return Math.ceil(s / 86400) + " days";
    },
 
    counter_tmp: 0,
@@ -415,29 +432,35 @@ const App = {
       load: () => {
          let callback = (res) => {
             App.log('confStorage', JSON.stringify(res));
-            App.tempSaveStorage = res;
+            App.tempOptions = res;
 
-            App.pulse();
+            App.refresh();
          };
          // load store settings
          Storage.getParams(null /*all*/ , callback, true /* true=sync, false=local */ );
       },
+      // load: () => {
+      //    chrome.storage.sync.get(null, function (options) {
+      //       App.log('confStorage', JSON.stringify(options));
+      //       App.tempOptions = options;
+      //       App.refresh();
+      //    });
+      // },
    },
 
    // Register the event handlers.
    eventListener: () => {
       chrome.downloads.onCreated.addListener(function (item) {
-         App.log('downloadCreated init');
-
-         let shelf = App.tempSaveStorage.shelfEnabled || App.tempSaveStorage.ShowDownBar || false;
+         App.log('downloads.onCreated');
+         let shelf = App.tempOptions.shelfEnabled || App.tempOptions.ShowDownBar ? true : false;
          chrome.downloads.setShelfEnabled(shelf);
       });
 
       chrome.downloads.onChanged.addListener(function (item) {
-         App.log('downloadChanged init');
+         App.log('downloads.onChanged');
          App.log('onChanged item', JSON.stringify(item));
 
-         App.pulse(item);
+         App.refresh(item);
       });
 
       // called when the icon is clicked
@@ -459,8 +482,8 @@ const App = {
             //   sendResponse(resp);
             // break;
             case 'setOptions':
-               App.tempSaveStorage = request.options;
-               App.clearToolbar();
+               App.tempOptions = request.options;
+               App.clearToolbarIcon();
                break;
          }
       });
@@ -468,7 +491,7 @@ const App = {
       // single_file_done.addEventListener("ended", checkDownloadStack);
    },
 
-   pulse: (item) => {
+   refresh: (item) => {
       App.getDownloadProgress(App.runInterval);
       App.notificationCheck(item);
    },
@@ -476,7 +499,7 @@ const App = {
    init: () => {
       App.confStorage.load();
       App.eventListener();
-      App.clearToolbar();
+      App.clearToolbarIcon();
    },
 
    log: (msg, args) => {
