@@ -4,7 +4,7 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   DEBUG: true,
+   // DEBUG: true,
 
    runInterval: (statusDownload) => {
       App.log('runInterval: ', statusDownload);
@@ -242,12 +242,12 @@ const App = {
                // pt
                titleOut += "\n" + progress + "%";
                // left time
-               titleOut += ", " + App.timeFormat(timeLeft) + " left";
+               titleOut += " / " + App.timeFormat(timeLeft) + " left";
             }
 
             // count
             if (countActive > 1)
-               titleOut += ' ' + 'active: ' + countActive;
+               titleOut += '\n' + 'active: ' + countActive;
 
             App.toolbar.setTitle(titleOut);
 
@@ -358,7 +358,7 @@ const App = {
          return path.split(/(\\|\/)/g).pop();
    },
 
-   bytesFormat: function (bytes) {
+   bytesFormat: (bytes) => {
       let size;
       return 0 >= bytes ? "0 B" : (
          size = Math.floor(Math.log(bytes) / Math.log(1024)),
@@ -366,20 +366,20 @@ const App = {
       )
    },
 
-   //timeFormat: function (ms /*milliSeconds*/ ) {
-   /*   let day, min, sec;
-      return sec = Math.floor(ms / 1e3), 0 >= sec ? "0 secs" : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["secs", "mins", "hours"][min]))
-   },*/
-
    timeFormat: (ms) => {
-      let s = Math.floor(ms / 1e3);
-      if (s < 60) return Math.ceil(s) + " secs";
-      if (s < 300) return Math.floor(s / 60) + " mins " + Math.ceil(s % 60) + " secs";
-      if (s < 3600) return Math.ceil(s / 60) + " mins";
-      if (s < 18000) return Math.floor(s / 3600) + " hours " + (Math.ceil(s / 60) % 60) + " mins";
-      if (s < 86400) return Math.ceil(s / 3600) + " hours";
-      return Math.ceil(s / 86400) + " days";
+      let day, min, sec;
+      return sec = Math.floor(ms / 1e3), 0 >= sec ? "0 secs" : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["secs", "mins", "hours"][min]))
    },
+
+   // timeFormat: (ms) => {
+   //    let s = Math.floor(ms / 1e3);
+   //    if (s < 60) return Math.ceil(s) + " secs";
+   //    if (s < 300) return Math.floor(s / 60) + " mins " + Math.ceil(s % 60) + " secs";
+   //    if (s < 3600) return Math.ceil(s / 60) + " mins";
+   //    if (s < 18000) return Math.floor(s / 3600) + " hours " + (Math.ceil(s / 60) % 60) + " mins";
+   //    if (s < 86400) return Math.ceil(s / 3600) + " hours";
+   //    return Math.ceil(s / 86400) + " days";
+   // },
 
    counter_tmp: 0,
 
