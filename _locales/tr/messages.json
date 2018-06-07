@@ -50,7 +50,7 @@
    },
 
    "opt_show_last_progress": {
-      "message": "Son dosya indirildikten sonra, indirme işlemini göster"
+      "message": "Sadece indirilecek son dosyayı indirmenin ilerlemesini göster"
    },
    "opt_show_last_progress_tooltip": {
       "message": "Varsayılan: KAPALI"

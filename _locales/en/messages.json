@@ -66,7 +66,7 @@
 
    "opt_show_last_progress": {
       "description": "short description option - show_last_progress",
-      "message": "Show download progress only last downloaded file"
+      "message": "Show progress of downloading only the last file to be downloaded"
    },
    "opt_show_last_progress_tooltip": {
       "description": "short description tooltip - show_last_progress",

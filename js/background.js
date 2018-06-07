@@ -38,7 +38,6 @@ const App = {
    },
 
    updateToolbarIcon: {
-
       indicate: (pt) => {
          switch (App.tempOptions['typeIconInfo'] /*.toLowerCase()*/ ) {
             case 'false':
@@ -108,10 +107,6 @@ const App = {
             } else if (dataForDrawing.outText === 'infinity') {
                dataForDrawing.outText = App.flashing();
             }
-
-            // let loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
-            // App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
-            // dataForDrawing.outText = loadingSymbol[App.circleNum];
 
             App.log('dataForDrawing ', JSON.stringify(dataForDrawing));
 
@@ -192,6 +187,7 @@ const App = {
             totalReceived = 0,
             progress = 0,
             timeLeft = 0,
+            countInfinity = 0,
             countActive = downloads.length;
 
          for (let download of downloads) {
@@ -209,17 +205,13 @@ const App = {
 
             // if undefined fileSize file
             if (!fileSize) {
-               totalSize = false;
-               progress = 'infinity';
-               break;
+               countInfinity += 1,
+                  App.log('find infinity ' + countInfinity);
+               continue;
             }
 
             totalSize += fileSize;
             totalReceived += download.bytesReceived;
-
-            // if (App.is_dangerous) {
-            //    console.log('is_dangerous ' + App.is_dangerous);
-            // }
 
             // skip downloaded file ask: keep/discard
             if (download.danger != "safe" && totalReceived === fileSize)
@@ -228,7 +220,7 @@ const App = {
                }
 
             // progress = Math.min(100, Math.floor(100 * totalReceived / totalSize) || 0) || '--';
-            progress = Math.min(100, Math.floor(100 * totalReceived / totalSize) || 0) || '0';
+            progress = Math.min(100, Math.floor(100 * totalReceived / totalSize) || 0);
          };
 
          if (countActive) {
@@ -242,12 +234,24 @@ const App = {
                // pt
                titleOut += "\n" + progress + "%";
                // left time
-               titleOut += " / " + App.timeFormat(timeLeft) + " left";
+               titleOut += " / " + App.timeFormat_short(timeLeft) + " left";
             }
 
             // count
-            if (countActive > 1)
+            if (countActive > 1) {
                titleOut += '\n' + 'active: ' + countActive;
+               // let badgeText = countInfinity ? countInfinity + '/' + countActive : countActive
+               // App.toolbar.setBadgeText(badgeText);
+            }
+            // ignored
+            if (countInfinity) {
+               titleOut += ' | ignore: ' + countInfinity;
+               // full ignored
+               if (countInfinity >= countActive) {
+                  totalSize = false;
+                  progress = 'infinity';
+               }
+            }
 
             App.toolbar.setTitle(titleOut);
 
@@ -290,8 +294,7 @@ const App = {
    },
 
    notificationCheck: (item) => {
-      if (App.tempOptions["showNotification"] &&
-         item && item.state && item.state.previous === 'in_progress') {
+      if (item && item.state && item.state.previous === 'in_progress') {
 
          let msg;
 
@@ -303,8 +306,10 @@ const App = {
             case 'interrupted':
                if (item.error.current === 'USER_CANCELED') {
                   // msg = i18n("noti_download_canceled");
-               } else
+               } else {
                   msg = i18n("noti_download_interrupted");
+                  // alert('interrupted dwon'); //TODO delete test
+               }
                break;
 
             case 'in_progress':
@@ -341,16 +346,12 @@ const App = {
                App.showNotification(i18n("noti_download_title") + ' ' + msg, fileName);
 
                if (App.tempOptions["soundNotification"]) {
-                  let single_file_done = new Audio('/audio/beep.wav');
+                  let single_file_done = new Audio('/audio/beep.ogg');
                   single_file_done.play();
                }
             });
       }
    },
-
-   // is_dangerous: (e) => {
-   //    return !/safe|accepted/.test(e.danger) && e.state == 'in_progress';
-   // },
 
    getFileNameFromPatch: (path) => {
       if (typeof (path) !== 'undefined')
@@ -366,12 +367,12 @@ const App = {
       )
    },
 
-   timeFormat: (ms) => {
+   timeFormat_short: (ms) => {
       let day, min, sec;
       return sec = Math.floor(ms / 1e3), 0 >= sec ? "0 secs" : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["secs", "mins", "hours"][min]))
    },
 
-   // timeFormat: (ms) => {
+   // timeFormat_full: (ms) => {
    //    let s = Math.floor(ms / 1e3);
    //    if (s < 60) return Math.ceil(s) + " secs";
    //    if (s < 300) return Math.floor(s / 60) + " mins " + Math.ceil(s % 60) + " secs";
@@ -493,7 +494,8 @@ const App = {
 
    refresh: (item) => {
       App.getDownloadProgress(App.runInterval);
-      App.notificationCheck(item);
+      if (App.tempOptions["showNotification"])
+         App.notificationCheck(item);
    },
 
    init: () => {

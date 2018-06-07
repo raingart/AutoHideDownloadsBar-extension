@@ -50,7 +50,7 @@
    },
 
    "opt_show_last_progress": {
-      "message": "Zeige nur den Download Fortschritt der letzte heruntergeladenen Datei"
+      "message": "Zeige den Fortschritt beim Herunterladen nur der letzten Datei, die heruntergeladen werden soll"
    },
    "opt_show_last_progress_tooltip": {
       "message": "Standard: AUS"
