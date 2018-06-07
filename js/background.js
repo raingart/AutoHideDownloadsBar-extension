@@ -4,7 +4,7 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   // DEBUG: true,
+   DEBUG: true,
 
    runInterval: (statusDownload) => {
       App.log('runInterval: ', statusDownload);
@@ -204,9 +204,9 @@ const App = {
             // let download_size = downloadItem.fileSize / 1024 / 1000;
 
             // if undefined fileSize file
-            if (!fileSize) {
+            if (!download.estimatedEndTime) {
                countInfinity += 1,
-                  App.log('find infinity ' + countInfinity);
+               App.log('find infinity ' + countInfinity);
                continue;
             }
 
@@ -295,7 +295,6 @@ const App = {
 
    notificationCheck: (item) => {
       if (item && item.state && item.state.previous === 'in_progress') {
-
          let msg;
 
          switch (item.state.current) {
