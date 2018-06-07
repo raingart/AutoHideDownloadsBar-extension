@@ -4,7 +4,7 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   DEBUG: true,
+   // DEBUG: true,
 
    runInterval: (statusDownload) => {
       App.log('runInterval: ', statusDownload);
@@ -200,15 +200,15 @@ const App = {
             if (download.estimatedEndTime)
                timeLeft += new Date(download.estimatedEndTime) - new Date();
 
-            let fileSize = download.fileSize || download.totalBytes;
-            // let download_size = downloadItem.fileSize / 1024 / 1000;
-
             // if undefined fileSize file
-            if (!download.estimatedEndTime) {
-               countInfinity += 1,
+            else {
+               countInfinity += 1;
                App.log('find infinity ' + countInfinity);
                continue;
             }
+
+            let fileSize = download.fileSize || download.totalBytes;
+            // let download_size = downloadItem.fileSize / 1024 / 1000;
 
             totalSize += fileSize;
             totalReceived += download.bytesReceived;
