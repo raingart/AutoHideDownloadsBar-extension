@@ -77,3 +77,11 @@ div.between {
 div.between>a {
    align-self: center;
 }
+
+.warn {
+   color: #ff2525;
+}
+
+input[type=number] {
+   width: 3em;
+}

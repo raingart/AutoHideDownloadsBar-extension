@@ -48,6 +48,19 @@
    "opt_show_download_panel_desc": {
       "message": "İndirilenler çubuğu, indirmeler tamamlandıktan sonra gizlenir"
    },
+   "opt_show_download_panel_warn": {
+      "message": "Şimdi aktif indirme ile doğru çalışma mümkün değil!"
+   },
+
+   "opt_show_download_panel_timeout": {
+      "message": "İndirdikten sonra paneli gizlemeden önce saniye cinsinden gecikme"
+   },
+   "opt_show_download_panel_timeout_tooltip": {
+      "message": "Varsayılan: 0"
+   },
+   "opt_show_download_panel_timeout_desc": {
+      "message": "İndirilen dosya üzerindeki etki için bir zaman gecikmesi kullanın"
+   },
 
    "opt_show_last_progress": {
       "message": "Sadece indirilecek son dosyayı indirmenin ilerlemesini göster"

@@ -63,6 +63,23 @@
       "description": "full description option - show_download_panel",
       "message": "Hiding the downloads bar occurs only after downloads finished"
    },
+   "opt_show_download_panel_warn": {
+      "description": "description",
+      "message": "Correct work with now active downloads is not possible!"
+   },
+
+   "opt_show_download_panel_timeout": {
+      "description": "short description option - show_download_panel_timeout",
+      "message": "Delay in seconds before hiding the panel after downloading"
+   },
+   "opt_show_download_panel_timeout_tooltip": {
+      "description": "short description tooltip - show_download_panel_timeout",
+      "message": "Default: 0"
+   },
+   "opt_show_download_panel_timeout_desc": {
+      "description": "full description option - show_download_panel_timeout",
+      "message": "Use a time delay for the impact on the downloaded file"
+   },
 
    "opt_show_last_progress": {
       "description": "short description option - show_last_progress",

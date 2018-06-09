@@ -48,6 +48,19 @@
    "opt_show_download_panel_desc": {
       "message": "Das Verstecken der Download-Leiste erfolgt erst nach dem Download"
    },
+   "opt_show_download_panel_warn": {
+      "message": "Korrekte Arbeit mit jetzt aktiven Downloads ist nicht möglich!"
+   },
+
+   "opt_show_download_panel_timeout": {
+      "message": "Verzögerung in Sekunden, bevor das Panel nach dem Herunterladen ausgeblendet wird"
+   },
+   "opt_show_download_panel_timeout_tooltip": {
+      "message": "Standard: 0"
+   },
+   "opt_show_download_panel_timeout_desc": {
+      "message": "Verwenden Sie eine Zeitverzögerung für die Auswirkungen auf die heruntergeladene Datei"
+   },
 
    "opt_show_last_progress": {
       "message": "Zeige den Fortschritt beim Herunterladen nur der letzten Datei, die heruntergeladen werden soll"

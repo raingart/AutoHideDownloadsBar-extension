@@ -14,7 +14,3 @@ You can now load the extension into your browser through the browser's extension
 - Type `chrome://extensions` in your address bar to bring up the extensions page.
 - Enable developer mode (checkbox)
 - Click the "Load unpacked extension" button, navigate to the build folder of your local extension instance, and click "Ok".
-
-### Localization
-[docs.google](https://docs.google.com/spreadsheets/d/1dLJcZYM7VJGuehrz0Ezok2TGLCO79KSQWZqPecAVl2k/edit?usp=sharing)
-

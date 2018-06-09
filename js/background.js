@@ -254,7 +254,9 @@ const App = {
          } else {
             // if ((item.state.current == 'complete') && item.endTime && !item.error) {
             // hide panel
-            chrome.downloads.setShelfEnabled(false);
+            setTimeout(function () {
+               chrome.downloads.setShelfEnabled(false);
+            }, Number(App.sessionSettings["shelfTimeout"]) * 1000 || 0);
             // }
          }
 
