@@ -8,22 +8,19 @@ const App = {
 
    runInterval: (statusDownload) => {
       App.log('runInterval: ', statusDownload);
-      if (statusDownload) {
-         if (!App.isBusy) {
-            App.log('setInterval');
-            App.isBusy = true;
-            App.temploadingMessage = setInterval(function () {
-               App.getDownloadProgress(App.updateToolbarIcon.indicate);
-               App.log('setInterval RUN');
-            }, 800);
-         }
+      if (statusDownload && !App.isBusy) {
+         App.log('setInterval');
+         App.isBusy = true;
+         App.temploadingMessage = setInterval(function () {
+            App.getDownloadProgress(App.updateToolbarIcon.indicate);
+            App.log('setInterval RUN');
+         }, 800);
 
       } else if (App.isBusy) {
          App.log('clearInterval');
          App.isBusy = false;
          clearInterval(App.temploadingMessage);
          App.clearToolbarIcon();
-
       } else
          App.log('runInterval stop');
    },
@@ -39,13 +36,13 @@ const App = {
 
    updateToolbarIcon: {
       indicate: (pt) => {
-         switch (App.tempOptions['typeIconInfo'] /*.toLowerCase()*/ ) {
+         switch (App.sessionSettings['typeIconInfo'] /*.toLowerCase()*/ ) {
             case 'false':
                return false;
 
             case 'text':
                App.toolbar.setBadgeBackgroundColor(
-                  App.tempOptions['colorPicker']
+                  App.sessionSettings['colorPicker']
                );
                App.toolbar.setBadgeText(
                   App.updateToolbarIcon.textProgressBar(pt)
@@ -68,8 +65,8 @@ const App = {
             let color = (function () {
                let color;
                // #00ff00 is default value 
-               if (App.tempOptions['colorPicker'] && App.tempOptions['colorPicker'] != '#00ff00') {
-                  color = App.tempOptions['colorPicker'];
+               if (App.sessionSettings['colorPicker'] && App.sessionSettings['colorPicker'] != '#00ff00') {
+                  color = App.sessionSettings['colorPicker'];
 
                   // set gradient
                } else {
@@ -95,7 +92,7 @@ const App = {
 
             let dataForDrawing = {
                'color_bg': color,
-               'color_text': App.tempOptions['colorPickerText'],
+               'color_text': App.sessionSettings['colorPickerText'],
                'progressRatio': (progress / 100),
                'outText': progress,
             }
@@ -132,7 +129,7 @@ const App = {
                ctx.fillRect(0, 0, parseInt(canvas.width * ratio), canvas.height);
 
                // add pt
-               if (App.tempOptions['typeIconInfo'] != 'svg_notext') {
+               if (App.sessionSettings['typeIconInfo'] != 'svg_notext') {
                   // create style text
                   ctx.textAlign = 'center';
                   ctx.textBaseline = 'middle';
@@ -178,7 +175,7 @@ const App = {
          orderBy: ['-startTime']
       }
 
-      if (App.tempOptions["showLastProgress"]) {
+      if (App.sessionSettings["showLastProgress"]) {
          searchObj['limit'] = 1;
       }
 
@@ -219,8 +216,7 @@ const App = {
                   return callback("!");
                }
 
-            // progress = Math.min(100, Math.floor(100 * totalReceived / totalSize) || 0) || '--';
-            progress = Math.min(100, Math.floor(100 * totalReceived / totalSize) || 0);
+            progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)).toString();
          };
 
          if (countActive) {
@@ -295,11 +291,13 @@ const App = {
 
    notificationCheck: (item) => {
       if (item && item.state && item.state.previous === 'in_progress') {
-         let msg;
+         let msg,
+            audioNotification;
 
          switch (item.state.current) {
             case 'complete':
                msg = i18n("noti_download_complete");
+               audioNotification = new Audio('/audio/complete.ogg');
                break;
 
             case 'interrupted':
@@ -307,7 +305,7 @@ const App = {
                   // msg = i18n("noti_download_canceled");
                } else {
                   msg = i18n("noti_download_interrupted");
-                  // alert('interrupted dwon'); //TODO delete test
+                  audioNotification = new Audio('/audio/interrupted.ogg');
                }
                break;
 
@@ -344,10 +342,8 @@ const App = {
 
                App.showNotification(i18n("noti_download_title") + ' ' + msg, fileName);
 
-               if (App.tempOptions["soundNotification"]) {
-                  let single_file_done = new Audio('/audio/beep.ogg');
-                  single_file_done.play();
-               }
+               if (App.sessionSettings["soundNotification"])
+                  audioNotification.play();
             });
       }
    },
@@ -432,7 +428,7 @@ const App = {
       load: () => {
          let callback = (res) => {
             App.log('confStorage', JSON.stringify(res));
-            App.tempOptions = res;
+            App.sessionSettings = res;
 
             App.refresh();
          };
@@ -442,7 +438,7 @@ const App = {
       // load: () => {
       //    chrome.storage.sync.get(null, function (options) {
       //       App.log('confStorage', JSON.stringify(options));
-      //       App.tempOptions = options;
+      //       App.sessionSettings = options;
       //       App.refresh();
       //    });
       // },
@@ -452,14 +448,13 @@ const App = {
    eventListener: () => {
       chrome.downloads.onCreated.addListener(function (item) {
          App.log('downloads.onCreated');
-         let shelf = App.tempOptions.shelfEnabled || App.tempOptions.ShowDownBar ? true : false;
+         let shelf = App.sessionSettings.shelfEnabled || App.sessionSettings.ShowDownBar ? true : false;
          chrome.downloads.setShelfEnabled(shelf);
       });
 
       chrome.downloads.onChanged.addListener(function (item) {
          App.log('downloads.onChanged');
          App.log('onChanged item', JSON.stringify(item));
-
          App.refresh(item);
       });
 
@@ -482,7 +477,7 @@ const App = {
             //   sendResponse(resp);
             // break;
             case 'setOptions':
-               App.tempOptions = request.options;
+               App.sessionSettings = request.options;
                App.clearToolbarIcon();
                break;
          }
@@ -493,7 +488,7 @@ const App = {
 
    refresh: (item) => {
       App.getDownloadProgress(App.runInterval);
-      if (App.tempOptions["showNotification"])
+      if (App.sessionSettings["showNotification"])
          App.notificationCheck(item);
    },
 
