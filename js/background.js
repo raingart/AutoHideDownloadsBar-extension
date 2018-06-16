@@ -4,7 +4,7 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   DEBUG: true,
+   // DEBUG: true,
 
    runInterval: (statusDownload) => {
       App.log('runInterval: ', statusDownload);
@@ -156,9 +156,9 @@ const App = {
       },
 
       textProgressBar: (progress) => {
-         if (Number.isInteger(progress))
+         if (Number.isInteger(progress)) {
             progress += '%';
-         else {
+         } else {
             let loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
             App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
             let progress = loadingSymbol[App.circleNum];
@@ -194,7 +194,7 @@ const App = {
             if (download.fileSize) {
                if (download.estimatedEndTime)
                   timeLeft += new Date(download.estimatedEndTime) - new Date();
-            // if undefined fileSize file
+               // if undefined fileSize file
             } else {
                countInfinity += 1;
                App.log('find infinity ' + countInfinity);
@@ -213,7 +213,6 @@ const App = {
                   return callback("!");
                }
 
-               console.log('aaaaa '+progress);
             // progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)) || '--';
             progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)).toString();
          };
@@ -298,7 +297,8 @@ const App = {
          switch (item.state.current) {
             case 'complete':
                msg = i18n("noti_download_complete");
-               audioNotification = new Audio('/audio/complete.ogg');
+               // audioNotification = new Audio('/audio/complete.ogg');
+               audioNotification = '/audio/complete.ogg';
                break;
 
             case 'interrupted':
@@ -306,7 +306,8 @@ const App = {
                   // msg = i18n("noti_download_canceled");
                } else {
                   msg = i18n("noti_download_interrupted");
-                  audioNotification = new Audio('/audio/interrupted.ogg');
+                  // audioNotification = new Audio('/audio/interrupted.ogg');
+                  audioNotification = '/audio/interrupted.ogg';
                }
                break;
 
@@ -327,11 +328,9 @@ const App = {
                let minimum_download_time = 3000; // ms
 
                // skip notifity small file or small size
-               if (download.fileSize <= 1 ||
+               if (download.fileSize <= 1 || timeLong < minimum_download_time
                   // || download_size > minimum_download_size
-                  timeLong < minimum_download_time
-               )
-                  return false;
+               ) return false;
 
                // console.log('timeLong', timeLong);
                // console.log('download.fileSize', download.fileSize);
@@ -341,10 +340,15 @@ const App = {
                if (fileName && fileName.length > 50)
                   fileName = fileName.slice(0, 31) + "...";
 
-               App.showNotification(i18n("noti_download_title") + ' ' + msg, fileName);
+               let options = {
+                  body: fileName
+               }
 
-               if (App.sessionSettings["soundNotification"])
-                  audioNotification.play();
+               if (audioNotification && App.sessionSettings["soundNotification"])
+                  options.sound = audioNotification
+
+               App.showNotification(i18n("noti_download_title") + ' ' + msg, options);
+
             });
       }
    },
@@ -385,20 +389,30 @@ const App = {
       return Array((++App.counter_tmp % count) + 1).join(outText || '.');;
    },
 
-   showNotification: (title, msg, icon) => {
+   // showNotification: (title, msg, icon) => {
+   showNotification: (title, options) => {
       const manifest = chrome.runtime.getManifest();
+      let options = options || {
+         // body: '',
+         icon: '/icons/' + manifest.icons['48'],
+         // sound: 'audio/alert.mp3'
+      };
+      if (!options.icon)
+         options.icon = '/icons/' + manifest.icons['48'];
 
-      chrome.notifications.create('info', {
-         type: 'basic', //'basic', 'image', 'list', 'progress'
-         iconUrl: typeof (icon) === 'undefined' ? manifest.icons['48'] : '/icons/' + icon,
-         title: title || i18n("app_name"),
-         message: msg || '',
-         // "priority": 2,
-      }, function (notificationId) {
-         chrome.notifications.onClicked.addListener(function (callback) {
-            chrome.notifications.clear(notificationId, callback);
-         });
-      });
+      let notification = new Notification(title || i18n("app_name"), options);
+
+      // chrome.notifications.create('info', {
+      //    type: 'basic', //'basic', 'image', 'list', 'progress'
+      //    iconUrl: typeof (icon) === 'undefined' ? manifest.icons['48'] : '/icons/' + icon,
+      //    title: title || i18n("app_name"),
+      //    message: msg || '',
+      //    // "priority": 2,
+      // }, function (notificationId) {
+      //    chrome.notifications.onClicked.addListener(function (callback) {
+      //       chrome.notifications.clear(notificationId, callback);
+      //    });
+      // });
    },
 
    openTab: (url) => {
