@@ -343,9 +343,8 @@ const App = {
                let options = {
                   body: fileName
                }
-
                if (audioNotification && App.sessionSettings["soundNotification"])
-                  options.sound = audioNotification
+               options.sound = audioNotification;
 
                App.showNotification(i18n("noti_download_title") + ' ' + msg, options);
 
@@ -392,7 +391,7 @@ const App = {
    // showNotification: (title, msg, icon) => {
    showNotification: (title, options) => {
       const manifest = chrome.runtime.getManifest();
-      let options = options || {
+      var options = options || {
          // body: '',
          icon: '/icons/' + manifest.icons['48'],
          // sound: 'audio/alert.mp3'
