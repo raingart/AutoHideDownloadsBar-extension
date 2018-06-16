@@ -398,7 +398,7 @@ const App = {
          // sound: 'audio/alert.mp3'
       };
       if (!options.icon)
-         options.icon = '/icons/' + manifest.icons['48'];
+         options.icon = manifest.icons['48'];
 
       let notification = new Notification(title || i18n("app_name"), options);
 
