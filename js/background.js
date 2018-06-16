@@ -41,9 +41,9 @@ const App = {
                return false;
 
             case 'text':
-               // App.toolbar.setBadgeBackgroundColor(
-               //    App.sessionSettings['colorPicker']
-               // );
+               App.toolbar.setBadgeBackgroundColor(
+                  App.sessionSettings['colorPicker']
+               );
                App.toolbar.setBadgeText(
                   App.updateToolbarIcon.textProgressBar(pt)
                );
@@ -297,8 +297,8 @@ const App = {
          switch (item.state.current) {
             case 'complete':
                msg = i18n("noti_download_complete");
-               // audioNotification = new Audio('/audio/complete.ogg');
-               audioNotification = '/audio/complete.ogg';
+               audioNotification = new Audio('/audio/complete.ogg');
+               // audioNotification = '/audio/complete.ogg';
                break;
 
             case 'interrupted':
@@ -306,8 +306,8 @@ const App = {
                   // msg = i18n("noti_download_canceled");
                } else {
                   msg = i18n("noti_download_interrupted");
-                  // audioNotification = new Audio('/audio/interrupted.ogg');
-                  audioNotification = '/audio/interrupted.ogg';
+                  audioNotification = new Audio('/audio/interrupted.ogg');
+                  // audioNotification = '/audio/interrupted.ogg';
                }
                break;
 
@@ -340,14 +340,13 @@ const App = {
                if (fileName && fileName.length > 50)
                   fileName = fileName.slice(0, 31) + "...";
 
-               let options = {
-                  body: fileName
-               }
+               App.showNotification({
+                  title: i18n("noti_download_title") + ' ' + msg,
+                  message: fileName
+               });
+
                if (audioNotification && App.sessionSettings["soundNotification"])
-               options.sound = audioNotification;
-
-               App.showNotification(i18n("noti_download_title") + ' ' + msg, options);
-
+                  audioNotification.play();
             });
       }
    },
@@ -389,29 +388,29 @@ const App = {
    },
 
    // showNotification: (title, msg, icon) => {
-   showNotification: (title, options) => {
+   showNotification: (opt) => {
       const manifest = chrome.runtime.getManifest();
-      var options = options || {
-         // body: '',
-         icon: '/icons/' + manifest.icons['48'],
-         // sound: 'audio/alert.mp3'
+      //    var options = options || {
+      //       // body: '',
+      //       icon: '/icons/' + manifest.icons['48'],
+      //       // sound: 'audio/alert.mp3'
+      //    };
+      //    if (!options.icon)
+      //       options.icon = manifest.icons['48'];
+
+      //    let notification = new Notification(title || i18n("app_name"), options);
+      let options = {
+         type: opt.type || 'basic', //'basic', 'image', 'list', 'progress'
+         title: opt.title || i18n("app_name"),
+         iconUrl: opt.iconUrl || manifest.icons['48'],
+         message: opt.message || '',
+         // "priority": 2,
       };
-      if (!options.icon)
-         options.icon = manifest.icons['48'];
-
-      let notification = new Notification(title || i18n("app_name"), options);
-
-      // chrome.notifications.create('info', {
-      //    type: 'basic', //'basic', 'image', 'list', 'progress'
-      //    iconUrl: typeof (icon) === 'undefined' ? manifest.icons['48'] : '/icons/' + icon,
-      //    title: title || i18n("app_name"),
-      //    message: msg || '',
-      //    // "priority": 2,
-      // }, function (notificationId) {
-      //    chrome.notifications.onClicked.addListener(function (callback) {
-      //       chrome.notifications.clear(notificationId, callback);
-      //    });
-      // });
+      chrome.notifications.create('info', options, function (notificationId) {
+         chrome.notifications.onClicked.addListener(function (callback) {
+            chrome.notifications.clear(notificationId, callback);
+         });
+      });
    },
 
    openTab: (url) => {
