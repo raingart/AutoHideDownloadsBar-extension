@@ -4,10 +4,11 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   // DEBUG: true,
+   DEBUG: true,
 
    runInterval: (statusDownload) => {
       App.log('runInterval: ', statusDownload);
+
       if (statusDownload && !App.isBusy) {
          App.log('setInterval');
          App.isBusy = true;
@@ -15,14 +16,13 @@ const App = {
             App.getDownloadProgress(App.updateToolbarIcon.indicate);
             App.log('setInterval RUN');
          }, 800);
-
-      } else if (App.isBusy) {
+      } else if (!statusDownload && App.isBusy) {
          App.log('clearInterval');
          App.isBusy = false;
          clearInterval(App.temploadingMessage);
          App.clearToolbarIcon();
       } else
-         App.log('runInterval stop');
+         App.log('runInterval ignore');
    },
 
    clearToolbarIcon: () => {
@@ -41,9 +41,9 @@ const App = {
                return false;
 
             case 'text':
-               App.toolbar.setBadgeBackgroundColor(
-                  App.sessionSettings['colorPicker']
-               );
+               // App.toolbar.setBadgeBackgroundColor(
+               //    App.sessionSettings['colorPicker']
+               // );
                App.toolbar.setBadgeText(
                   App.updateToolbarIcon.textProgressBar(pt)
                );
@@ -194,11 +194,12 @@ const App = {
             if (download.mime === "application/x-chrome-extension")
                continue;
 
-            if (download.estimatedEndTime)
-               timeLeft += new Date(download.estimatedEndTime) - new Date();
-
+            // if (download.estimatedEndTime)
+            if (download.fileSize) {
+               if (download.estimatedEndTime)
+                  timeLeft += new Date(download.estimatedEndTime) - new Date();
             // if undefined fileSize file
-            else {
+            } else {
                countInfinity += 1;
                App.log('find infinity ' + countInfinity);
                continue;
@@ -216,6 +217,8 @@ const App = {
                   return callback("!");
                }
 
+               console.log('aaaaa '+progress);
+            // progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)) || '--';
             progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)).toString();
          };
 
@@ -243,7 +246,7 @@ const App = {
             if (countInfinity) {
                titleOut += ' | ignore: ' + countInfinity;
                // full ignored
-               if (countInfinity >= countActive) {
+               if (countInfinity > countActive) {
                   totalSize = false;
                   progress = 'infinity';
                }
