@@ -62,16 +62,6 @@
       "message": "İndirilen dosya üzerindeki etki için bir zaman gecikmesi kullanın"
    },
 
-   "opt_show_last_progress": {
-      "message": "Sadece indirilecek son dosyayı indirmenin ilerlemesini göster"
-   },
-   "opt_show_last_progress_tooltip": {
-      "message": "Varsayılan: KAPALI"
-   },
-   "opt_show_last_progress_desc": {
-      "message": "Varsayılan olarak, indirilmiş TÜM dosyaların indirme ilerlemesini şimdi gösterir."
-   },
-
    "opt_show_notification": {
       "message": "Bildirimleri göster"
    },

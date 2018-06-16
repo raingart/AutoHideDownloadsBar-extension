@@ -175,10 +175,6 @@ const App = {
          orderBy: ['-startTime']
       }
 
-      if (App.sessionSettings["showLastProgress"]) {
-         searchObj['limit'] = 1;
-      }
-
       chrome.downloads.search(searchObj, function (downloads) {
          let totalSize = 0,
             totalReceived = 0,

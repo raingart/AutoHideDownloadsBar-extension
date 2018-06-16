@@ -62,16 +62,6 @@
       "message": "Verwenden Sie eine Zeitverzögerung für die Auswirkungen auf die heruntergeladene Datei"
    },
 
-   "opt_show_last_progress": {
-      "message": "Zeige den Fortschritt beim Herunterladen nur der letzten Datei, die heruntergeladen werden soll"
-   },
-   "opt_show_last_progress_tooltip": {
-      "message": "Standard: AUS"
-   },
-   "opt_show_last_progress_desc": {
-      "message": "Standardmäßig wird der Download-Fortschritt aller heruntergeladenen Dateien angezeigt"
-   },
-
    "opt_show_notification": {
       "message": "Benachrichtigung anzeigen"
    },
