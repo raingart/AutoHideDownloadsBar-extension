@@ -223,12 +223,12 @@ const App = {
 
             if (totalSize) {
                // size
-               titleOut += App.bytesFormat(totalReceived) + " of ";
+               titleOut += App.bytesFormat(totalReceived) + " / ";
                titleOut += totalSize ? App.bytesFormat(totalSize) : "unknown size";
                // pt
                titleOut += "\n" + progress + "%";
                // left time
-               titleOut += " / " + App.timeFormat_short(timeLeft) + " left";
+               titleOut += " ~ " + App.timeFormat_short(timeLeft) + " left";
             }
 
             // count
@@ -238,7 +238,7 @@ const App = {
                // App.toolbar.setBadgeText(badgeText);
             }
             // ignored
-            if (countInfinity) {
+            if (countInfinity > countActive) {
                titleOut += ' | ignore: ' + countInfinity;
                // full ignored
                if (countInfinity > countActive) {
