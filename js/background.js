@@ -238,7 +238,7 @@ const App = {
                // App.toolbar.setBadgeText(badgeText);
             }
             // ignored
-            if (countInfinity > countActive) {
+            if (countInfinity && countInfinity != countActive) {
                titleOut += ' | ignore: ' + countInfinity;
                // full ignored
                if (countInfinity > countActive) {
