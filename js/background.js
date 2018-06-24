@@ -232,19 +232,17 @@ const App = {
             }
 
             // count
-            if (countActive > 1) {
+            if (countActive > 1 || countInfinity) {
                titleOut += '\n' + 'active: ' + countActive;
                // let badgeText = countInfinity ? countInfinity + '/' + countActive : countActive
                // App.toolbar.setBadgeText(badgeText);
-            }
-            // ignored
-            if (countInfinity && countInfinity != countActive) {
-               titleOut += ' | ignore: ' + countInfinity;
-               // full ignored
-               if (countInfinity > countActive) {
+
+               // ignored
+               if (countInfinity == countActive) {
                   totalSize = false;
                   progress = 'infinity';
-               }
+               } else
+                  titleOut += ' | ignore: ' + countInfinity;
             }
 
             App.toolbar.setTitle(titleOut);
