@@ -5,7 +5,7 @@
    "description": "__MSG_app_description__",
    "update_url": "https://clients2.google.com/service/update2/crx",
    "default_locale": "en",
-   "version": "2.7.2",
+   "version": "2.7.3",
    "author": "raingart",
    "permissions": [
       "tabs",
