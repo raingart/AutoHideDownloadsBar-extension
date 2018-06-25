@@ -16,6 +16,8 @@ const App = {
             App.getDownloadProgress(App.updateToolbarIcon.indicate);
             App.log('setInterval RUN');
          }, 800);
+         // cancellation of pending shelf-panel hiding
+         App.shelfTimeout && clearTimeout(App.shelfTimeout);
       } else if (!statusDownload && App.isBusy) {
          App.log('clearInterval');
          App.isBusy = false;
@@ -190,7 +192,6 @@ const App = {
             if (download.mime === "application/x-chrome-extension")
                continue;
 
-            // if (download.estimatedEndTime)
             if (download.fileSize) {
                if (download.estimatedEndTime)
                   timeLeft += new Date(download.estimatedEndTime) - new Date();
@@ -249,8 +250,9 @@ const App = {
 
          } else {
             // if ((item.state.current == 'complete') && item.endTime && !item.error) {
-            // hide panel
-            setTimeout(function () {
+            // hide shelf-panel
+            App.shelfTimeout = setTimeout(function () {
+               console.log('shelfTimeout');
                chrome.downloads.setShelfEnabled(false);
             }, Number(App.sessionSettings["shelfTimeout"]) * 1000 || 0);
             // }
