@@ -219,7 +219,7 @@ const App = {
          };
 
          if (countActive) {
-            // set toolbar Title
+            // set toolbar title
             let titleOut = '';
 
             if (totalSize) {
@@ -307,7 +307,6 @@ const App = {
                } else {
                   msg = i18n("noti_download_interrupted");
                   audioNotification = new Audio('/audio/interrupted.ogg');
-                  // audioNotification = '/audio/interrupted.ogg';
                }
                break;
 
