@@ -239,11 +239,14 @@ const App = {
                // App.toolbar.setBadgeText(badgeText);
 
                // ignored
-               if (countInfinity == countActive) {
-                  totalSize = false;
-                  progress = 'infinity';
-               } else
-                  titleOut += ' | ignore: ' + countInfinity;
+               if (countInfinity) {
+                  if (countInfinity == countActive) {
+                     totalSize = false;
+                     progress = 'infinity';
+                  } else {
+                     titleOut += ' | ignore: ' + countInfinity;
+                  }
+               }
             }
 
             App.toolbar.setTitle(titleOut);
