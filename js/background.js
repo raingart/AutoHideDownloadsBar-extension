@@ -58,8 +58,8 @@ const App = {
          }
       },
 
-      graficProgressBar: (progress) => {
-         let getDataDrawing = dataForDrawing(progress);
+      graficProgressBar: (x) => {
+         let getDataDrawing = dataForDrawing(x);
 
          return drawToolbarIcon(getDataDrawing);
 
@@ -67,7 +67,8 @@ const App = {
             let color = (function () {
                let color;
                // #00ff00 is default value 
-               if (App.sessionSettings['colorPicker'] && App.sessionSettings['colorPicker'] != '#00ff00') {
+               if (App.sessionSettings['colorPicker'] 
+               && App.sessionSettings['colorPicker'] != '#00ff00') {
                   color = App.sessionSettings['colorPicker'];
 
                   // set gradient
@@ -103,7 +104,7 @@ const App = {
             if (progress == "!") {
                dataForDrawing.outText = App.flashing(2, progress);
                dataForDrawing.color_text = 'red';
-            } else if (dataForDrawing.outText === 'infinity') {
+            } else if (dataForDrawing.outText === Infinity) {
                dataForDrawing.outText = App.flashing();
             }
 
@@ -131,7 +132,8 @@ const App = {
                ctx.fillRect(0, 0, parseInt(canvas.width * ratio), canvas.height);
 
                // add pt
-               if (App.sessionSettings['typeIconInfo'] != 'svg_notext') {
+               if (App.sessionSettings['typeIconInfo'] != 'svg_notext' 
+                  && +dataForDrawing.outText !== Infinity) {
                   // create style text
                   ctx.textAlign = 'center';
                   ctx.textBaseline = 'middle';
@@ -140,7 +142,10 @@ const App = {
                   // ctx.shadowBlur = 1;
                   ctx.fillStyle = dataForDrawing.color_text || '#888';
 
-                  ctx.fillText(dataForDrawing.outText.toString(), canvas.width / 2, canvas.height / 2);
+                  ctx.fillText(
+                     dataForDrawing.outText.toString(), 
+                     canvas.width / 2, canvas.height / 2
+                  );
                }
                return ctx;
             }
@@ -157,15 +162,16 @@ const App = {
          }
       },
 
-      textProgressBar: (progress) => {
-         if (Number.isInteger(progress)) {
-            progress += '%';
+      textProgressBar: (x) => {
+         // if (Number.isInteger(x) && x !== Infinity) {
+         if (x >= 0 && x <= 100) {
+            x += '%';
          } else {
             let loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
             App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
-            let progress = loadingSymbol[App.circleNum];
+            x = loadingSymbol[App.circleNum];
          }
-         return progress;
+         return x;
       }
 
    },
@@ -188,44 +194,49 @@ const App = {
          for (let download of downloads) {
             App.log('downloadItem: ' + JSON.stringify(download));
 
+            totalReceived += download.bytesReceived;
+
             // skip crx
             if (download.mime === "application/x-chrome-extension")
                continue;
 
-            if (download.fileSize) {
+            // normal file
+            if (download.fileSize || download.totalBytes) {
+               let fileSize = download.fileSize || download.totalBytes;
+               // let download_size = downloadItem.fileSize / 1024 / 1000;
+
+               totalSize += fileSize;
+
+               // progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)) || '--';
+               progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)).toString();
+
                if (download.estimatedEndTime)
                   timeLeft += new Date(download.estimatedEndTime) - new Date();
                // if undefined fileSize file
+
+            // unknown size file
             } else {
                countInfinity += 1;
                App.log('find infinity ' + countInfinity);
                continue;
             }
 
-            let fileSize = download.fileSize || download.totalBytes;
-            // let download_size = downloadItem.fileSize / 1024 / 1000;
-
-            totalSize += fileSize;
-            totalReceived += download.bytesReceived;
-
             // skip downloaded file ask: keep/discard
             if (download.danger != "safe" && totalReceived === fileSize)
                if (callback && typeof (callback) === "function") {
                   return callback("!");
                }
-
-            // progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)) || '--';
-            progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)).toString();
          };
 
          if (countActive) {
             // set toolbar title
             let titleOut = '';
+            
+            // size
+            titleOut += App.bytesFormat(totalReceived) + " / ";
+            titleOut += totalSize ? App.bytesFormat(totalSize) : "unknown size";
 
             if (totalSize) {
-               // size
-               titleOut += App.bytesFormat(totalReceived) + " / ";
-               titleOut += totalSize ? App.bytesFormat(totalSize) : "unknown size";
                // pt
                titleOut += "\n" + progress + "%";
                // left time
@@ -234,7 +245,7 @@ const App = {
 
             // count
             if (countActive > 1 || countInfinity) {
-               titleOut += '\n' + 'active: ' + countActive;
+               titleOut += "\n" + 'active: ' + countActive;
                // let badgeText = countInfinity ? countInfinity + '/' + countActive : countActive
                // App.toolbar.setBadgeText(badgeText);
 
@@ -242,7 +253,7 @@ const App = {
                if (countInfinity) {
                   if (countInfinity == countActive) {
                      totalSize = false;
-                     progress = 'infinity';
+                     progress = Infinity;
                   } else {
                      titleOut += ' | ignore: ' + countInfinity;
                   }
