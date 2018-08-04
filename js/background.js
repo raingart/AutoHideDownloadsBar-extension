@@ -65,10 +65,10 @@ const App = {
 
          function dataForDrawing(progress) {
             let color = (function () {
-               let color;
+               let color = '#00ff00';
                // #00ff00 is default value 
                if (App.sessionSettings['colorPicker'] 
-               && App.sessionSettings['colorPicker'] != '#00ff00') {
+               && App.sessionSettings['colorPicker'] !== color) {
                   color = App.sessionSettings['colorPicker'];
 
                   // set gradient
@@ -96,7 +96,7 @@ const App = {
             let dataForDrawing = {
                'color_bg': color,
                'color_text': App.sessionSettings['colorPickerText'],
-               'progressRatio': (progress / 100),
+               'progressRatio': (+progress / 100),
                'outText': progress,
             }
 
@@ -474,7 +474,8 @@ const App = {
    eventListener: () => {
       chrome.downloads.onCreated.addListener(function (item) {
          App.log('downloads.onCreated');
-         let shelf = App.sessionSettings.shelfEnabled || App.sessionSettings.ShowDownBar ? true : false;
+         let shelf = App.sessionSettings.shelfEnabled 
+            || App.sessionSettings.ShowDownBar ? true : false; // fix old ver-conf/ TODO remove
          chrome.downloads.setShelfEnabled(shelf);
       });
 
@@ -514,8 +515,9 @@ const App = {
 
    refresh: (item) => {
       App.getDownloadProgress(App.runInterval);
-      if (App.sessionSettings["showNotification"])
+      if (App.sessionSettings["showNotification"]) {
          App.notificationCheck(item);
+      }
    },
 
    init: () => {

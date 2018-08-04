@@ -6,123 +6,125 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>__MSG_app_name__ settings</title>
 
-   <link rel="stylesheet" href="/css/normalize.min.css">
-   <link rel="stylesheet" href="/css/tooltip/tooltip.min.css" />
-   <link rel="stylesheet" href="/css/tooltip/tooltip-animation.min.css" />
-   <link rel="stylesheet" href="/css/switch_checkbox.min.css" />
+   <link rel="stylesheet" href="/css/libs/normalize.min.css">
+   <link rel="stylesheet" href="/css/libs/tooltip/tooltip.min.css" />
+   <link rel="stylesheet" href="/css/libs/tooltip/tooltip-animation.min.css" />
+   <link rel="stylesheet" href="/css/libs/switch_checkbox.min.css" />
 
    <link rel="stylesheet" href="/css/globals.css" />
    <link rel="stylesheet" href="/css/options.css" />
 
-   <script src="/lib/localization.js"></script>
-   <script src="/lib/storage.js"></script>
-   <script src="/lib/retrieve-ui.js"></script>
-   <script src="/lib/options.js"></script>
+   <script src="/js/libs/localization.js"></script>
+   <script src="/js/libs/storage.js"></script>
+   <script src="/js/libs/retrieve-ui.js"></script>
+   <script src="/js/libs/options.js"></script>
 </head>
 
 <body>
    <div class="wrapper">
-      <form enctype="multipart/form-data" class="container">
+      <div class="container">
+         <form enctype="multipart/form-data">
 
-         <div class="between">
-            <h2>__MSG_app_name__ __MSG_opt_setting__</h2>
-            <a href="https://github.com/raingart/AutoHideDownloadsBar-extension" tooltip="__MSG_github_page_tooltip__" flow="left">__MSG_github_page__</a>
-         </div>
+            <div class="between">
+               <h2>__MSG_app_name__ __MSG_opt_setting__</h2>
+               <a href="https://github.com/raingart/AutoHideDownloadsBar-extension" tooltip="__MSG_github_page_tooltip__" flow="left">__MSG_github_page__</a>
+            </div>
 
-         <!-- <hr /> -->
+            <!-- <hr /> -->
 
-         <div class="item">
-            <div class="info">
-               <label for="shelfEnabled">__MSG_opt_show_download_panel__
-                  <span>__MSG_opt_show_download_panel_desc__</span>
-                  <span class="warn hide">__MSG_opt_show_download_panel_warn__</span>
-               </label>
+            <div class="item">
+               <div class="info">
+                  <label for="shelfEnabled">__MSG_opt_show_download_panel__
+                     <span>__MSG_opt_show_download_panel_desc__</span>
+                     <span class="warn hide">__MSG_opt_show_download_panel_warn__</span>
+                  </label>
+               </div>
+               <div class="opt" tooltip="__MSG_opt_show_download_panel_tooltip__" flow="left">
+                  <input type="checkbox" name="shelfEnabled" id="shelfEnabled" />
+               </div>
             </div>
-            <div class="opt" tooltip="__MSG_opt_show_download_panel_tooltip__" flow="left">
-               <input type="checkbox" name="shelfEnabled" id="shelfEnabled" />
-            </div>
-         </div>
 
-         <div class="item" data-dependent='{"shelfEnabled":[true]}'>
-            <div class="info">
-               <label for="shelfTimeout">__MSG_opt_show_download_panel_timeout__
-                  <span>__MSG_opt_show_download_panel_timeout_desc__</span>
-               </label>
+            <div class="item" data-dependent='{"shelfEnabled":[true]}'>
+               <div class="info">
+                  <label for="shelfTimeout">__MSG_opt_show_download_panel_timeout__
+                     <span>__MSG_opt_show_download_panel_timeout_desc__</span>
+                  </label>
+               </div>
+               <div class="opt" tooltip="__MSG_opt_show_download_panel_timeout_tooltip__" flow="left">
+                  <input type="number" placeholder="0-30" value="0" step="0.5" min="0" max="30" name="shelfTimeout" id="shelfTimeout" /> sec
+               </div>
             </div>
-            <div class="opt" tooltip="__MSG_opt_show_download_panel_timeout_tooltip__" flow="left">
-               <input type="number" placeholder="0-10" value="0" step="0.5" min="0" max="5" name="shelfTimeout" id="shelfTimeout" /> sec
-            </div>
-         </div>
 
-         <div class="item">
-            <div class="info">
-               <label for="showNotification">__MSG_opt_show_notification__
-                  <span>__MSG_opt_show_notification_desc__</span>
-               </label>
+            <div class="item">
+               <div class="info">
+                  <label for="showNotification">__MSG_opt_show_notification__
+                     <span>__MSG_opt_show_notification_desc__</span>
+                  </label>
+               </div>
+               <div class="opt" tooltip="__MSG_opt_show_notification_tooltip__" flow="left">
+                  <input type="checkbox" name="showNotification" id="showNotification" />
+               </div>
             </div>
-            <div class="opt" tooltip="__MSG_opt_show_notification_tooltip__" flow="left">
-               <input type="checkbox" name="showNotification" id="showNotification" />
-            </div>
-         </div>
 
-         <div class="item" data-dependent='{"showNotification":[true]}'>
-            <div class="info">
-               <label for="soundNotification">__MSG_opt_sound_notification__
-                  <span>__MSG_opt_sound_notification_desc__</span>
-               </label>
+            <div class="item" data-dependent='{"showNotification":[true]}'>
+               <div class="info">
+                  <label for="soundNotification">__MSG_opt_sound_notification__
+                     <span>__MSG_opt_sound_notification_desc__</span>
+                  </label>
+               </div>
+               <div class="opt" tooltip="__MSG_opt_sound_notification_tooltip__" flow="left">
+                  <input type="checkbox" name="soundNotification" id="soundNotification" />
+               </div>
             </div>
-            <div class="opt" tooltip="__MSG_opt_sound_notification_tooltip__" flow="left">
-               <input type="checkbox" name="soundNotification" id="soundNotification" />
-            </div>
-         </div>
 
-         <div class="item">
-            <div class="info">
-               <label for="typeIconInfo">__MSG_opt_type_icon_info__
-                  <span>__MSG_opt_type_icon_info_desc__</span>
-               </label>
+            <div class="item">
+               <div class="info">
+                  <label for="typeIconInfo">__MSG_opt_type_icon_info__
+                     <span>__MSG_opt_type_icon_info_desc__</span>
+                  </label>
+               </div>
+               <div class="opt" tooltip="__MSG_opt_type_icon_info_tooltip__" flow="left">
+                  <select name="typeIconInfo" id="typeIconInfo">
+                     <option selected value="svg">__MSG_opt_type_icon_info_option_svg__</option>
+                     <option value="svg_notext">__MSG_opt_type_icon_info_option_svg_notext__</option>
+                     <option value="text">__MSG_opt_type_icon_info_option_text__</option>
+                     <option value="false">__MSG_opt_type_icon_info_option_off__</option>
+                  </select>
+               </div>
             </div>
-            <div class="opt" tooltip="__MSG_opt_type_icon_info_tooltip__" flow="left">
-               <select name="typeIconInfo" id="typeIconInfo">
-                  <option selected value="svg">__MSG_opt_type_icon_info_option_svg__</option>
-                  <option value="svg_notext">__MSG_opt_type_icon_info_option_svg_notext__</option>
-                  <option value="text">__MSG_opt_type_icon_info_option_text__</option>
-                  <option value="false">__MSG_opt_type_icon_info_option_off__</option>
-               </select>
+
+            <div class="item" data-dependent='{"typeIconInfo":["svg","svg_notext","text"]}'>
+               <div class="info">
+                  <label for="colorPicker">__MSG_opt_color_icon_info__
+                     <span>__MSG_opt_color_icon_info_desc__</span>
+                  </label>
+               </div>
+               <div class="opt" tooltip="__MSG_opt_color_icon_info_tooltip__" flow="left">
+                  <input type="color" name="colorPicker" id="colorPicker" value="#00ff00" />
+               </div>
             </div>
-         </div>
 
-         <div class="item">
-            <div class="info">
-               <label for="colorPicker">__MSG_opt_color_icon_info__
-                  <span>__MSG_opt_color_icon_info_desc__</span>
-               </label>
+            <div class="item" data-dependent='{"typeIconInfo":["svg"]}'>
+               <div class="info">
+                  <label for="colorPickerText">__MSG_opt_color_icon_text_info__
+                     <span>__MSG_opt_color_icon_text_info_desc__</span>
+                  </label>
+               </div>
+               <div class="opt" tooltip="__MSG_opt_color_icon_text_info_tooltip__" flow="left">
+                  <input type="color" name="colorPickerText" id="colorPickerText" value="#888888" />
+               </div>
             </div>
-            <div class="opt" tooltip="__MSG_opt_color_icon_info_tooltip__" flow="left">
-               <input type="color" name="colorPicker" id="colorPicker" value="#00ff00" />
+
+            <hr />
+
+            <div class="between">
+               <button type="submit" tooltip="__MSG_opt_bth_save_settings_tooltip__" flow="right">__MSG_opt_bth_save_settings__</button>
+
+               <a href="https://www.patreon.com/bePatron?c=884203" target="_blank" tooltip="__MSG_donate_tooltip__" flow="left">__MSG_donate__</a>
             </div>
-         </div>
 
-         <div class="item" data-dependent='{"typeIconInfo":["svg"]}'>
-            <div class="info">
-               <label for="colorPickerText">__MSG_opt_color_icon_text_info__
-                  <span>__MSG_opt_color_icon_text_info_desc__</span>
-               </label>
-            </div>
-            <div class="opt" tooltip="__MSG_opt_color_icon_text_info_tooltip__" flow="left">
-               <input type="color" name="colorPickerText" id="colorPickerText" value="#888888" />
-            </div>
-         </div>
-
-         <hr />
-
-         <div class="between">
-            <button type="submit" tooltip="__MSG_opt_bth_save_settings_tooltip__" flow="right">__MSG_opt_bth_save_settings__</button>
-
-            <a href="https://www.patreon.com/bePatron?c=884203" target="_blank" tooltip="__MSG_donate_tooltip__" flow="left">__MSG_donate__</a>
-         </div>
-
-      </form>
+         </form>
+      </div>
    </div>
 
 </body>

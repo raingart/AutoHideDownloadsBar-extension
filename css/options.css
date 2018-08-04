@@ -3,32 +3,30 @@ body {
 }
 
 .container {
-   position: relative;
-   margin: 5px 25px;
+   /* margin: 5px 25px; */
+   margin: 0 25px;
 }
 
-.container>div {
-   position: relative;
+.container>form>div {
    padding: 8px 0;
 }
 
-.container>div.item {
-   position: relative;
+.container>form>div.item {
    display: grid;
    grid-template-columns: [left info] 1fr [right opt];
    
-   padding: 8px 0;
+   /* padding: 8px 0; */
 }
 
 /* .container>div.item:not(:last-child) {
    border-bottom: 1px solid #e0e0e0;
 } */
 
-.container>div.item:not(:last-child) {
+.container>form>div.item:not(:last-child) {
    border-top: 1px solid #e0e0e0;
 }
 
-.container>div.item:last-child {
+.container>form>div.item:last-child {
    margin: 0 5px;
 }
 

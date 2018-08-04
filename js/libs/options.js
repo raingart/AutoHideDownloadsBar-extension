@@ -22,8 +22,8 @@ window.addEventListener('load', (evt) => {
             });
 
          function showOrHide(dependentItem, dependentsList) {
-            for (let name in dependentsList)
-               for (let thisVal of dependentsList[name]) {
+            for (const name in dependentsList)
+               for (const thisVal of dependentsList[name]) {
                   let reqParent = document.getElementsByName(name)[0];
 
                   if (reqParent.checked && thisVal) {
@@ -118,26 +118,30 @@ window.addEventListener('load', (evt) => {
 
             // show warn
             chrome.downloads.search({
-                  state: 'in_progress',
-                  paused: false
-               }, (downloads) => downloads.length && document.getElementsByClassName('warn')[0].classList.remove("hide")
-            );
+               state: 'in_progress',
+               paused: false
+            }, (downloads) => downloads.length && document.getElementsByClassName('warn')[0].classList.remove("hide"));
 
-            // .ogg does support
-            if (!(new Audio().canPlayType('audio/ogg; codecs="vorbis"'))) {
-               var inputAudio = document.getElementsByName('soundNotification')[0];
-               inputAudio.checked = false;
-               inputAudio.disabled = true;
-               var warnMsg = 'Your browser does not support the .ogg audio file'
-               inputAudio.title = warnMsg;
-               inputAudio.parentElement.setAttribute("tooltip", warnMsg);
-            }
+            Conf.oggSupport();
 
          };
          Storage.getParams(null, callback, true /* true=sync, false=local */ );
 
          Conf.eventListener();
       },
+
+      // .ogg does support
+      oggSupport: () => {
+         if (new Audio().canPlayType('audio/ogg; codecs="vorbis"')) return;
+
+         var inputAudio = document.getElementsByName('soundNotification')[0];
+         inputAudio.checked = false;
+         inputAudio.disabled = true;
+         var warnMsg = 'Your browser does not support the .ogg audio file'
+         inputAudio.title = warnMsg;
+         inputAudio.parentElement.setAttribute("tooltip", warnMsg);
+
+      }
    }
 
    Conf.init();
