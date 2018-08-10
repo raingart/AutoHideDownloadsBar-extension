@@ -116,6 +116,8 @@ window.addEventListener('load', (evt) => {
             UIr.restoreElmValue(res);
             Conf.attrDependencies();
 
+            document.querySelector("body").classList.remove("preload");
+
             // show warn
             chrome.downloads.search({
                state: 'in_progress',

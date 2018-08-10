@@ -8,6 +8,7 @@ FILENAME='chrome_bar'
 rm -v $FILENAME.zip
 zip -r $FILENAME.zip \
                   _locales \
+                  css/libs/*/*.css \
                   css/*/*.css \
                   css/*.css \
                   html/*.html \
@@ -15,7 +16,7 @@ zip -r $FILENAME.zip \
                   icons/48.png \
                   icons/128.png \
                   js/*.js \
-                  lib/*.js \
+                  js/libs/*.js \
                   audio/* \
                   manifest.json \
 # -z $TODAY
