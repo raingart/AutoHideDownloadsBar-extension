@@ -87,19 +87,19 @@
       "message": "ツールバーの表示のタイプを選択する"
    },
    "opt_type_icon_info_tooltip": {
-      "message": "標準: Graphic"
+      "message": "標準: グラフィック"
    },
    "opt_type_icon_info_desc": {
       "message": "オフを使用すると、システムの負荷を大幅に削減できます"
    },
    "opt_type_icon_info_option_svg": {
-      "message": "Graphic"
+      "message": "グラフィック"
    },
    "opt_type_icon_info_option_svg_notext": {
-      "message": "Graphic (nein %)"
+      "message": "グラフィック（no ％）"
    },
    "opt_type_icon_info_option_text": {
-      "message": "Text"
+      "message": "テキスト"
    },
    "opt_type_icon_info_option_off": {
       "message": "オフ"
