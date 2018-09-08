@@ -37,9 +37,9 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
      console.log('("%s") "%s" : "%s" => "%s"',
                  key,
                  namespace,
-               //   JSON.stringify(storageChange.oldValue),
-               //   JSON.stringify(storageChange.newValue));
-                 storageChange.oldValue,
-                 storageChange.newValue);
+                 JSON.stringify(storageChange.oldValue),
+                 JSON.stringify(storageChange.newValue));
+               //   storageChange.oldValue,
+               //   storageChange.newValue);
    }
  });

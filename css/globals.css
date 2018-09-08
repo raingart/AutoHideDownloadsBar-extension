@@ -76,6 +76,7 @@ input[type=button] {
    display: inline-block;
    cursor: pointer;
    line-height: normal;
+   vertical-align: bottom;
    color: #555;
    text-align: center;
    font-size: 11px;

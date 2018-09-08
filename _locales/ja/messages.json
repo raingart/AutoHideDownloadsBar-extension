@@ -1,0 +1,147 @@
+{
+   "localization": {
+      "message": "ja"
+   },
+   "app_name": {
+      "message": "AutoHideDownloadsBar"
+   },
+   "app_short_name": {
+      "message": "AutoHideDownloadsBar"
+   },
+   "app_description": {
+      "message": "この拡張機能は、画面の下部に迷惑なダウンロードバーを隠します。"
+   },
+   "app_title": {
+      "message": "ダウンロードページを開く"
+   },
+
+   "noti_download_title": {
+      "message": "ダウンロード"
+   },
+   "noti_download_complete": {
+      "message": "完成した"
+   },
+   "noti_download_interrupted": {
+      "message": "エラー"
+   },
+   "noti_download_canceled": {
+      "message": "キャンセル"
+   },
+
+   "opt_setting": {
+      "message": "の設定"
+   },
+
+   "github_page": {
+      "message": "GitHubページ"
+   },
+   "github_page_tooltip": {
+      "message": "Open"
+   },
+   
+   "opt_show_download_panel": {
+      "message": "ダウンロードがアクティブなときにダウンロードバーを表示する"
+   },
+   "opt_show_download_panel_tooltip": {
+      "message": "標準: OFF"
+   },
+   "opt_show_download_panel_desc": {
+      "message": "ダウンロードバーを非表示にするのは、ダウンロードが完了した後にのみ発生します。"
+   },
+   "opt_show_download_panel_warn": {
+      "message": "アクティブなダウンロードでの正しい作業は不可能です！"
+   },
+
+   "opt_show_download_panel_timeout": {
+      "message": "ダウンロード後にパネルを非表示にするまでの遅延時間（秒）"
+   },
+   "opt_show_download_panel_timeout_tooltip": {
+      "message": "標準: 0"
+   },
+   "opt_show_download_panel_timeout_desc": {
+      "message": "ダウンロードしたファイルに影響を与えるために時間遅延を使用する"
+   },
+
+   "opt_show_notification": {
+      "message": "通知を表示する"
+   },
+   "opt_show_notification_tooltip": {
+      "message": "標準: ON"
+   },
+   "opt_show_notification_desc": {
+      "message": "ファイルのダウンロード状況が変更された場合に通知を表示する"
+   },
+
+   "opt_sound_notification": {
+      "message": "再生通知音"
+   },
+   "opt_sound_notification_tooltip": {
+      "message": "標準: OFF"
+   },
+   "opt_sound_notification_desc": {
+      "message": "通知システムがすでに音声アラートを使用している場合は無効にする"
+   },
+
+
+   "opt_type_icon_info": {
+      "message": "ツールバーの表示のタイプを選択する"
+   },
+   "opt_type_icon_info_tooltip": {
+      "message": "標準: Graphic"
+   },
+   "opt_type_icon_info_desc": {
+      "message": "オフを使用すると、システムの負荷を大幅に削減できます"
+   },
+   "opt_type_icon_info_option_svg": {
+      "message": "Graphic"
+   },
+   "opt_type_icon_info_option_svg_notext": {
+      "message": "Graphic (nein %)"
+   },
+   "opt_type_icon_info_option_text": {
+      "message": "Text"
+   },
+   "opt_type_icon_info_option_off": {
+      "message": "オフ"
+   },
+
+   "opt_color_icon_info": {
+      "message": "アイコンの表示色"
+   },
+   "opt_color_icon_info_tooltip": {
+      "message": "標準: #00FF00 (勾配赤〜緑)"
+   },
+   "opt_color_icon_info_desc": {
+      "message": "アイコンのダウンロード色を設定できます"
+   },
+
+   "opt_color_icon_text_info": {
+      "message": "アイコンの表示のテキスト色"
+   },
+   "opt_color_icon_text_info_tooltip": {
+      "message": "標準: #888888"
+   },
+   "opt_color_icon_text_info_desc": {
+      "message": "アイコンのテキストのダウンロード色を設定する"
+   },
+
+   "opt_bth_save_settings": {
+      "message": "Save Changes"
+   },
+   "opt_bth_save_settings_process": {
+      "message": "Saving..."
+   },
+   "opt_bth_save_settings_processed": {
+      "message": "Saved!"
+   },
+   "opt_bth_save_settings_tooltip": {
+      "message": "即座に適用"
+   },
+
+   "donate_tooltip": {
+      "message": "Patreonのサポート"
+   },
+   "donate": {
+      "message": "Donate"
+   }
+}

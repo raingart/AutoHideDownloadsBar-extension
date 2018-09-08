@@ -16,7 +16,7 @@
    },
 
    "noti_download_title": {
-      "message": "Download"
+      "message": "Herunterladen"
    },
    "noti_download_complete": {
       "message": "erfolgreich"
@@ -29,7 +29,7 @@
    },
 
    "opt_setting": {
-      "message": "settings"
+      "message": "einstellungen"
    },
 
    "github_page": {
@@ -96,7 +96,7 @@
       "message": "Grafik"
    },
    "opt_type_icon_info_option_svg_notext": {
-      "message": "Graphic (nein %)"
+      "message": "Grafik (nein %)"
    },
    "opt_type_icon_info_option_text": {
       "message": "Text"

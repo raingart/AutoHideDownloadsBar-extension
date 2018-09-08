@@ -108,7 +108,7 @@ const App = {
                dataForDrawing.outText = App.flashing();
             }
 
-            App.log('dataForDrawing ', JSON.stringify(dataForDrawing));
+            App.log('dataForDrawing %s', JSON.stringify(dataForDrawing));
 
             return dataForDrawing;
          }
@@ -217,7 +217,7 @@ const App = {
             // unknown size file
             } else {
                countInfinity += 1;
-               App.log('find infinity ' + countInfinity);
+               App.log('find infinity %s', countInfinity);
                continue;
             }
 
@@ -272,8 +272,8 @@ const App = {
             // }
          }
 
-         App.log('countActive ', countActive);
-         App.log('progress ', progress);
+         App.log('countActive %s', countActive);
+         App.log('progress %s', progress);
 
          if (callback && typeof (callback) === "function") {
             return callback(progress);
@@ -345,8 +345,8 @@ const App = {
                   // || download_size > minimum_download_size
                ) return false;
 
-               // console.log('timeLong', timeLong);
-               // console.log('download.fileSize', download.fileSize);
+               // console.log('timeLong%s', timeLong);
+               // console.log('download.fileSize %s', download.fileSize);
                App.log('Done notificationCheck get id', JSON.stringify(download));
 
                let fileName = App.getFileNameFromPatch(download.filename);
@@ -453,7 +453,7 @@ const App = {
    confStorage: {
       load: () => {
          let callback = (res) => {
-            App.log('confStorage', JSON.stringify(res));
+            App.log('confStorage %s', JSON.stringify(res));
             App.sessionSettings = res;
 
             App.refresh();
@@ -481,7 +481,7 @@ const App = {
 
       chrome.downloads.onChanged.addListener(function (item) {
          App.log('downloads.onChanged');
-         App.log('onChanged item', JSON.stringify(item));
+         App.log('onChanged item %s', JSON.stringify(item));
          App.refresh(item);
       });
 
@@ -491,7 +491,7 @@ const App = {
       });
 
       chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
-         switch (request.name) {
+         switch (request.action) {
             // case 'getOptions':
             //   let defaults = {};
             //   let resp = {};
@@ -526,9 +526,11 @@ const App = {
       App.clearToolbarIcon();
    },
 
-   log: (msg, args) => {
-      let arg = args === undefined ? '' : args;
-      App.DEBUG && console.log('[+] ' + msg.toString().trim(), arg)
+   log: (msg, arg) => {
+      if (App.DEBUG) {
+         if (arg) msg = msg.replace(/%s/g, arg.toString().trim());
+         console.log('[+] ' + msg);
+      }
    },
 }
 
