@@ -29,7 +29,7 @@
    },
 
    "opt_setting": {
-      "message": "einstellungen"
+      "message": "settings"
    },
 
    "github_page": {
@@ -135,7 +135,7 @@
       "message": "Einstellungen gespeichert!"
    },
    "opt_bth_save_settings_tooltip": {
-      "message": "Die Erweiterung wird neu gestartet"
+      "message": "Sofort angewendet"
    },
 
    "donate_tooltip": {
