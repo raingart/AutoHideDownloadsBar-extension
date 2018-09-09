@@ -4,9 +4,8 @@ body {
    color: #111;
    margin: 0 auto;
    line-height: 1.3;
-
    overflow: hidden;
-   position: relative; 
+   position: relative;
    width: 100%;
    /* height: 100vh; */
 }
@@ -21,11 +20,8 @@ div {
    position: relative;
 }
 
-.button,
 button,
 input,
-/* input:not([type=color]), */
-
 select,
 textarea {
    padding: 5px 10px;
@@ -59,16 +55,6 @@ textarea {
    padding: 3px 5px;
 }
 
-a.button {
-   text-decoration: none;
-   border: none;
-}
-
-a.button:hover {
-   outline: 1px solid #66afe9;
-}
-
-.button,
 button,
 input[type=submit],
 input[type=reset],
@@ -90,6 +76,7 @@ input[type=button] {
    border: 1px solid #bbb;
    box-sizing: border-box;
    height: 35px;
+   width: max-content;
    padding: 0 20px;
    line-height: 35px;
    color: #FFF;
@@ -99,8 +86,6 @@ input[type=button] {
    border-color: #33C3F0; */
 }
 
-.button:focus,
-.button:hover,
 button:focus,
 button:hover,
 input[type=submit]:focus,
@@ -113,16 +98,13 @@ textarea:focus {
    outline: 0;
 }
 
-/* .button:focus,
-button:not([disabled]):focus,
-input:not([disabled]):focus,
+/*input:not([disabled]):focus,
 select:not([disabled]):focus,
 textarea:not([disabled]):not([readonly]):focus {
    border-color: #66afe9;
    outline: 0;
    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 } */
-
 .disabled,
 [disabled] {
    opacity: .7;
@@ -195,6 +177,7 @@ legend {
    from {
       background-position: 0 0;
    }
+
    to {
       background-position: 40px 0;
    }
@@ -204,6 +187,7 @@ legend {
    from {
       background-position: 0 0;
    }
+
    to {
       background-position: 40px 0;
    }
@@ -213,6 +197,7 @@ legend {
    from {
       background-position: 0 0;
    }
+
    to {
       background-position: 40px 0;
    }

@@ -19,23 +19,30 @@ div.between {
 }
 
 div.between {
-   justify-content: space-between;
-   display: flex;
-   flex-direction: row;
+   display: grid;
+   grid-template-columns: 1fr auto;
+}
+
+div.between>h2 {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   text-transform: capitalize;
 }
 
 div.between>a {
-   align-self: center;
+   /* align-self: center; */
+   padding: 5px;
+   text-decoration: none;
 }
 
 div.between:first-child {
-   padding-top: 0;
+   padding: 0;
 }
 
 form>ul>li.item {
    display: grid;
    grid-template-columns: [left info] 1fr [right opt];
-   
    /* padding: 8px 0; */
 }
 
@@ -45,11 +52,10 @@ form>ul>li.item:not(:last-child) {
 
 .info {
    grid-column: info;
-
 }
+
 .opt {
    grid-column: opt;
-
    align-self: center;
    justify-self: center;
 }
@@ -67,7 +73,7 @@ label>span {
 label>span>q {
    font-style: italic;
    color: #006b9e;
-   quotes: "\00ab" "\00bb";
+   quotes: "\00ab""\00bb";
 }
 
 hr {
