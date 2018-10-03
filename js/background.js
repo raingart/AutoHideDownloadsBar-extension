@@ -67,8 +67,8 @@ const App = {
             let color = (function () {
                let color = '#00ff00';
                // #00ff00 is default value 
-               if (App.sessionSettings['colorPicker'] 
-               && App.sessionSettings['colorPicker'] !== color) {
+               if (App.sessionSettings['colorPicker'] &&
+                  App.sessionSettings['colorPicker'] !== color) {
                   color = App.sessionSettings['colorPicker'];
 
                   // set gradient
@@ -132,8 +132,8 @@ const App = {
                ctx.fillRect(0, 0, parseInt(canvas.width * ratio), canvas.height);
 
                // add pt
-               if (App.sessionSettings['typeIconInfo'] != 'svg_notext' 
-                  && +dataForDrawing.outText !== Infinity) {
+               if (App.sessionSettings['typeIconInfo'] != 'svg_notext' &&
+                  +dataForDrawing.outText !== Infinity) {
                   // create style text
                   ctx.textAlign = 'center';
                   ctx.textBaseline = 'middle';
@@ -143,7 +143,7 @@ const App = {
                   ctx.fillStyle = dataForDrawing.color_text || '#888';
 
                   ctx.fillText(
-                     dataForDrawing.outText.toString(), 
+                     dataForDrawing.outText.toString(),
                      canvas.width / 2, canvas.height / 2
                   );
                }
@@ -191,7 +191,7 @@ const App = {
             countInfinity = 0,
             countActive = downloads.length;
 
-         for (let download of downloads) {
+         for (const download of downloads) {
             App.log('downloadItem: ' + JSON.stringify(download));
 
             totalReceived += download.bytesReceived;
@@ -214,7 +214,7 @@ const App = {
                   timeLeft += new Date(download.estimatedEndTime) - new Date();
                // if undefined fileSize file
 
-            // unknown size file
+               // unknown size file
             } else {
                countInfinity += 1;
                App.log('find infinity %s', countInfinity);
@@ -231,7 +231,7 @@ const App = {
          if (countActive) {
             // set toolbar title
             let titleOut = '';
-            
+
             // size
             titleOut += App.bytesFormat(totalReceived) + " / ";
             titleOut += totalSize ? App.bytesFormat(totalSize) : "unknown size";
@@ -240,7 +240,7 @@ const App = {
                // pt
                titleOut += "\n" + progress + "%";
                // left time
-               titleOut += " ~ " + App.timeFormat_short(timeLeft) + " left";
+               titleOut += " ~" + App.timeFormat_short(timeLeft) + " left";
             }
 
             // count
@@ -370,12 +370,9 @@ const App = {
          return path.split(/(\\|\/)/g).pop();
    },
 
-   bytesFormat: (bytes) => {
-      let size;
-      return 0 >= bytes ? "0 B" : (
-         size = Math.floor(Math.log(bytes) / Math.log(1024)),
-         (bytes / Math.pow(1024, size)).toFixed(1) + " " + ["B", "KB", "MB", "GB", "TB"][size]
-      )
+   bytesFormat(bytes) {
+      let i = bytes == 0 ? 0 : Math.floor(Math.log(bytes) / Math.log(1024));
+      return (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ['B', 'kB', 'MB', 'GB', 'TB'][i];
    },
 
    timeFormat_short: (ms) => {
@@ -434,7 +431,7 @@ const App = {
          "currentWindow": true
       }, function (tabs) {
          // search for the existing tab 
-         for (let tab of tabs) {
+         for (const tab of tabs) {
             // is finded - focus
             if (tab.url === openUrl)
                return chrome.tabs.update(tab.id, {
@@ -474,8 +471,8 @@ const App = {
    eventListener: () => {
       chrome.downloads.onCreated.addListener(function (item) {
          App.log('downloads.onCreated');
-         let shelf = App.sessionSettings.shelfEnabled 
-            || App.sessionSettings.ShowDownBar ? true : false; // fix old ver-conf/ TODO remove
+         let shelf = App.sessionSettings.shelfEnabled ||
+            App.sessionSettings.ShowDownBar ? true : false; // fix old ver-conf/ TODO remove
          chrome.downloads.setShelfEnabled(shelf);
       });
 
@@ -495,7 +492,7 @@ const App = {
             // case 'getOptions':
             //   let defaults = {};
             //   let resp = {};
-            //   for (let key in defaults) {
+            //   for (const key in defaults) {
             //       if (!(key in localStorage)) {
             //           localStorage[key] = defaults[key];
             //       }

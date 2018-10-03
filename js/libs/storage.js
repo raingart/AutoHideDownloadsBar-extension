@@ -1,10 +1,10 @@
-var Storage = function () {
+const Storage = function () {
    const nameApp = chrome.runtime.getManifest().short_name;
-   var saveParams = {};
+   let saveParams = {};
 
    return {
       setParams: function (x, wantSync) {
-         var storageArea = wantSync ? chrome.storage.sync : chrome.storage.local;
+         let storageArea = wantSync ? chrome.storage.sync : chrome.storage.local;
          storageArea.clear();
 
          saveParams[nameApp] = x;
@@ -18,12 +18,12 @@ var Storage = function () {
       },
 
       getParams: function (x, callback, wantSync) {
-         var storageArea = wantSync ? chrome.storage.sync : chrome.storage.local;
+         let storageArea = wantSync ? chrome.storage.sync : chrome.storage.local;
 
          storageArea.get(x, function (items) {
             // console.log('saveParams '+JSON.stringify(items));
-            var items = items[nameApp] && items[nameApp][items] ? items[nameApp][items] : items[nameApp] || items;
-            chrome.runtime.lastError ? console.log(chrome.runtime.lastError) : callback(items);
+            let item = items[nameApp] && items[nameApp][items] ? items[nameApp][items] : items[nameApp] || items;
+            chrome.runtime.lastError ? console.log(chrome.runtime.lastError) : callback(item);
          })
       },
    }
@@ -31,7 +31,7 @@ var Storage = function () {
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
    for (key in changes) {
-     var storageChange = changes[key];
+     let storageChange = changes[key];
    //   console.log('Storage key "%s" in namespace "%s" changed. ' +
    //               'Old value was "%s", new value is "%s".',
      console.log('("%s") "%s" : "%s" => "%s"',

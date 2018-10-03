@@ -61,6 +61,9 @@
    "opt_show_download_panel_timeout_desc": {
       "message": "İndirilen dosya üzerindeki etki için bir zaman gecikmesi kullanın"
    },
+   "opt_show_download_panel_timeout_sec": {
+      "message": "sek"
+   },
 
    "opt_show_notification": {
       "message": "Bildirimleri göster"

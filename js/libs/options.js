@@ -136,10 +136,10 @@ window.addEventListener('load', (evt) => {
       oggSupport: () => {
          if (new Audio().canPlayType('audio/ogg; codecs="vorbis"')) return;
 
-         var inputAudio = document.getElementsByName('soundNotification')[0];
+         let inputAudio = document.getElementsByName('soundNotification')[0];
          inputAudio.checked = false;
          inputAudio.disabled = true;
-         var warnMsg = 'Your browser does not support the .ogg audio file'
+         let warnMsg = 'Your browser does not support the .ogg audio file'
          inputAudio.title = warnMsg;
          inputAudio.parentElement.setAttribute("tooltip", warnMsg);
 

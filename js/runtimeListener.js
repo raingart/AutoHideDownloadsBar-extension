@@ -1,7 +1,7 @@
+console.log(i18n("app_name") + ": init runtimeListener.js");
+
 (function () {
    'use strict';
-   
-   console.log(i18n("app_name") + ": init runtimeListener.js");
 
    // Check whether new version is installed
    chrome.runtime.onInstalled.addListener(function (details) {

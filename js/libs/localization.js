@@ -15,7 +15,7 @@ function internationalize(str) {
 }
 
 function setLocalization(ParentTag) {
-	var html = document.getElementsByTagName(ParentTag || "body")[0];
+	let html = document.getElementsByTagName(ParentTag || "body")[0];
 	html.innerHTML = internationalize(html.innerHTML)
 }
 

@@ -61,6 +61,9 @@
    "opt_show_download_panel_timeout_desc": {
       "message": "Verwenden Sie eine Zeitverzögerung für die Auswirkungen auf die heruntergeladene Datei"
    },
+   "opt_show_download_panel_timeout_sec": {
+      "message": "sek"
+   },
 
    "opt_show_notification": {
       "message": "Benachrichtigung anzeigen"
