@@ -38,12 +38,9 @@
    "github_page_tooltip": {
       "message": "Open"
    },
-   
+
    "opt_show_download_panel": {
       "message": "ダウンロードがアクティブなときにダウンロードバーを表示する"
-   },
-   "opt_show_download_panel_tooltip": {
-      "message": "標準: OFF"
    },
    "opt_show_download_panel_desc": {
       "message": "ダウンロードバーを非表示にするのは、ダウンロードが完了した後にのみ発生します。"
@@ -55,18 +52,12 @@
    "opt_show_download_panel_timeout": {
       "message": "ダウンロード後にパネルを非表示にするまでの遅延時間（秒）"
    },
-   "opt_show_download_panel_timeout_tooltip": {
-      "message": "標準: 0"
-   },
    "opt_show_download_panel_timeout_desc": {
       "message": "ダウンロードしたファイルに影響を与えるために時間遅延を使用する"
    },
 
    "opt_show_notification": {
       "message": "通知を表示する"
-   },
-   "opt_show_notification_tooltip": {
-      "message": "標準: ON"
    },
    "opt_show_notification_desc": {
       "message": "ファイルのダウンロード状況が変更された場合に通知を表示する"
@@ -75,9 +66,6 @@
    "opt_sound_notification": {
       "message": "再生通知音"
    },
-   "opt_sound_notification_tooltip": {
-      "message": "標準: OFF"
-   },
    "opt_sound_notification_desc": {
       "message": "通知システムがすでに音声アラートを使用している場合は無効にする"
    },
@@ -85,9 +73,6 @@
 
    "opt_type_icon_info": {
       "message": "ツールバーの表示のタイプを選択する"
-   },
-   "opt_type_icon_info_tooltip": {
-      "message": "標準: グラフィック"
    },
    "opt_type_icon_info_desc": {
       "message": "オフを使用すると、システムの負荷を大幅に削減できます"
@@ -117,9 +102,6 @@
 
    "opt_color_icon_text_info": {
       "message": "アイコンの表示のテキスト色"
-   },
-   "opt_color_icon_text_info_tooltip": {
-      "message": "標準: #888888"
    },
    "opt_color_icon_text_info_desc": {
       "message": "アイコンのテキストのダウンロード色を設定する"

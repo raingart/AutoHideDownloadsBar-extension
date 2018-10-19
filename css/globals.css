@@ -145,7 +145,11 @@ legend {
 }
 
 .hide {
-   display: none !important;
+   visibility: collapse;
+   height: 0;
+   margin: 0;
+   padding: 0;
+   background-color: #4CAF50;
 }
 
 .in-progress {

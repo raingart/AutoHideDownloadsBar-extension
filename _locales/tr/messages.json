@@ -38,12 +38,9 @@
    "github_page_tooltip": {
       "message": "Aç"
    },
-   
+
    "opt_show_download_panel": {
       "message": "İndirme sırasında, indirilenler çubuğunu göster"
-   },
-   "opt_show_download_panel_tooltip": {
-      "message": "Varsayılan: KAPALI"
    },
    "opt_show_download_panel_desc": {
       "message": "İndirilenler çubuğu, indirmeler tamamlandıktan sonra gizlenir"
@@ -55,9 +52,6 @@
    "opt_show_download_panel_timeout": {
       "message": "İndirdikten sonra paneli gizlemeden önce saniye cinsinden gecikme"
    },
-   "opt_show_download_panel_timeout_tooltip": {
-      "message": "Varsayılan: 0"
-   },
    "opt_show_download_panel_timeout_desc": {
       "message": "İndirilen dosya üzerindeki etki için bir zaman gecikmesi kullanın"
    },
@@ -68,18 +62,12 @@
    "opt_show_notification": {
       "message": "Bildirimleri göster"
    },
-   "opt_show_notification_tooltip": {
-      "message": "Varsayılan: AÇIK"
-   },
    "opt_show_notification_desc": {
       "message": "Dosya indirme durumu değiştiğinde bildirim göster"
    },
 
    "opt_sound_notification": {
       "message": "Bildirim sesini çal"
-   },
-   "opt_sound_notification_tooltip": {
-      "message": "Varsayılan: KAPALI"
    },
    "opt_sound_notification_desc": {
       "message": "Bildirim sisteminiz zaten sesli uyarı kullanıyorsa devre dışı bırak"
@@ -88,9 +76,6 @@
 
    "opt_type_icon_info": {
       "message": "Araç çubuğundan belirteç türünü seçin"
-   },
-   "opt_type_icon_info_tooltip": {
-      "message": "Varsayılan: Grafik"
    },
    "opt_type_icon_info_desc": {
       "message": "Kapalı konum, sistemdeki yükü önemli ölçüde azaltabilir"
@@ -120,9 +105,6 @@
 
    "opt_color_icon_text_info": {
       "message": "Göstergedeki metin rengi simgedir"
-   },
-   "opt_color_icon_text_info_tooltip": {
-      "message": "Varsayılan: #888888"
    },
    "opt_color_icon_text_info_desc": {
       "message": "Simgenin metninin karşıdan yükleme rengini ayarlama"

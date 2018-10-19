@@ -44,7 +44,17 @@ form>ul>li.item {
    display: grid;
    grid-template-columns: [left info] 1fr [right opt];
    /* padding: 8px 0; */
+
 }
+
+form>ul>li.item[data-dependent] {
+   transition: background-color 500ms ease-out;
+}
+
+form>ul>li.item[data-dependent].hide {
+   background-color: #2196f3;
+}
+
 
 form>ul>li.item:not(:last-child) {
    border-top: 1px solid #e0e0e0;

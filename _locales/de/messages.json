@@ -38,12 +38,9 @@
    "github_page_tooltip": {
       "message": "Öffnen"
    },
-   
+
    "opt_show_download_panel": {
       "message": "Download-Leiste anzeigen, wenn der Download aktiv ist"
-   },
-   "opt_show_download_panel_tooltip": {
-      "message": "Standard: AUS"
    },
    "opt_show_download_panel_desc": {
       "message": "Das Verstecken der Download-Leiste erfolgt erst nach dem Download"
@@ -55,9 +52,6 @@
    "opt_show_download_panel_timeout": {
       "message": "Verzögerung in Sekunden, bevor das Panel nach dem Herunterladen ausgeblendet wird"
    },
-   "opt_show_download_panel_timeout_tooltip": {
-      "message": "Standard: 0"
-   },
    "opt_show_download_panel_timeout_desc": {
       "message": "Verwenden Sie eine Zeitverzögerung für die Auswirkungen auf die heruntergeladene Datei"
    },
@@ -68,18 +62,12 @@
    "opt_show_notification": {
       "message": "Benachrichtigung anzeigen"
    },
-   "opt_show_notification_tooltip": {
-      "message": "Standard: EIN"
-   },
    "opt_show_notification_desc": {
       "message": "Benachrichtigung anzeigen, wenn sich der Downloadstatus der Datei geändert hat"
    },
 
    "opt_sound_notification": {
       "message": "Benachrichtigungston abspielen"
-   },
-   "opt_sound_notification_tooltip": {
-      "message": "Standard: AUS"
    },
    "opt_sound_notification_desc": {
       "message": "Deaktivieren Sie diese Option, wenn Ihr Benachrichtigungssystem bereits eine Audiowarnung verwendet"
@@ -88,9 +76,6 @@
 
    "opt_type_icon_info": {
       "message": "Standard wird der Download-Fortschritt aller heruntergeladenen Dateien angezeigt"
-   },
-   "opt_type_icon_info_tooltip": {
-      "message": "Standard: Grafik"
    },
    "opt_type_icon_info_desc": {
       "message": "Aus kann die Systembelastung erheblich reduzieren"
@@ -120,9 +105,6 @@
 
    "opt_color_icon_text_info": {
       "message": "Tekstkleur van indicatie in pictogram"
-   },
-   "opt_color_icon_text_info_tooltip": {
-      "message": "Standard: #888888"
    },
    "opt_color_icon_text_info_desc": {
       "message": "Stel de downloadkleur voor de tekst in het pictogram in"
