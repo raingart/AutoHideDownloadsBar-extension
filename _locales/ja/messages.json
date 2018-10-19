@@ -55,6 +55,9 @@
    "opt_show_download_panel_timeout_desc": {
       "message": "ダウンロードしたファイルに影響を与えるために時間遅延を使用する"
    },
+   "opt_show_download_panel_timeout_sec": {
+      "message": "sec"
+   },
 
    "opt_show_notification": {
       "message": "通知を表示する"
