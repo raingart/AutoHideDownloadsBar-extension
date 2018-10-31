@@ -56,7 +56,8 @@ form>ul>li.item[data-dependent].hide {
 }
 
 
-form>ul>li.item:not(:last-child) {
+/* form>ul>li.item:not(:last-child) { */
+form>ul>li.item {
    border-top: 1px solid #e0e0e0;
 }
 

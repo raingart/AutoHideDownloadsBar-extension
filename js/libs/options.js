@@ -6,19 +6,18 @@ window.addEventListener('load', (evt) => {
 
       attrDependencies: () => {
          Array.from(document.querySelectorAll("[data-dependent]"))
-            .map((dependentItem) => {
-               // let dependentsList = dependentItem.getAttribute('data-dependent').split(',').map(i => i.trim());
+            .forEach((dependentItem) => {
+               // let dependentsList = dependentItem.getAttribute('data-dependent').split(',').forEach(i => i.trim());
                let dependentsJson = JSON.parse(dependentItem.getAttribute('data-dependent').toString());
 
-               // init state
-               showOrHide(dependentItem, dependentsJson);
-
-               let itemTagName = Object.keys(dependentsJson);
-               let dependentTag = document.getElementsByName(itemTagName)[0] || document.getElementById(itemTagName);
-
-               dependentTag.addEventListener("change", function () {
+               let handler = function () {
                   showOrHide(dependentItem, dependentsJson);
-               });
+               };
+               // init state
+               handler();
+
+               document.getElementById(Object.keys(dependentsJson)) //dependentTag
+                  .addEventListener("change", handler);
             });
 
          function showOrHide(dependentItem, dependentsList) {
@@ -58,8 +57,8 @@ window.addEventListener('load', (evt) => {
          // }
 
          for (const [key, value] of formData.entries()) {
-            newOptions[key] = value;
             // console.log(key, value);
+            newOptions[key] = value;
          }
 
          Storage.setParams(newOptions, true /* true=sync, false=local */ );
@@ -99,16 +98,32 @@ window.addEventListener('load', (evt) => {
 
       // Register the event handlers.
       eventListener: () => {
-         let form = document.forms[0];
-         // let form = document.querySelector('form');
+         document.forms[0] // get form
+            .addEventListener('submit', function (event) {
+               event.preventDefault();
+               Conf.bthSaveAnimation._process();
+               Conf.saveOptions(this, Conf.bthSaveAnimation._processed);
+               Conf.bthSaveAnimation._defaut();
+            }, false);
 
-         form.addEventListener('submit', function (ev) {
-            ev.preventDefault();
-            Conf.bthSaveAnimation._process();
-            // Conf.saveOptions(this);
-            Conf.saveOptions(this, Conf.bthSaveAnimation._processed);
-            Conf.bthSaveAnimation._defaut();
-         }, false);
+         document.getElementById('showNotification')
+            .addEventListener("change", function (event) {
+               // console.log('event.type: %s', event.type);
+               if (event.target.checked) {
+                  // Permissions must be requested
+                  chrome.permissions.contains({
+                     permissions: ['notifications']
+                  }, function (granted) {
+                     chrome.permissions.request({
+                        permissions: ['notifications'],
+                     }, function (granted) {
+                        // The callback argument will be true if the user granted the permissions.
+                        event.target.checked = granted ? true : false;
+                        Conf.attrDependencies(); //fix trigger
+                     });
+                  });
+               }
+            });
       },
 
       init: () => {
