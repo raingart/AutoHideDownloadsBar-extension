@@ -96,6 +96,23 @@ window.addEventListener('load', (evt) => {
          },
       },
 
+      getPermissions: (requested, event) => {
+         if (Array.isArray(requested) && event.target.checked) {
+            // Permissions must be requested
+            chrome.permissions.contains({
+               permissions: requested
+            }, function (granted) {
+               chrome.permissions.request({
+                  permissions: requested,
+               }, function (granted) {
+                  // The callback argument will be true if the user granted the permissions.
+                  event.target.checked = granted ? true : false;
+                  Conf.attrDependencies(); //fix trigger
+               });
+            });
+         }
+      },
+
       // Register the event handlers.
       eventListener: () => {
          document.forms[0] // get form
@@ -109,21 +126,7 @@ window.addEventListener('load', (evt) => {
          document.getElementById('showNotification')
             .addEventListener("change", function (event) {
                // console.log('event.type: %s', event.type);
-               if (event.target.checked) {
-                  // Permissions must be requested
-                  const requested = ['notifications'];
-                  chrome.permissions.contains({
-                     permissions: requested
-                  }, function (granted) {
-                     chrome.permissions.request({
-                        permissions: requested,
-                     }, function (granted) {
-                        // The callback argument will be true if the user granted the permissions.
-                        event.target.checked = granted ? true : false;
-                        Conf.attrDependencies(); //fix trigger
-                     });
-                  });
-               }
+               Conf.getPermissions(['notifications'], event);
             });
       },
 
