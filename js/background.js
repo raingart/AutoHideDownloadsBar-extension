@@ -419,7 +419,7 @@ const App = {
             // web api
             if (window.Notification && Notification.permission === "granted") {
                let notification = new Notification(opt.title || i18n("app_name"), {
-                  body: opt.message || '',
+                  body: opt.body || '',
                   icon: opt.iconUrl || manifest.icons['48'],
                });
 
