@@ -111,11 +111,12 @@ window.addEventListener('load', (evt) => {
                // console.log('event.type: %s', event.type);
                if (event.target.checked) {
                   // Permissions must be requested
+                  const requested = ['notifications'];
                   chrome.permissions.contains({
-                     permissions: ['notifications']
+                     permissions: requested
                   }, function (granted) {
                      chrome.permissions.request({
-                        permissions: ['notifications'],
+                        permissions: requested,
                      }, function (granted) {
                         // The callback argument will be true if the user granted the permissions.
                         event.target.checked = granted ? true : false;

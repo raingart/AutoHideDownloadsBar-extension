@@ -6,59 +6,48 @@ const App = {
 
    // DEBUG: true,
 
-   runInterval: (statusDownload) => {
-      App.log('runInterval: ', statusDownload);
+   pulsar: (statusDownload) => {
+      App.log('pulsar: ', statusDownload);
 
       if (statusDownload && !App.isBusy) {
          App.log('setInterval');
          App.isBusy = true;
          App.temploadingMessage = setInterval(function () {
-            App.getDownloadProgress(App.updateToolbarIcon.indicate);
             App.log('setInterval RUN');
+            App.getDownloadProgress(App.updateIndicate);
          }, 800);
          // cancellation of pending shelf-panel hiding
          App.shelfTimeout && clearTimeout(App.shelfTimeout);
+
       } else if (!statusDownload && App.isBusy) {
          App.log('clearInterval');
          App.isBusy = false;
          clearInterval(App.temploadingMessage);
-         App.clearToolbarIcon();
-      } else
-         App.log('runInterval ignore');
+         App.browser.toolbar.clear();
+
+      } else App.log('pulsar ignore');
    },
 
-   clearToolbarIcon: () => {
-      const manifest = chrome.runtime.getManifest();
-      App.toolbar.setIcon({
-         path: manifest.icons['16']
-      });
-      App.toolbar.setBadgeText('');
-      App.toolbar.setTitle(i18n("app_title"));
+   updateIndicate: (pt) => {
+      switch (App.sessionSettings['typeIconInfo'] /*.toLowerCase()*/ ) {
+         case 'false':
+            break;
+
+         case 'text':
+            App.browser.toolbar.setBadgeBackgroundColor(App.sessionSettings['colorPicker']);
+            App.browser.toolbar.setBadgeText(App.genProgressBar.text(pt));
+            break;
+
+         default:
+            App.browser.toolbar.setIcon({
+               imageData: App.genProgressBar.grafic(pt)
+            });
+      }
+      return;
    },
 
-   updateToolbarIcon: {
-      indicate: (pt) => {
-         switch (App.sessionSettings['typeIconInfo'] /*.toLowerCase()*/ ) {
-            case 'false':
-               return false;
-
-            case 'text':
-               App.toolbar.setBadgeBackgroundColor(
-                  App.sessionSettings['colorPicker']
-               );
-               App.toolbar.setBadgeText(
-                  App.updateToolbarIcon.textProgressBar(pt)
-               );
-               break;
-
-            default:
-               App.toolbar.setIcon({
-                  imageData: App.updateToolbarIcon.graficProgressBar(pt)
-               });
-         }
-      },
-
-      graficProgressBar: (x) => {
+   genProgressBar: {
+      grafic: (x) => {
          let getDataDrawing = dataForDrawing(x);
 
          return drawToolbarIcon(getDataDrawing);
@@ -162,7 +151,7 @@ const App = {
          }
       },
 
-      textProgressBar: (x) => {
+      text: (x) => {
          // if (Number.isInteger(x) && x !== Infinity) {
          if (x >= 0 && x <= 100) {
             x += '%';
@@ -173,7 +162,6 @@ const App = {
          }
          return x;
       }
-
    },
 
    getDownloadProgress: (callback) => {
@@ -247,7 +235,7 @@ const App = {
             if (countActive > 1 || countInfinity) {
                titleOut += "\n" + 'active: ' + countActive;
                // let badgeText = countInfinity ? countInfinity + '/' + countActive : countActive
-               // App.toolbar.setBadgeText(badgeText);
+               // App.browser.toolbar.setBadgeText(badgeText);
 
                // ignored
                if (countInfinity) {
@@ -260,13 +248,13 @@ const App = {
                }
             }
 
-            App.toolbar.setTitle(titleOut);
+            App.browser.toolbar.setTitle(titleOut);
 
          } else {
             // if ((item.state.current == 'complete') && item.endTime && !item.error) {
             // hide shelf-panel
             App.shelfTimeout = setTimeout(function () {
-               console.log('shelfTimeout');
+               App.log('shelfTimeout run');
                chrome.downloads.setShelfEnabled(false);
             }, Number(App.sessionSettings["shelfTimeout"]) * 1000 || 0);
             // }
@@ -280,88 +268,6 @@ const App = {
          }
 
       });
-   },
-
-   toolbar: {
-      /* beautify preserve:start */
-      setIcon: (obj) => { chrome.browserAction.setIcon(obj); },
-
-      setTitle: (title) => {
-         let obj = { "title": title.toString().trim() || '' };
-         chrome.browserAction.setTitle(obj);
-      },
-
-      setBadgeText: (text) => {
-         let obj = { "text": text.toString().trim() || ''  };
-         chrome.browserAction.setBadgeText(obj);
-      },
-
-      setBadgeBackgroundColor: (color) => {
-         let obj = { color: color || "black" };
-         chrome.browserAction.setBadgeBackgroundColor(obj);
-      },
-      /* beautify preserve:end */
-   },
-
-   notificationCheck: (item) => {
-      if (item && item.state && item.state.previous === 'in_progress') {
-         let msg,
-            audioNotification;
-
-         switch (item.state.current) {
-            case 'complete':
-               msg = i18n("noti_download_complete");
-               audioNotification = new Audio('/audio/complete.ogg');
-               // audioNotification = '/audio/complete.ogg';
-               break;
-
-            case 'interrupted':
-               if (item.error.current === 'USER_CANCELED') {
-                  // msg = i18n("noti_download_canceled");
-               } else {
-                  msg = i18n("noti_download_interrupted");
-                  audioNotification = new Audio('/audio/interrupted.ogg');
-               }
-               break;
-
-            case 'in_progress':
-               return false;
-
-            default:
-               return false;
-         }
-
-         if (msg)
-            chrome.downloads.search({
-               id: item.id
-            }, function (downloads) {
-               let download = downloads[0];
-               let timeLong = Date.parse(download.endTime) - Date.parse(download.startTime);
-
-               let minimum_download_time = 3000; // ms
-
-               // skip notifity small file or small size
-               if (download.fileSize <= 1 || timeLong < minimum_download_time
-                  // || download_size > minimum_download_size
-               ) return false;
-
-               // console.log('timeLong%s', timeLong);
-               // console.log('download.fileSize %s', download.fileSize);
-               App.log('Done notificationCheck get id', JSON.stringify(download));
-
-               let fileName = App.getFileNameFromPatch(download.filename);
-               if (fileName && fileName.length > 50)
-                  fileName = fileName.slice(0, 31) + "...";
-
-               App.showNotification({
-                  title: i18n("noti_download_title") + ' ' + msg,
-                  message: fileName
-               });
-
-               if (audioNotification && App.sessionSettings["soundNotification"])
-                  audioNotification.play();
-            });
-      }
    },
 
    getFileNameFromPatch: (path) => {
@@ -397,53 +303,144 @@ const App = {
       return Array((++App.counter_tmp % count) + 1).join(outText || '.');;
    },
 
-   // showNotification: (title, msg, icon) => {
-   showNotification: (opt) => {
-      const manifest = chrome.runtime.getManifest();
-      //    var options = options || {
-      //       // body: '',
-      //       icon: '/icons/' + manifest.icons['48'],
-      //       // sound: 'audio/alert.mp3'
-      //    };
-      //    if (!options.icon)
-      //       options.icon = manifest.icons['48'];
+   genNotification: (item) => {
+      if (item && item.state && item.state.previous === 'in_progress') {
+         let msg, audioNotification;
 
-      //    let notification = new Notification(title || i18n("app_name"), options);
-      let options = {
-         type: opt.type || 'basic', //'basic', 'image', 'list', 'progress'
-         title: opt.title || i18n("app_name"),
-         iconUrl: opt.iconUrl || manifest.icons['48'],
-         message: opt.message || '',
-         // "priority": 2,
-      };
-      chrome.notifications.create('info', options, function (notificationId) {
-         chrome.notifications.onClicked.addListener(function (callback) {
-            chrome.notifications.clear(notificationId, callback);
-         });
-      });
+         switch (item.state.current) {
+            case 'complete':
+               msg = i18n("noti_download_complete");
+               audioNotification = new Audio('/audio/complete.ogg');
+               // audioNotification = '/audio/complete.ogg';
+               break;
+
+            case 'interrupted':
+               if (item.error.current === 'USER_CANCELED') {
+                  // msg = i18n("noti_download_canceled");
+               } else {
+                  msg = i18n("noti_download_interrupted");
+                  audioNotification = new Audio('/audio/interrupted.ogg');
+               }
+               break;
+
+               // case 'in_progress':
+               //    return false;
+
+            default:
+               return false;
+         }
+
+         if (msg)
+            chrome.downloads.search({
+               id: item.id
+            }, function (downloads) {
+               let download = downloads[0];
+               let timeLong = Date.parse(download.endTime) - Date.parse(download.startTime);
+               let fileName = App.getFileNameFromPatch(download.filename);
+               let minimum_download_time = 3000; // ms
+
+               // skip notifity small file or small size
+               if (download.fileSize <= 1 || timeLong < minimum_download_time) return false;
+
+               // console.log('timeLong %s', timeLong);
+               // console.log('download.fileSize %s', download.fileSize);
+               App.log('Done get download\n%s', JSON.stringify(download));
+
+               if (fileName && fileName.length > 50) {
+                  fileName = fileName.slice(0, 31) + "...";
+               }
+
+               App.browser.notification.show({
+                  title: i18n("noti_download_title") + ' ' + msg,
+                  body: fileName
+               }, audioNotification && App.sessionSettings["soundNotification"] ? audioNotification : false);
+            });
+      }
    },
 
-   openTab: (url) => {
-      let openUrl = url || 'chrome://newtab';
+   browser: {
+      openTab: (url) => {
+         let openUrl = url || 'chrome://newtab';
 
-      // chrome.tabs.getAllInWindow(null, function (tabs) {
-      chrome.tabs.query({
-         "currentWindow": true
-      }, function (tabs) {
-         // search for the existing tab 
-         for (const tab of tabs) {
-            // is finded - focus
-            if (tab.url === openUrl)
-               return chrome.tabs.update(tab.id, {
-                  selected: true
+         // chrome.tabs.getAllInWindow(null, function (tabs) {
+         chrome.tabs.query({
+            "currentWindow": true
+         }, function (tabs) {
+            // search for the existing tab 
+            for (const tab of tabs) {
+               // is finded - focus
+               if (tab.url === openUrl)
+                  return chrome.tabs.update(tab.id, {
+                     selected: true
+                  });
+            };
+            // create new tab
+            chrome.tabs.create({
+               url: openUrl,
+               // selected: false
+            })
+         });
+      },
+
+      toolbar: {
+         /* beautify preserve:start */
+         setIcon: (obj) => { chrome.browserAction.setIcon(obj); },
+
+         setTitle: (title) => {
+            let obj = { "title": title.toString().trim() || '' };
+            chrome.browserAction.setTitle(obj);
+         },
+
+         setBadgeText: (text) => {
+            let obj = { "text": text.toString().trim() || ''  };
+            chrome.browserAction.setBadgeText(obj);
+         },
+
+         setBadgeBackgroundColor: (color) => {
+            let obj = { color: color || "black" };
+            chrome.browserAction.setBadgeBackgroundColor(obj);
+         },
+         /* beautify preserve:end */
+
+         clear: () => {
+            const manifest = chrome.runtime.getManifest();
+            App.browser.toolbar.setIcon({
+               path: manifest.icons['16']
+            });
+            App.browser.toolbar.setBadgeText('');
+            App.browser.toolbar.setTitle(i18n("app_title"));
+         },
+      },
+
+      notification: {
+         show: (opt, audioPatch) => {
+            const manifest = chrome.runtime.getManifest();
+
+            // web api
+            if (window.Notification && Notification.permission === "granted") {
+               let notification = new Notification(opt.title || i18n("app_name"), {
+                  body: opt.message || '',
+                  icon: opt.iconUrl || manifest.icons['48'],
                });
-         };
-         // create new tab
-         chrome.tabs.create({
-            url: openUrl,
-            // selected: false
-         })
-      });
+
+            // chrome api
+            } else {
+               chrome.notifications.create('info', {
+                  type: opt.type || 'basic', //'basic', 'image', 'list', 'progress'
+                  title: opt.title || i18n("app_name"),
+                  iconUrl: opt.iconUrl || manifest.icons['48'],
+                  message: opt.body || '',
+                  // "priority": 2,
+               }, function (notificationId) {
+                  chrome.notifications.onClicked.addListener(function (callback) {
+                     chrome.notifications.clear(notificationId, callback);
+                  });
+               });
+            }
+            // audio
+            if (audioPatch) audioPatch.play();
+         },
+      }
    },
 
    // Saves/Load options to localStorage/chromeSync.
@@ -484,7 +481,7 @@ const App = {
 
       // called when the icon is clicked
       chrome.browserAction.onClicked.addListener(function (tab) {
-         App.openTab('chrome://downloads/');
+         App.browser.openTab('chrome://downloads/');
       });
 
       chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
@@ -502,7 +499,7 @@ const App = {
             // break;
             case 'setOptions':
                App.sessionSettings = request.options;
-               App.clearToolbarIcon();
+               App.browser.toolbar.clear();
                break;
          }
       });
@@ -511,16 +508,16 @@ const App = {
    },
 
    refresh: (item) => {
-      App.getDownloadProgress(App.runInterval);
+      App.getDownloadProgress(App.pulsar);
       if (App.sessionSettings["showNotification"]) {
-         App.notificationCheck(item);
+         App.genNotification(item);
       }
    },
 
    init: () => {
       App.confStorage.load();
       App.eventListener();
-      App.clearToolbarIcon();
+      App.browser.toolbar.clear();
    },
 
    log: (msg, arg) => {
