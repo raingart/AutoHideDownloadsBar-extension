@@ -1,0 +1,131 @@
+{
+   "localization": {
+      "message": "zh_CN"
+   },
+   "app_name": {
+      "message": "AutoHideDownloadsBar"
+   },
+   "app_short_name": {
+      "message": "AutoHideDownloadsBar"
+   },
+   "app_description": {
+      "message": "此扩展程序隐藏了屏幕底部的恼人下载栏。"
+   },
+   "app_title": {
+      "message": "打开下载页面"
+   },
+
+   "noti_download_title": {
+      "message": "下载"
+   },
+   "noti_download_complete": {
+      "message": "已完成"
+   },
+   "noti_download_interrupted": {
+      "message": "一个错误"
+   },
+   "noti_download_canceled": {
+      "message": "取消"
+   },
+
+   "opt_setting": {
+      "message": "设置"
+   },
+
+   "github_page": {
+      "message": "GitHub页面"
+   },
+   "github_page_tooltip": {
+      "message": "打开"
+   },
+
+   "opt_show_download_panel": {
+      "message": "下载激活时显示下载栏"
+   },
+   "opt_show_download_panel_desc": {
+      "message": "只有在下载完成后才会隐藏下载栏"
+   },
+   "opt_show_download_panel_warn": {
+      "message": "现在无法正常下载正确的工作！"
+   },
+
+   "opt_show_download_panel_timeout": {
+      "message": "下载后隐藏面板之前的延迟时间"
+   },
+   "opt_show_download_panel_timeout_desc": {
+      "message": "使用时间延迟来影响下载的文件"
+   },
+   "opt_show_download_panel_timeout_sec": {
+      "message": "秒"
+   },
+
+   "opt_show_notification": {
+      "message": "显示通知"
+   },
+   "opt_show_notification_desc": {
+      "message": "如果文件下载状态已更改，则显示通知"
+   },
+
+   "opt_sound_notification": {
+      "message": "播放通知声音"
+   },
+   "opt_sound_notification_desc": {
+      "message": "如果您的通知系统已使用音频警报，请禁用"
+   },
+
+   "opt_type_icon_info": {
+      "message": "在工具栏上选择指示类型"
+   },
+   "opt_type_icon_info_desc": {
+      "message": "关闭可以显着减少系统负载"
+   },
+   "opt_type_icon_info_option_svg": {
+      "message": "图像"
+   },
+   "opt_type_icon_info_option_svg_notext": {
+      "message": "图形（无％）"
+   },
+   "opt_type_icon_info_option_text": {
+      "message": "文本"
+   },
+   "opt_type_icon_info_option_off": {
+      "message": "离"
+   },
+
+   "opt_color_icon_info": {
+      "message": "图标中的指示颜色"
+   },
+   "opt_color_icon_info_tooltip": {
+      "message": "默认值: #00FF00（渐变红色到绿色）"
+   },
+   "opt_color_icon_info_desc": {
+      "message": "允许您在图标中设置下载颜色"
+   },
+
+   "opt_color_icon_text_info": {
+      "message": "文本颜色的图标中的指示"
+   },
+   "opt_color_icon_text_info_desc": {
+      "message": "在图标中设置文本的下载颜色"
+   },
+
+   "opt_bth_save_settings": {
+      "message": "保存更改"
+   },
+   "opt_bth_save_settings_process": {
+      "message": "保存..."
+   },
+   "opt_bth_save_settings_processed": {
+      "message": "得救了！"
+   },
+   "opt_bth_save_settings_tooltip": {
+      "message": "立即应用"
+   },
+
+   "donate_tooltip": {
+      "message": "支持Patreon"
+   },
+   "donate": {
+      "message": "Donate"
+   }
+}

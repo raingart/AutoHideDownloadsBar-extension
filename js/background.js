@@ -7,7 +7,7 @@ const App = {
    // DEBUG: true,
 
    pulsar: (statusDownload) => {
-      App.log('pulsar: ', statusDownload);
+      App.log('pulsar: %s', statusDownload);
 
       if (statusDownload && !App.isBusy) {
          App.log('setInterval');
@@ -153,9 +153,8 @@ const App = {
 
       text: (x) => {
          // if (Number.isInteger(x) && x !== Infinity) {
-         if (x >= 0 && x <= 100) {
-            x += '%';
-         } else {
+         if (x >= 0 && x <= 100) x += '%';
+         else {
             let loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
             App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
             x = loadingSymbol[App.circleNum];
@@ -254,7 +253,7 @@ const App = {
             // if ((item.state.current == 'complete') && item.endTime && !item.error) {
             // hide shelf-panel
             App.shelfTimeout = setTimeout(function () {
-               App.log('shelfTimeout run');
+               App.log('setShelfEnabled');
                chrome.downloads.setShelfEnabled(false);
             }, Number(App.sessionSettings["shelfTimeout"]) * 1000 || 0);
             // }
@@ -276,7 +275,7 @@ const App = {
          return path.split(/(\\|\/)/g).pop();
    },
 
-   bytesFormat(bytes) {
+   bytesFormat: (bytes) => {
       let i = bytes == 0 ? 0 : Math.floor(Math.log(bytes) / Math.log(1024));
       return (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ['B', 'kB', 'MB', 'GB', 'TB'][i];
    },
@@ -305,21 +304,23 @@ const App = {
 
    genNotification: (item) => {
       if (item && item.state && item.state.previous === 'in_progress') {
-         let msg, audioNotification;
+         let noti_data = {},
+            audioNotification;
 
          switch (item.state.current) {
             case 'complete':
-               msg = i18n("noti_download_complete");
-               audioNotification = new Audio('/audio/complete.ogg');
-               // audioNotification = '/audio/complete.ogg';
+               noti_data.title = i18n("noti_download_complete");
+               audioNotification = '/audio/complete.ogg';
                break;
 
             case 'interrupted':
                if (item.error.current === 'USER_CANCELED') {
-                  // msg = i18n("noti_download_canceled");
+                  // noti_data.title = i18n("noti_download_canceled");
                } else {
-                  msg = i18n("noti_download_interrupted");
-                  audioNotification = new Audio('/audio/interrupted.ogg');
+                  noti_data.title = i18n("noti_download_interrupted");
+                  noti_data.requireInteraction = true; //cancel automatically closing
+                  noti_data.icon = '/icons/dead.png';
+                  audioNotification = '/audio/interrupted.ogg';
                }
                break;
 
@@ -330,7 +331,7 @@ const App = {
                return false;
          }
 
-         if (msg)
+         if (Object.keys(noti_data).length) {
             chrome.downloads.search({
                id: item.id
             }, function (downloads) {
@@ -342,19 +343,19 @@ const App = {
                // skip notifity small file or small size
                if (download.fileSize <= 1 || timeLong < minimum_download_time) return false;
 
-               // console.log('timeLong %s', timeLong);
-               // console.log('download.fileSize %s', download.fileSize);
+               // App.log('timeLong %s', timeLong);
+               // App.log('download.fileSize %s', download.fileSize);
                App.log('Done get download\n%s', JSON.stringify(download));
 
                if (fileName && fileName.length > 50) {
                   fileName = fileName.slice(0, 31) + "...";
                }
 
-               App.browser.notification.show({
-                  title: i18n("noti_download_title") + ' ' + msg,
-                  body: fileName
-               }, audioNotification && App.sessionSettings["soundNotification"] ? audioNotification : false);
+               noti_data.title = i18n("noti_download_title") + ' ' + noti_data.title;
+               noti_data.body = fileName;
+               App.browser.notification(noti_data, audioNotification && App.sessionSettings["soundNotification"] ? audioNotification : false);
             });
+         }
       }
    },
 
@@ -412,35 +413,26 @@ const App = {
          },
       },
 
-      notification: {
-         show: (opt, audioPatch) => {
+      notification: (options, audioPatch) => {
+         if (window.Notification && Notification.permission !== "granted") {
+            Notification.requestPermission().then(function () {
+               notification_show();
+            });
+         } else notification_show();
+
+         function notification_show() {
             const manifest = chrome.runtime.getManifest();
-
-            // web api
-            if (window.Notification && Notification.permission === "granted") {
-               let notification = new Notification(opt.title || i18n("app_name"), {
-                  body: opt.body || '',
-                  icon: opt.iconUrl || manifest.icons['48'],
-               });
-
-            // chrome api
-            } else {
-               chrome.notifications.create('info', {
-                  type: opt.type || 'basic', //'basic', 'image', 'list', 'progress'
-                  title: opt.title || i18n("app_name"),
-                  iconUrl: opt.iconUrl || manifest.icons['48'],
-                  message: opt.body || '',
-                  // "priority": 2,
-               }, function (notificationId) {
-                  chrome.notifications.onClicked.addListener(function (callback) {
-                     chrome.notifications.clear(notificationId, callback);
-                  });
-               });
+            new Notification(options.title || i18n("app_name"), {
+               body: options.body || '',
+               icon: options.icon || manifest.icons['48']
+            }).onclick = function () {
+               this.close();
             }
-            // audio
-            if (audioPatch) audioPatch.play();
-         },
-      }
+
+            // audio alert
+            if (audioPatch) new Audio(audioPatch).play();
+         }
+      },
    },
 
    // Saves/Load options to localStorage/chromeSync.
@@ -457,7 +449,7 @@ const App = {
       },
       // load: () => {
       //    chrome.storage.sync.get(null, function (options) {
-      //       App.log('confStorage', JSON.stringify(options));
+      //       App.log('confStorage %s', JSON.stringify(options));
       //       App.sessionSettings = options;
       //       App.refresh();
       //    });
@@ -520,10 +512,12 @@ const App = {
       App.browser.toolbar.clear();
    },
 
-   log: (msg, arg) => {
-      if (App.DEBUG) {
-         if (arg) msg = msg.replace(/%s/g, arg.toString().trim());
-         console.log('[+] ' + msg);
+   log: function (msg) {
+      if (this.DEBUG) {
+         for (let i = 1; i < arguments.length; i++) {
+            msg = msg.replace(/%s/, arguments[i].toString().trim());
+         }
+         console.log('[+] %s', msg);
       }
    },
 }

@@ -1,0 +1,131 @@
+{
+   "localization": {
+      "message": "es"
+   },
+   "app_name": {
+      "message": "AutoHideDownloadsBar"
+   },
+   "app_short_name": {
+      "message": "AutoHideDownloadsBar"
+   },
+   "app_description": {
+      "message": "Esta extensión oculta la molesta barra de descargas en la parte inferior de la pantalla."
+   },
+   "app_title": {
+      "message": "Abrir página de descargas"
+   },
+
+   "noti_download_title": {
+      "message": "Descargar"
+   },
+   "noti_download_complete": {
+      "message": "terminado"
+   },
+   "noti_download_interrupted": {
+      "message": "un error"
+   },
+   "noti_download_canceled": {
+      "message": "cancelado"
+   },
+
+   "opt_setting": {
+      "message": "ajustes"
+   },
+
+   "github_page": {
+      "message": "GitHub page"
+   },
+   "github_page_tooltip": {
+      "message": "Abierto"
+   },
+
+   "opt_show_download_panel": {
+      "message": "Mostrar barra de descargas cuando la descarga está activa"
+   },
+   "opt_show_download_panel_desc": {
+      "message": "Ocultando la barra de descargas ocurre solo después de que las descargas terminaron"
+   },
+   "opt_show_download_panel_warn": {
+      "message": "¡El trabajo correcto con descargas ahora activas no es posible!"
+   },
+
+   "opt_show_download_panel_timeout": {
+      "message": "Retraso en segundos antes de ocultar el panel después de descargar"
+   },
+   "opt_show_download_panel_timeout_desc": {
+      "message": "Utilice un retraso de tiempo para el impacto en el archivo descargado"
+   },
+   "opt_show_download_panel_timeout_sec": {
+      "message": "seg"
+   },
+
+   "opt_show_notification": {
+      "message": "Muestra la notificación"
+   },
+   "opt_show_notification_desc": {
+      "message": "Mostrar notificación si el estado de descarga del archivo ha cambiado"
+   },
+
+   "opt_sound_notification": {
+      "message": "Reproducir sonido de notificación"
+   },
+   "opt_sound_notification_desc": {
+      "message": "Deshabilitar si su sistema de notificación ya utiliza una alerta de audio"
+   },
+
+   "opt_type_icon_info": {
+      "message": "Seleccione el tipo de indicación en la barra de herramientas."
+   },
+   "opt_type_icon_info_desc": {
+      "message": "El apagado puede reducir significativamente la carga en el sistema"
+   },
+   "opt_type_icon_info_option_svg": {
+      "message": "Gráfico"
+   },
+   "opt_type_icon_info_option_svg_notext": {
+      "message": "Gráfico (no %)"
+   },
+   "opt_type_icon_info_option_text": {
+      "message": "Texto"
+   },
+   "opt_type_icon_info_option_off": {
+      "message": "Apagado"
+   },
+
+   "opt_color_icon_info": {
+      "message": "Color de indicación en el icono."
+   },
+   "opt_color_icon_info_tooltip": {
+      "message": "Valor predeterminado: #00FF00 (degradado de rojo a verde)"
+   },
+   "opt_color_icon_info_desc": {
+      "message": "Le permite configurar el color de descarga en el icono"
+   },
+
+   "opt_color_icon_text_info": {
+      "message": "Color del texto de indicación en el icono."
+   },
+   "opt_color_icon_text_info_desc": {
+      "message": "Establece el color de descarga para el texto en el icono."
+   },
+
+   "opt_bth_save_settings": {
+      "message": "Guardar cambios"
+   },
+   "opt_bth_save_settings_process": {
+      "message": "Ahorro..."
+   },
+   "opt_bth_save_settings_processed": {
+      "message": "¡Salvado!"
+   },
+   "opt_bth_save_settings_tooltip": {
+      "message": "Aplicado al instante"
+   },
+
+   "donate_tooltip": {
+      "message": "Apoyo con Patreon"
+   },
+   "donate": {
+      "message": "Donar"
+   }
+}
