@@ -61,7 +61,7 @@ window.addEventListener('load', (evt) => {
             newOptions[key] = value;
          }
 
-         Storage.setParams(newOptions, true /* true=sync, false=local */ );
+         Storage.setParams(newOptions, 'sync');
 
          chrome.extension.sendMessage({
             "action": 'setOptions',
@@ -146,7 +146,7 @@ window.addEventListener('load', (evt) => {
             Conf.oggSupport();
 
          };
-         Storage.getParams(null, callback, true /* true=sync, false=local */ );
+         Storage.getParams(null, callback, 'sync');
 
          Conf.eventListener();
       },

@@ -1,0 +1,131 @@
+{
+   "localization": {
+      "message": "ar"
+   },
+   "app_name": {
+      "message": "AutoHideDownloadsBar"
+   },
+   "app_short_name": {
+      "message": "AutoHideDownloadsBar"
+   },
+   "app_description": {
+      "message": "تخفي هذه الإضافة شريط التنزيل المزعج في أسفل الشاشة."
+   },
+   "app_title": {
+      "message": "افتح صفحة التنزيلات"
+   },
+
+   "noti_download_title": {
+      "message": "تحميل"
+   },
+   "noti_download_complete": {
+      "message": "منجز"
+   },
+   "noti_download_interrupted": {
+      "message": "خطا"
+   },
+   "noti_download_canceled": {
+      "message": "ألغيت"
+   },
+
+   "opt_setting": {
+      "message": "الإعدادات"
+   },
+
+   "github_page": {
+      "message": "GitHub صفحة"
+   },
+   "github_page_tooltip": {
+      "message": "افتح"
+   },
+
+   "opt_show_download_panel": {
+      "message": "إظهار شريط التنزيلات عندما يكون التنزيل نشطًا"
+   },
+   "opt_show_download_panel_desc": {
+      "message": "يحدث إخفاء شريط التنزيلات بعد انتهاء التنزيلات فقط"
+   },
+   "opt_show_download_panel_warn": {
+      "message": "العمل الصحيح مع التنزيلات النشطة الآن غير ممكن!"
+   },
+
+   "opt_show_download_panel_timeout": {
+      "message": "التأخير في ثوانٍ قبل إخفاء اللوحة بعد التنزيل"
+   },
+   "opt_show_download_panel_timeout_desc": {
+      "message": "استخدم تأخيرًا زمنيًا للتأثير على الملف الذي تم تنزيله"
+   },
+   "opt_show_download_panel_timeout_sec": {
+      "message": "ثانية"
+   },
+
+   "opt_show_notification": {
+      "message": "إظهار الإخطار"
+   },
+   "opt_show_notification_desc": {
+      "message": "إظهار الإخطار في حالة تغيير حالة تنزيل الملف"
+   },
+
+   "opt_sound_notification": {
+      "message": "تشغيل صوت الإخطار"
+   },
+   "opt_sound_notification_desc": {
+      "message": "تعطيل إذا كان نظام الإشعارات يستخدم بالفعل تنبيهًا صوتيًا"
+   },
+
+   "opt_type_icon_info": {
+      "message": "حدد نوع الإشارة على شريط الأدوات"
+   },
+   "opt_type_icon_info_desc": {
+      "message": "Off يمكن أن يقلل بشكل كبير من الحمل على النظام"
+   },
+   "opt_type_icon_info_option_svg": {
+      "message": "Graphic"
+   },
+   "opt_type_icon_info_option_svg_notext": {
+      "message": "Graphic (no %)"
+   },
+   "opt_type_icon_info_option_text": {
+      "message": "Text"
+   },
+   "opt_type_icon_info_option_off": {
+      "message": "Off"
+   },
+
+   "opt_color_icon_info": {
+      "message": "لون المؤشر في الأيقونة"
+   },
+   "opt_color_icon_info_tooltip": {
+      "message": "Default: #00FF00 (التدرج الأحمر إلى الأخضر)"
+   },
+   "opt_color_icon_info_desc": {
+      "message": "للسماح لك بتعيين لون التنزيل في الرمز"
+   },
+
+   "opt_color_icon_text_info": {
+      "message": "لون نص المؤشر في الأيقونة"
+   },
+   "opt_color_icon_text_info_desc": {
+      "message": "قم بتعيين لون التنزيل للنص الموجود في الرمز"
+   },
+
+   "opt_bth_save_settings": {
+      "message": "حفظ التغييرات"
+   },
+   "opt_bth_save_settings_process": {
+      "message": "إنقاذ..."
+   },
+   "opt_bth_save_settings_processed": {
+      "message": "تم الحفظ!"
+   },
+   "opt_bth_save_settings_tooltip": {
+      "message": "يطبق على الفور"
+   },
+
+   "donate_tooltip": {
+      "message": "دعم مع Patreon"
+   },
+   "donate": {
+      "message": "تبرع"
+   }
+}

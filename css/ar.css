@@ -1,0 +1,39 @@
+body {
+   direction: rtl;
+}
+/*input, */select {
+   direction: ltr;
+}
+
+[tooltip][flow^=right]::before {
+   left: calc(0em - 5px);
+   transform: translate(-.5em, -50%);
+   right: unset;
+   border-right-width: 0;
+   border-left-color: #333;
+   border-left-width: unset;
+   border-right-color: unset;
+}
+
+[tooltip][flow^=right]::after {
+   right: calc(100% + 5px);
+   transform: translate(-.5em, -50%);
+   left: unset;
+}
+
+[tooltip][flow^=left]::before {
+   right: calc(0em - 5px);
+   transform: translate(.5em, -50%);
+   left: unset;
+   border-left-width: 0;
+   border-right-color: #333;
+   border-right-width: unset;
+   border-left-color: unset;
+}
+
+[tooltip][flow^=left]::after {
+   top: 50%;
+   left: calc(100% + 5px);
+   transform: translate(.5em, -50%);
+   right: unset;
+}

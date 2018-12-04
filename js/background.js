@@ -282,7 +282,7 @@ const App = {
 
    timeFormat_short: (ms) => {
       let day, min, sec;
-      return sec = Math.floor(ms / 1e3), 0 >= sec ? "0 secs" : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["secs", "mins", "hours"][min]))
+      return sec = Math.floor(ms / 1e3), 0 >= sec ? "0 sec" : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["sec", "mins", "hours"][min]))
    },
 
    // timeFormat_full: (ms) => {
@@ -445,7 +445,7 @@ const App = {
             App.refresh();
          };
          // load store settings
-         Storage.getParams(null /*all*/ , callback, true /* true=sync, false=local */ );
+         Storage.getParams(null /*all*/, callback, 'sync');
       },
       // load: () => {
       //    chrome.storage.sync.get(null, function (options) {

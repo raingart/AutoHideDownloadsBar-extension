@@ -14,12 +14,12 @@ function internationalize(str) {
 	});
 }
 
-function setLocalization(ParentTag) {
-	let html = document.getElementsByTagName(ParentTag || "body")[0];
+function setLocalization(parent) {
+	let html = document.getElementsByTagName(parent || "body")[0];
 	html.innerHTML = internationalize(html.innerHTML)
 }
 
 document.addEventListener('DOMContentLoaded', function () {
 // window.addEventListener('load', function (evt) {
-   setLocalization();
+   setLocalization('html');
 });
