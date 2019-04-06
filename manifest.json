@@ -13,7 +13,7 @@
       "downloads",
       "downloads.shelf"
    ],
-   "optional_permissions": ["notifications"],
+   "optional_permissions": ["notifications", "downloads.open"],
    "background": {
       "page": "/html/background.html",
       "persistent": true

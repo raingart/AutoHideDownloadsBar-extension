@@ -407,32 +407,41 @@ const App = {
       },
 
       notification: (options, audioPatch) => {
-         if (window.Notification && Notification.permission !== "granted") {
+         if (window.Notification && Notification.permission === "granted") {
+            notification_show();
+         } else {
             Notification.requestPermission().then(function () {
                notification_show();
             });
-         } else notification_show();
+         }
 
          function notification_show() {
             const manifest = chrome.runtime.getManifest();
             let notiID;
 
-            console.log('options:', JSON.stringify(options));
-
-            chrome.notifications.create('', {
+            let notiBody = {
                type: "basic",
                iconUrl: options.icon || manifest.icons['48'],
                title: options.title || i18n("app_name"),
                message: options.body || '',
                // contextMessage: "contextMessage",
-               buttons: [{
-                  title: "open file",
-                  // iconUrl: "/path/to/yesIcon.png"
-               }, {
-                  title: "open folder",
-                  // iconUrl: "/path/to/yesIcon.png"
-               }],
-            }, id => {
+            }
+
+            chrome.permissions.contains({
+               permissions: ['downloads.open']
+            }, granted => {
+               if (granted) {
+                  notiBody.buttons = [{
+                     title: "open file",
+                     // iconUrl: "/path/to/yesIcon.png"
+                  }, {
+                     title: "open folder",
+                     // iconUrl: "/path/to/yesIcon.png"
+                  }];
+               }
+            });
+
+            chrome.notifications.create('', notiBody, id => {
                notiID = id;
                // audio alert
                if (audioPatch) new Audio(audioPatch).play();

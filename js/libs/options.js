@@ -103,16 +103,17 @@ window.addEventListener('load', (evt) => {
       },
 
       getPermissions: (requested, event) => {
-         if (Array.isArray(requested) && event.target.checked) {
+         if (Array.isArray(requested) && (event.target.checked || event.target.options)) {
             // Permissions must be requested
             chrome.permissions.contains({
                permissions: requested
-            }, function (granted) {
+            }, granted => {
                chrome.permissions.request({
                   permissions: requested,
-               }, function (granted) {
+               }, granted => {
                   // The callback argument will be true if the user granted the permissions.
                   event.target.checked = granted ? true : false;
+                  event.target.selectedIndex = granted ? event.target.selectedIndex : event.target.selectedIndex === 0 ? -1 : 0;
                   Conf.attrDependencies(); //fix trigger
                });
             });
@@ -132,7 +133,15 @@ window.addEventListener('load', (evt) => {
          document.getElementById('showNotification')
             .addEventListener("change", function (event) {
                // console.log('event.type: %s', event.type);
-               Conf.getPermissions(['notifications'], event);
+               Conf.getPermissions(['notifications', 'downloads.open'], event);
+            });
+
+         document.getElementById('toolbarBehavior')
+            .addEventListener("change", function (event) {
+               // console.log('event.type: %s', event.type);
+               if (this.value === 'popup') {
+                  Conf.getPermissions(['downloads.open'], event);
+               }
             });
       },
 
