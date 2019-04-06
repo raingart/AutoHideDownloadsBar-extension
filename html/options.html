@@ -15,7 +15,7 @@
    <link rel="stylesheet" href="/css/globals.css" />
    <link rel="stylesheet" href="/css/options.css" />
 
-   <link rel="stylesheet" href="/css/__MSG_localization__.css" />
+   <!-- <link rel="stylesheet" href="/css/__MSG_localization__.css" /> -->
 
    <script src="/js/libs/localization.js"></script>
    <script src="/js/libs/storage.js"></script>
@@ -66,6 +66,23 @@
                   <div class="opt">
                      <input type="number" placeholder="0-30" value="0" step="0.5" min="0" max="30" name="shelfTimeout"
                         id="shelfTimeout" /> __MSG_opt_show_download_panel_timeout_sec__
+                  </div>
+               </li>
+
+               <li class="item">
+                  <div class="info">
+                     <label for="toolbarBehavior">__MSG_opt_toolbar_behavior__
+                        <span>__MSG_opt_toolbar_behavior_desc__</span>
+                     </label>
+                  </div>
+                  <div class="opt">
+                     <select name="toolbarBehavior" id="toolbarBehavior">
+                        <!-- <option selected value="chrome_downloads">chrome://downloads/</option> -->
+                        <!-- <option value="download_default_folder">downloads location</option> -->
+                        <option selected value="chrome_downloads">tab</option>
+                        <option value="popup">poopup</option>
+                        <option value="download_default_folder">location</option>
+                     </select>
                   </div>
                </li>
 
@@ -133,10 +150,11 @@
             <hr />
 
             <div class="between">
-               <button type="submit" tooltip="__MSG_opt_bth_save_settings_tooltip__" flow="right">__MSG_opt_bth_save_settings__</button>
+               <button type="submit" tooltip="__MSG_opt_bth_save_settings_tooltip__"
+                  flow="right">__MSG_opt_bth_save_settings__</button>
 
-               <a href="https://www.patreon.com/bePatron?c=884203" target="_blank" tooltip="__MSG_donate_tooltip__"
-                  flow="left">__MSG_donate__</a>
+               <a href="https://www.patreon.com/join/raingart/checkout?rid=2544268" target="_blank"
+                  tooltip="__MSG_donate_tooltip__" flow="left">__MSG_donate__</a>
             </div>
 
          </form>

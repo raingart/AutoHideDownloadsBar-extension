@@ -48,6 +48,13 @@
    "opt_show_download_panel_warn": {
       "message": "Şimdi aktif indirme ile doğru çalışma mümkün değil!"
    },
+   
+   "opt_toolbar_behavior": {
+      "message": "Araç Çubuğu simgesine tıkladığınızda davranış"
+   },
+   "opt_toolbar_behavior_desc": {
+      "message": "Varsayılan olarak <code>chrome://downloads/</code> 'u açar"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "İndirdikten sonra paneli gizlemeden önce saniye cinsinden gecikme"
@@ -120,6 +127,14 @@
    },
    "opt_bth_save_settings_tooltip": {
       "message": "Anında uygulanan"
+   },
+
+   "popup_bth_clear_all_history": {
+      "message": "Açık"
+   },
+
+   "popup_search": {
+      "message": "Arama..."
    },
 
    "donate_tooltip": {

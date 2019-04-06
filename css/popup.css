@@ -1,0 +1,133 @@
+body {
+   width: 340px;
+   background-color: #1c1c1c;
+   color: #23292f;
+}
+
+.container {
+   /* overflow: scroll;
+   max-height: 410px; */
+}
+
+input[type=search] {
+   width: -webkit-fill-available;
+   border: 1px solid #ddd;
+   padding: 5px;
+}
+
+input[type=search]:focus {
+   border: 1px solid deepskyblue;
+}
+
+button {
+   border-radius: 0;
+   height: auto;
+   padding: 8px;
+   line-height: normal;
+}
+
+.polaris {
+   display: grid;
+   grid-template-columns: 1fr auto;
+}
+
+form ol,
+form ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+
+   background: #f5f5f5;
+   max-height: 410px;
+   /* overflow: auto; */
+   overflow-x: hidden;
+   overflow-y: auto;
+}
+
+form li.item {
+   word-break: break-all;
+   word-wrap: break-word;
+   border-bottom: 1px solid #dedede;
+   padding: 5px;
+   display: grid;
+   grid-template-areas:
+      "progress progress"
+      "control info";
+   grid-template-columns: [left control] auto [right info] 1fr;
+   color: #757575;
+}
+
+li.item.erase {
+   animation: hiddenLeft 0.6s 0.1s forwards;
+}
+
+@keyframes hiddenLeft {
+   100% {
+      transform: translate(80%, 0);
+      opacity: 0;
+      visibility: collapse;
+      height: 0;
+      margin: 0;
+      padding: 0;
+   }
+}
+
+li.item .control {
+   grid-area: control;
+   align-self: center;
+   justify-self: center;
+   text-align: center;
+   width: 32px;
+   height: 32px;
+}
+
+li.item .control a {
+   /* fix to tooltip */
+  display: block;
+}
+li.item .control button {
+   padding: 0;
+   max-width: 30px;
+   max-height: 30px;
+   outline: none;
+
+   border: 1px solid #cccccc;
+   background: #ffffff;
+}
+
+li.item .info {
+   grid-area: info;
+   display: grid;
+   margin-left: 5px;
+}
+
+li.item .progress {
+   grid-area: progress;
+   height: 5px;
+   margin-bottom: 3px;
+}
+
+li.item .info a {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+
+   color: #565357;
+   text-decoration: none;
+}
+
+li.item .info a[href]:hover {
+   overflow: unset;
+
+   color: #565357;
+   text-decoration: none;
+}
+
+li.item[state="complete"] a:not([href]),
+li.item[state="interrupted"] a {
+   text-decoration: line-through;
+}
+
+li.item a[href]:hover {
+   text-decoration: underline;
+}

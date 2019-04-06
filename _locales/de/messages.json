@@ -48,6 +48,13 @@
    "opt_show_download_panel_warn": {
       "message": "Korrekte Arbeit mit jetzt aktiven Downloads ist nicht möglich!"
    },
+   
+   "opt_toolbar_behavior": {
+      "message": "Verhalten beim Klicken auf das Symbol Symbolleiste"
+   },
+   "opt_toolbar_behavior_desc": {
+      "message": "Öffnet standardmäßig <code>chrome://downloads/</code>"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "Verzögerung in Sekunden, bevor das Panel nach dem Herunterladen ausgeblendet wird"
@@ -120,6 +127,14 @@
    },
    "opt_bth_save_settings_tooltip": {
       "message": "Sofort angewendet"
+   },
+
+   "popup_bth_clear_all_history": {
+      "message": "klar"
+   },
+
+   "popup_search": {
+      "message": "Suche..."
    },
 
    "donate_tooltip": {

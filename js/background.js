@@ -6,7 +6,7 @@ const App = {
 
    // DEBUG: true,
 
-   pulsar: (statusDownload) => {
+   pulsar: statusDownload => {
       App.log('pulsar: %s', statusDownload);
 
       if (statusDownload && !App.isBusy) {
@@ -28,7 +28,7 @@ const App = {
       } else App.log('pulsar ignore');
    },
 
-   updateIndicate: (pt) => {
+   updateIndicate: pt => {
       switch (App.sessionSettings['typeIconInfo'] /*.toLowerCase()*/ ) {
          case 'false':
             break;
@@ -47,7 +47,7 @@ const App = {
    },
 
    genProgressBar: {
-      grafic: (x) => {
+      grafic: x => {
          let getDataDrawing = dataForDrawing(x);
 
          return drawToolbarIcon(getDataDrawing);
@@ -91,9 +91,10 @@ const App = {
 
             // if ask loadig
             if (progress == "!") {
-               dataForDrawing.outText = App.flashing(2, progress);
+               dataForDrawing.outText = App.flashing(progress);
                dataForDrawing.color_text = 'red';
-            } else if (dataForDrawing.outText === Infinity) {
+
+            } else if (progress === Infinity) {
                dataForDrawing.outText = App.flashing();
             }
 
@@ -151,26 +152,17 @@ const App = {
          }
       },
 
-      text: (x) => {
-         // if (Number.isInteger(x) && x !== Infinity) {
-         if (x >= 0 && x <= 100) x += '%';
-         else {
-            let loadingSymbol = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
-            App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
-            x = loadingSymbol[App.circleNum];
-         }
-         return x;
-      }
+      text: pt => (pt >= 0 && pt <= 100) ? pt + '%' : App.flashing()
    },
 
-   getDownloadProgress: (callback) => {
+   getDownloadProgress: callback => {
       let searchObj = {
          state: 'in_progress',
          paused: false,
          orderBy: ['-startTime']
       }
 
-      chrome.downloads.search(searchObj, function (downloads) {
+      chrome.downloads.search(searchObj, downloads => {
          let totalSize = 0,
             totalReceived = 0,
             progress = 0,
@@ -184,8 +176,7 @@ const App = {
             totalReceived += download.bytesReceived;
 
             // skip crx
-            if (download.mime === "application/x-chrome-extension")
-               continue;
+            if (download.mime === "application/x-chrome-extension") continue;
 
             // normal file
             if (download.fileSize || download.totalBytes) {
@@ -220,14 +211,14 @@ const App = {
             let titleOut = '';
 
             // size
-            titleOut += App.bytesFormat(totalReceived) + " / ";
-            titleOut += totalSize ? App.bytesFormat(totalSize) : "unknown size";
+            titleOut += App.formatBytes(totalReceived) + " / ";
+            titleOut += totalSize ? App.formatBytes(totalSize) : "unknown size";
 
             if (totalSize) {
                // pt
                titleOut += "\n" + progress + "%";
                // left time
-               titleOut += " ~" + App.timeFormat_short(timeLeft) + " left";
+               titleOut += " ~" + App.formatTimeLeft(timeLeft) + " left";
             }
 
             // count
@@ -269,20 +260,20 @@ const App = {
       });
    },
 
-   getFileNameFromPatch: (path) => {
+   getFileNameFromPatch: path => {
       if (typeof (path) !== 'undefined')
          // return patch.split(/[^/]*$/g).pop();
          return path.split(/(\\|\/)/g).pop();
    },
 
-   bytesFormat: (bytes) => {
-      let i = bytes == 0 ? 0 : Math.floor(Math.log(bytes) / Math.log(1024));
-      return (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+   formatBytes: bytes => {
+      let i = Math.floor(Math.log(bytes) / Math.log(1024));
+      return !bytes ? '---' : (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ['B', 'kB', 'MB', 'GB', 'TB'][i];
    },
 
-   timeFormat_short: (ms) => {
+   formatTimeLeft: ms => {
       let day, min, sec;
-      return sec = Math.floor(ms / 1e3), 0 >= sec ? "0 sec" : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["sec", "mins", "hours"][min]))
+      return sec = Math.floor(ms / 1e3), !sec ? '---' : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["sec", "mins", "hours"][min]))
    },
 
    // timeFormat_full: (ms) => {
@@ -295,31 +286,32 @@ const App = {
    //    return Math.ceil(s / 86400) + " days";
    // },
 
-   counter_tmp: 0,
-
-   flashing: (count, outText) => {
-      count = count || 4;
-      return Array((++App.counter_tmp % count) + 1).join(outText || '.');;
+   flashing: outText => {
+      let loadingSymbol = outText ? outText.toString().split() : ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+      App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
+      return loadingSymbol[App.circleNum];
    },
 
-   genNotification: (item) => {
+   genNotification: item => {
       if (item && item.state && item.state.previous === 'in_progress') {
-         let noti_data = {},
+         let notiData = {},
             audioNotification;
+
+         // console.log('item.state:', JSON.stringify(item.state));
 
          switch (item.state.current) {
             case 'complete':
-               noti_data.title = i18n("noti_download_complete");
+               notiData.title = i18n("noti_download_complete");
                audioNotification = '/audio/complete.ogg';
                break;
 
             case 'interrupted':
-               if (item.error.current === 'USER_CANCELED') {
-                  // noti_data.title = i18n("noti_download_canceled");
+               if (item.error.current == 'USER_CANCELED') {
+                  // notiData.title = i18n("noti_download_canceled");
                } else {
-                  noti_data.title = i18n("noti_download_interrupted");
-                  noti_data.requireInteraction = true; //cancel automatically closing
-                  noti_data.icon = '/icons/dead.png';
+                  notiData.title = i18n("noti_download_interrupted");
+                  notiData.requireInteraction = true; //cancel automatically closing
+                  notiData.icon = '/icons/dead.png';
                   audioNotification = '/audio/interrupted.ogg';
                }
                break;
@@ -331,7 +323,7 @@ const App = {
                return false;
          }
 
-         if (Object.keys(noti_data).length) {
+         if (Object.keys(notiData).length) {
             chrome.downloads.search({
                id: item.id
             }, function (downloads) {
@@ -341,7 +333,7 @@ const App = {
                let minimum_download_time = 3000; // ms
 
                // skip notifity small file or small size
-               if (download.fileSize <= 1 || timeLong < minimum_download_time) return false;
+               if (download.fileSize <= 1 || timeLong < minimum_download_time) return;
 
                // App.log('timeLong %s', timeLong);
                // App.log('download.fileSize %s', download.fileSize);
@@ -351,16 +343,17 @@ const App = {
                   fileName = fileName.slice(0, 31) + "...";
                }
 
-               noti_data.title = i18n("noti_download_title") + ' ' + noti_data.title;
-               noti_data.body = fileName;
-               App.browser.notification(noti_data, audioNotification && App.sessionSettings["soundNotification"] ? audioNotification : false);
+               notiData.title = i18n("noti_download_title") + ' ' + notiData.title;
+               notiData.body = fileName;
+               notiData.downloadId = item.id;
+               App.browser.notification(notiData, audioNotification && App.sessionSettings["soundNotification"] ? audioNotification : false);
             });
          }
       }
    },
 
    browser: {
-      openTab: (url) => {
+      openTab: url => {
          let openUrl = url || 'chrome://newtab';
 
          // chrome.tabs.getAllInWindow(null, function (tabs) {
@@ -385,19 +378,19 @@ const App = {
 
       toolbar: {
          /* beautify preserve:start */
-         setIcon: (obj) => { chrome.browserAction.setIcon(obj); },
+         setIcon: obj => { chrome.browserAction.setIcon(obj); },
 
-         setTitle: (title) => {
-            let obj = { "title": title.toString().trim() || '' };
+         setTitle: title => {
+            let obj = { "title": title ? title.toString().trim() : '' };
             chrome.browserAction.setTitle(obj);
          },
-
-         setBadgeText: (text) => {
-            let obj = { "text": text.toString().trim() || ''  };
+   
+         setBadgeText: text => {
+            let obj = { "text": text ? text.toString().trim() : ''  };
             chrome.browserAction.setBadgeText(obj);
          },
-
-         setBadgeBackgroundColor: (color) => {
+         
+         setBadgeBackgroundColor: color => {
             let obj = { color: color || "black" };
             chrome.browserAction.setBadgeBackgroundColor(obj);
          },
@@ -422,34 +415,86 @@ const App = {
 
          function notification_show() {
             const manifest = chrome.runtime.getManifest();
-            new Notification(options.title || i18n("app_name"), {
-               body: options.body || '',
-               icon: options.icon || manifest.icons['48']
-            }).onclick = function () {
-               this.close();
-            }
+            let notiID;
 
-            // audio alert
-            if (audioPatch) new Audio(audioPatch).play();
+            console.log('options:', JSON.stringify(options));
+
+            chrome.notifications.create('', {
+               type: "basic",
+               iconUrl: options.icon || manifest.icons['48'],
+               title: options.title || i18n("app_name"),
+               message: options.body || '',
+               // contextMessage: "contextMessage",
+               buttons: [{
+                  title: "open file",
+                  // iconUrl: "/path/to/yesIcon.png"
+               }, {
+                  title: "open folder",
+                  // iconUrl: "/path/to/yesIcon.png"
+               }],
+            }, id => {
+               notiID = id;
+               // audio alert
+               if (audioPatch) new Audio(audioPatch).play();
+            });
+
+            chrome.notifications.onButtonClicked.addListener(function (notificationId, buttonIndex) {
+               console.log("onButtonClicked", notiID, notificationId, buttonIndex);
+               if (notificationId === notiID) {
+                  console.log("button clicked", buttonIndex);
+                  switch (buttonIndex) {
+                     case 0:
+                        chrome.downloads.open(notificationId);
+                        break;
+                     case 1:
+                        chrome.downloads.show(notificationId);
+                        break;
+
+                     default:
+                        console.warn('dont have button onlick action:', buttonIndex)
+                  }
+                  // chrome.notifications.clear(notificationId, function () {});
+               }
+            });
          }
       },
+      // notification: (options, audioPatch) => {
+      //    if (window.Notification && Notification.permission !== "granted") {
+      //       Notification.requestPermission().then(function () {
+      //          notification_show();
+      //       });
+      //    } else notification_show();
+
+      //    function notification_show() {
+      //       const manifest = chrome.runtime.getManifest();
+      //       new Notification(options.title || i18n("app_name"), {
+      //          body: options.body || '',
+      //          icon: options.icon || manifest.icons['48']
+      //       }).onclick = function () {
+      //          this.close();
+      //       }
+
+      //       // audio alert
+      //       if (audioPatch) new Audio(audioPatch).play();
+      //    }
+      // },
    },
 
    // Saves/Load options to localStorage/chromeSync.
-   confStorage: {
+   storage: {
       load: () => {
-         let callback = (res) => {
-            App.log('confStorage %s', JSON.stringify(res));
+         let callback = res => {
+            App.log('storage %s', JSON.stringify(res));
             App.sessionSettings = res;
 
             App.refresh();
          };
          // load store settings
-         Storage.getParams(null /*all*/, callback, 'sync');
+         Storage.getParams(callback, 'sync');
       },
       // load: () => {
       //    chrome.storage.sync.get(null, function (options) {
-      //       App.log('confStorage %s', JSON.stringify(options));
+      //       App.log('storage %s', JSON.stringify(options));
       //       App.sessionSettings = options;
       //       App.refresh();
       //    });
@@ -459,21 +504,15 @@ const App = {
    // Register the event handlers.
    eventListener: () => {
       chrome.downloads.onCreated.addListener(function (item) {
-         App.log('downloads.onCreated');
+         App.log('downloads.onCreated %s', JSON.stringify(item));
          let shelf = App.sessionSettings.shelfEnabled ||
             App.sessionSettings.ShowDownBar ? true : false; // fix old ver-conf/ TODO remove
          chrome.downloads.setShelfEnabled(shelf);
       });
 
       chrome.downloads.onChanged.addListener(function (item) {
-         App.log('downloads.onChanged');
-         App.log('onChanged item %s', JSON.stringify(item));
+         App.log('downloads.onChanged %s', JSON.stringify(item));
          App.refresh(item);
-      });
-
-      // called when the icon is clicked
-      chrome.browserAction.onClicked.addListener(function (tab) {
-         App.browser.openTab('chrome://downloads/');
       });
 
       chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
@@ -492,6 +531,7 @@ const App = {
             case 'setOptions':
                App.sessionSettings = request.options;
                App.browser.toolbar.clear();
+               App.refresh();
                break;
          }
       });
@@ -499,15 +539,31 @@ const App = {
       // single_file_done.addEventListener("ended", checkDownloadStack);
    },
 
-   refresh: (item) => {
+   refresh: item => {
       App.getDownloadProgress(App.pulsar);
       if (App.sessionSettings["showNotification"]) {
          App.genNotification(item);
       }
+
+      // called when the icon is clicked
+      switch (App.sessionSettings["toolbarBehavior"]) {
+         case 'popup':
+            chrome.browserAction.setPopup({
+               'popup': '/html/popup.html'
+            }, function () {});
+            break;
+
+         case 'download_default_folder':
+            chrome.downloads.showDefaultFolder();
+            break;
+
+         default:
+            chrome.browserAction.onClicked.addListener(tab => App.browser.openTab('chrome://downloads/'));
+      }
    },
 
    init: () => {
-      App.confStorage.load();
+      App.storage.load();
       App.eventListener();
       App.browser.toolbar.clear();
    },

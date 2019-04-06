@@ -10,9 +10,10 @@ body {
 }
 
 a {
+   /* text-decoration: none; */
    /* color: #3d3d3d; */
    color: deepskyblue;
-   /* text-decoration: none; */
+   cursor: pointer;
 }
 
 div {
@@ -144,11 +145,11 @@ legend {
 }
 
 .hide {
-   visibility: collapse;
-   height: 0;
-   margin: 0;
-   padding: 0;
-   background-color: #4CAF50;
+   visibility: collapse !important;
+   height: 0 !important;
+   margin: 0 !important;
+   padding: 0 !important;
+   background-color: #4CAF50 !important;
 }
 
 .in-progress {

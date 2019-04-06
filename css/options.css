@@ -86,6 +86,10 @@ label>span>q {
    color: #006b9e;
    quotes: "\00ab""\00bb";
 }
+label>span>code {
+   font-size: 11px;
+   color: darkslateblue;
+}
 
 hr {
    margin: 5px auto 8px;

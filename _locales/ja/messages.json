@@ -48,6 +48,13 @@
    "opt_show_download_panel_warn": {
       "message": "アクティブなダウンロードでの正しい作業は不可能です！"
    },
+   
+   "opt_toolbar_behavior": {
+      "message": "アイコンツールバーをクリックしたときの動作"
+   },
+   "opt_toolbar_behavior_desc": {
+      "message": "デフォルトで <code>chrome://downloads/</code> を開きます"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "ダウンロード後にパネルを非表示にするまでの遅延時間（秒）"
@@ -121,6 +128,14 @@
    },
    "opt_bth_save_settings_tooltip": {
       "message": "即座に適用"
+   },
+
+   "popup_bth_clear_all_history": {
+      "message": "クリア"
+   },
+
+   "popup_search": {
+      "message": "サーチ..."
    },
 
    "donate_tooltip": {

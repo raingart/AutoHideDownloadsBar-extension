@@ -48,6 +48,13 @@
    "opt_show_download_panel_warn": {
       "message": "现在无法正常下载正确的工作！"
    },
+   
+   "opt_toolbar_behavior": {
+      "message": "单击图标工具栏时的行为"
+   },
+   "opt_toolbar_behavior_desc": {
+      "message": "默认情况下打开 <code>chrome://downloads/</code>"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "下载后隐藏面板之前的延迟时间"
@@ -120,6 +127,14 @@
    },
    "opt_bth_save_settings_tooltip": {
       "message": "立即应用"
+   },
+
+   "popup_bth_clear_all_history": {
+      "message": "明确"
+   },
+
+   "popup_search": {
+      "message": "搜索..."
    },
 
    "donate_tooltip": {

@@ -48,6 +48,13 @@
    "opt_show_download_panel_warn": {
       "message": "¡El trabajo correcto con descargas ahora activas no es posible!"
    },
+   
+   "opt_toolbar_behavior": {
+      "message": "Comportamiento al hacer clic en el icono de la barra de herramientas."
+   },
+   "opt_toolbar_behavior_desc": {
+      "message": "Abre <code>chrome://downloads/</code> de forma predeterminada"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "Retraso en segundos antes de ocultar el panel después de descargar"
@@ -120,6 +127,14 @@
    },
    "opt_bth_save_settings_tooltip": {
       "message": "Aplicado al instante"
+   },
+
+   "popup_bth_clear_all_history": {
+      "message": "Claro"
+   },
+
+   "popup_search": {
+      "message": "Buscar..."
    },
 
    "donate_tooltip": {

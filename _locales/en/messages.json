@@ -48,6 +48,13 @@
    "opt_show_download_panel_warn": {
       "message": "Correct work with now active downloads is not possible!"
    },
+   
+   "opt_toolbar_behavior": {
+      "message": "Behavior when you click on the icon Toolbar"
+   },
+   "opt_toolbar_behavior_desc": {
+      "message": "Opens <code>chrome://downloads/</code> by default"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "Delay in seconds before hiding the panel after downloading"
@@ -120,6 +127,14 @@
    },
    "opt_bth_save_settings_tooltip": {
       "message": "Applied instantly"
+   },
+
+   "popup_bth_clear_all_history": {
+      "message": "Clear"
+   },
+
+   "popup_search": {
+      "message": "Search..."
    },
 
    "donate_tooltip": {

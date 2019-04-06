@@ -19,4 +19,6 @@ zip -r $FILENAME.zip \
                   js/libs/*.js \
                   audio/* \
                   manifest.json \
+ --exclude="*/-*.js"
+#  -x \*.DS_Store
 # -z $TODAY

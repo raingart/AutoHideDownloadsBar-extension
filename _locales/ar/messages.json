@@ -48,6 +48,13 @@
    "opt_show_download_panel_warn": {
       "message": "العمل الصحيح مع التنزيلات النشطة الآن غير ممكن!"
    },
+   
+   "opt_toolbar_behavior": {
+      "message": "تصرف عند النقر على أيقونة شريط الأدوات"
+   },
+   "opt_toolbar_behavior_desc": {
+      "message": "يفتح <code>chrome://downloads/</code> افتراضيًا"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "التأخير في ثوانٍ قبل إخفاء اللوحة بعد التنزيل"
@@ -120,6 +127,14 @@
    },
    "opt_bth_save_settings_tooltip": {
       "message": "يطبق على الفور"
+   },
+
+   "popup_bth_clear_all_history": {
+      "message": "واضح"
+   },
+
+   "popup_search": {
+      "message": "بحث..."
    },
 
    "donate_tooltip": {

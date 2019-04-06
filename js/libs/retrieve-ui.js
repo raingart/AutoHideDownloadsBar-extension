@@ -2,7 +2,7 @@ const UIr = {
    // DEBUG: true,
 
    restoreElmValue: function (base) {
-      this.log("Load from Storage: %s", JSON.stringify(base));
+      this.log("Load from Storage:", JSON.stringify(base));
 
       for (var key in base) {
          var val = base[key];
@@ -21,7 +21,6 @@ const UIr = {
 
                case 'input':
                   this.log('>>opt %s[%s]: %s', key, el.tagName.toLowerCase(), val);
-                  
                   switch (el.type.toLowerCase()) {
                      case 'checkbox':
                         el.checked = val ? true : false; // Check/Uncheck
@@ -37,9 +36,8 @@ const UIr = {
       }
    },
 
-   setSelectOption: function (selectObj, val) {
-      for (var i in selectObj.children) {
-         var option = selectObj.children[i];
+   setSelectOption: (selectObj, val) => {
+      for (const option of selectObj.children) {
          if (option.value === val) {
             option.selected = true;
             break
@@ -52,7 +50,7 @@ const UIr = {
          for (let i = 1; i < arguments.length; i++) {
             msg = msg.replace(/%s/, arguments[i].toString().trim());
          }
-         console.log('[+] %s', msg);
+         console.log('[+]', msg);
       }
    },
 }

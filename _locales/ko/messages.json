@@ -48,6 +48,13 @@
    "opt_show_download_panel_warn": {
       "message": "현재 사용중인 다운로드와 함께 올바른 작업을 수행 할 수 없습니다!"
    },
+   
+   "opt_toolbar_behavior": {
+      "message": "아이콘 툴바를 클릭하면 동작"
+   },
+   "opt_toolbar_behavior_desc": {
+      "message": "기본적으로 <code>chrome://downloads/</code> 을 엽니 다"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "다운로드 후 패널을 숨기기 전에 몇 초 지연"
@@ -70,14 +77,14 @@
       "message": "재생 알림 사운드"
    },
    "opt_sound_notification_desc": {
-      "message": "알림 시스템에서 이미 오디오 알림을 사용하는 경우 사용 중지합니다."
+      "message": "알림 시스템에서 이미 오디오 알림을 사용하는 경우 사용 중지합니다"
    },
 
    "opt_type_icon_info": {
       "message": "툴바에서 표시 유형 선택"
    },
    "opt_type_icon_info_desc": {
-      "message": "꺼짐은 시스템의로드를 크게 줄입니다."
+      "message": "꺼짐은 시스템의로드를 크게 줄입니다"
    },
    "opt_type_icon_info_option_svg": {
       "message": "그래픽"
@@ -99,7 +106,7 @@
       "message": "기본값 : #00FF00 (녹색에서 녹색으로 그라디언트)"
    },
    "opt_color_icon_info_desc": {
-      "message": "아이콘에서 다운로드 색상을 설정할 수 있습니다."
+      "message": "아이콘에서 다운로드 색상을 설정할 수 있습니다"
    },
 
    "opt_color_icon_text_info": {
@@ -120,6 +127,14 @@
    },
    "opt_bth_save_settings_tooltip": {
       "message": "즉시 적용"
+   },
+
+   "popup_bth_clear_all_history": {
+      "message": "명확한"
+   },
+
+   "popup_search": {
+      "message": "수색..."
    },
 
    "donate_tooltip": {
