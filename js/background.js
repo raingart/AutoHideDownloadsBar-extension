@@ -545,6 +545,9 @@ const App = {
          App.genNotification(item);
       }
 
+      // clear browserAction
+      chrome.browserAction.setPopup({popup: ''});
+
       // called when the icon is clicked
       switch (App.sessionSettings["toolbarBehavior"]) {
          case 'popup':
