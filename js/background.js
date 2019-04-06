@@ -384,12 +384,12 @@ const App = {
             let obj = { "title": title ? title.toString().trim() : '' };
             chrome.browserAction.setTitle(obj);
          },
-   
+
          setBadgeText: text => {
             let obj = { "text": text ? text.toString().trim() : ''  };
             chrome.browserAction.setBadgeText(obj);
          },
-         
+
          setBadgeBackgroundColor: color => {
             let obj = { color: color || "black" };
             chrome.browserAction.setBadgeBackgroundColor(obj);
@@ -545,23 +545,27 @@ const App = {
          App.genNotification(item);
       }
 
-      // clear browserAction
-      chrome.browserAction.setPopup({popup: ''});
+      if (!item) {
+         // clear browserAction
+         chrome.browserAction.setPopup({
+            popup: ''
+         });
 
-      // called when the icon is clicked
-      switch (App.sessionSettings["toolbarBehavior"]) {
-         case 'popup':
-            chrome.browserAction.setPopup({
-               'popup': '/html/popup.html'
-            }, function () {});
-            break;
+         // called when the icon is clicked
+         switch (App.sessionSettings["toolbarBehavior"]) {
+            case 'popup':
+               chrome.browserAction.setPopup({
+                  'popup': '/html/popup.html'
+               }, () => {});
+               break;
 
-         case 'download_default_folder':
-            chrome.downloads.showDefaultFolder();
-            break;
+            case 'download_default_folder':
+               chrome.downloads.showDefaultFolder();
+               break;
 
-         default:
-            chrome.browserAction.onClicked.addListener(tab => App.browser.openTab('chrome://downloads/'));
+            default:
+               chrome.browserAction.onClicked.addListener(tab => App.browser.openTab('chrome://downloads/'));
+         }
       }
    },
 

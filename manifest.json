@@ -5,14 +5,13 @@
    "description": "__MSG_app_description__",
    "update_url": "https://clients2.google.com/service/update2/crx",
    "default_locale": "en",
-   "version": "2.8.0",
+   "version": "2.8.1",
    "author": "raingart",
    "permissions": [
       "tabs",
       "storage",
       "downloads",
-      "downloads.shelf",
-      "downloads.open"
+      "downloads.shelf"
    ],
    "optional_permissions": ["notifications"],
    "background": {

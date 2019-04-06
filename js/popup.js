@@ -33,9 +33,9 @@ const App = {
                      let a = document.createElement("a");
                      a.id = item.id;
                      // a.setAttribute('act2', 'erase');
-                     a.title = 'right click - remove from history';
-                     // a.setAttribute('tooltip', 'right click - remove from history');
-                     // a.setAttribute("flow", 'right');
+                     // a.title = 'right click - remove from history';
+                     a.setAttribute('tooltip', 'right click - remove from history');
+                     a.setAttribute("flow", 'right');
                      a.innerHTML = '<img src="' + icon_url + '" class="icon" />'
                      return a;
                   })());
@@ -115,7 +115,7 @@ const App = {
                progressBar.setAttribute('tooltip', pt + '%');
                progressBar.style.background = 'linear-gradient(to right, #00bfffd0 ' + (pt - 1) + '%, #ffffff ' + pt + '%)';
 
-               statusDiv.textContent = receivedSize + ' of ' + totalSize;
+               statusDiv.textContent = receivedSize + '/' + totalSize;
                if (timeLeft) statusDiv.textContent += ' - ' + timeLeft;
                if (speed) statusDiv.textContent += ' [' + speed + ']';
                break;
