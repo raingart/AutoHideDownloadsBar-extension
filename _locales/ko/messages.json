@@ -48,7 +48,7 @@
    "opt_show_download_panel_warn": {
       "message": "현재 사용중인 다운로드와 함께 올바른 작업을 수행 할 수 없습니다!"
    },
-   
+
    "opt_toolbar_behavior": {
       "message": "아이콘 툴바를 클릭하면 동작"
    },
@@ -130,10 +130,13 @@
    },
 
    "popup_bth_clear_all_history": {
-      "message": "명확한"
+      "message": "모두 지우기"
+   },
+   "popup_bth_clear_all_history_tooltip": {
+      "message": "모든 기록 삭제"
    },
 
-   "popup_search": {
+   "popup_search_placeholder": {
       "message": "수색..."
    },
 

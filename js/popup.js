@@ -1,25 +1,26 @@
 const App = {
 
-   // DEBUG: true,
+   DEBUG: true,
 
    list: {
       update: (item, li, isNew) => {
          App.log('update: ', item.id);
-         li.setAttribute("state", item.state);
+         li.setAttribute("state", item.exists ? item.state : 'deleted');
 
          let progressBar = li.querySelector('.progress');
          let controlDiv = li.querySelector('.control');
          let statusDiv = li.querySelector('.status');
 
-         if (statusDiv.textContent != item.state) {
-            statusDiv.textContent = item.state;
-         }
-
          if (item.state != 'in_progress') {
+            if (statusDiv.textContent != item.state) {
+               statusDiv.textContent = item.state;
+            }
+
             var fileLink = li.querySelector('.info a');
             fileLink.id = item.id;
+            fileLink.title = 'open file url';
 
-            if (progressBar) {// clear progressBar
+            if (progressBar) { // clear progressBar
                progressBar.parentNode.removeChild(progressBar);
             }
 
@@ -33,9 +34,9 @@ const App = {
                      let a = document.createElement("a");
                      a.id = item.id;
                      // a.setAttribute('act2', 'erase');
-                     // a.title = 'right click - remove from history';
-                     a.setAttribute('tooltip', 'right click - remove from history');
-                     a.setAttribute("flow", 'right');
+                     a.title = 'right click - remove from history';
+                     // a.setAttribute('tooltip', 'right click - remove from history');
+                     // a.setAttribute("flow", 'right');
                      a.innerHTML = '<img src="' + icon_url + '" class="icon" />'
                      return a;
                   })());
@@ -45,11 +46,13 @@ const App = {
          switch (item.state) {
             case 'complete':
                if (item.exists) {
-                  fileLink.href = '#';
+                  // fileLink.href = '#';
                   // fileLink.setAttribute("tooltip", 'left click - open / right - show');
                   fileLink.title = 'left click - open / right - show';
+                  statusDiv.textContent += ' [' + formatBytes(item.fileSize) + ']';
 
                } else {
+                  // fileLink.href = item.url;
                   statusDiv.textContent = 'deleted';
                }
                break;
@@ -70,22 +73,22 @@ const App = {
                   button = document.createElement("button");
                   button.id = item.id;
                   button.innerHTML = '<svg width="100%" height="100%" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\
-                  <defs>\
-                     <path id="ytp-12" d="M 11 10 L 17 10 L 17 26 L 11 26 M 20 10 L 26 10 L 26 26 L 20 26">\
-                        <animate begin="indefinite" attributeType="XML" attributeName="d" fill="freeze" from="M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26" to="M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28" dur="0.1s" keySplines=".4 0 1 1" repeatCount="1"></animate>\
-                     </path>\
-                  </defs>\
-                  <use xlink:href="#ytp-12" class="ytp-svg-shadow"></use>\
-                  <use xlink:href="#ytp-12" class="ytp-svg-fill"></use>\
-               </svg>';
+                     <defs>\
+                        <path id="ytp-12" d="M 11 10 L 17 10 L 17 26 L 11 26 M 20 10 L 26 10 L 26 26 L 20 26">\
+                           <animate begin="indefinite" attributeType="XML" attributeName="d" fill="freeze" from="M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26" to="M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28" dur="0.1s" keySplines=".4 0 1 1" repeatCount="1"></animate>\
+                        </path>\
+                     </defs>\
+                     <use xlink:href="#ytp-12" class="ytp-svg-shadow"></use>\
+                     <use xlink:href="#ytp-12" class="ytp-svg-fill"></use>\
+                  </svg>';
+                  // button.title = 'right click - cancel';
+                  button.setAttribute("tooltip", "right click - cancel");
+                  button.setAttribute("flow", 'right');
                   // let animate = button.querySelector('animate');
                   // animate.beginElement();
                   controlDiv.appendChild(button);
                }
                button.setAttribute("act", (item.paused && item.canResume) ? 'resume' : 'pause');
-               // button.setAttribute("tooltip", "right click - cancel");
-               // button.setAttribute("flow", 'right');
-               button.title = 'right click - cancel';
 
                // animation
                // button.textContent = (item.paused && item.canResume) ? '▶' : '▮▮';
@@ -112,24 +115,27 @@ const App = {
                      return progressBar;
                   })());
                }
-               progressBar.setAttribute('tooltip', pt + '%');
-               progressBar.style.background = 'linear-gradient(to right, #00bfffd0 ' + (pt - 1) + '%, #ffffff ' + pt + '%)';
 
+               if (progressBar.getAttribute('tooltip') != (pt + '%')) {
+                  progressBar.setAttribute('tooltip', pt + '%');
+                  progressBar.style.background = 'linear-gradient(to right, #00bfffd0 ' + (pt - 1) + '%, #ffffff ' + pt + '%)';
+               }
                statusDiv.textContent = receivedSize + '/' + totalSize;
                if (timeLeft) statusDiv.textContent += ' - ' + timeLeft;
-               if (speed) statusDiv.textContent += ' [' + speed + ']';
+               if (speed) statusDiv.textContent += ' (' + speed + ')';
+
                break;
 
             case 'interrupted':
                if (item.error == 'NETWORK_FAILED') {
-                  fileLink.href = item.url;
-                  fileLink.title = 'open file url';
+                  // fileLink.href = item.url;
+                  // fileLink.title = 'open file url';
                   // fileLink.setAttribute('tooltip', 'open file url');
                   fileLink.target = "_blank";
                   fileLink.style.color = '#ff0000b3';
 
                } else if (item.error == 'USER_CANCELED') {
-                  li.parentNode.removeChild(li);
+                  // li.parentNode.removeChild(li);
                }
                break;
          }
@@ -162,6 +168,7 @@ const App = {
             // fileLink
             infoDiv.appendChild((() => {
                let fileLink = document.createElement("a");
+               fileLink.href = item.url;
                fileLink.textContent = filePatch;
                fileLink.setAttribute("flow", 'up');
                return fileLink;
@@ -190,13 +197,13 @@ const App = {
 
       if (li) {
          // if (!item.paused)
-         if (item.state == 'in_progress' || li.getAttribute('state') != item.state) {
+         if (item.state == 'in_progress' || li.getAttribute('state') != (item.exists ? item.state : 'deleted')) {
             App.list.update(item, li);
          }
 
       } else {
          //skip canceled
-         if (item.hasOwnProperty("error") && item.error == "USER_CANCELED") return;
+         // if (item.hasOwnProperty("error") && item.error == "USER_CANCELED") return;
          li = App.list.create(item);
          App.UI.containerDownload.appendChild(li);
          App.list.update(item, li, 'new');
@@ -216,9 +223,15 @@ const App = {
             App.UI.containerDownload.textContent = '';
          }
 
-         if (downloads.length) {
-            App.UI.info.textContent = 'initilization...';
-            downloads.forEach(download => App.generateList(download));
+         // filter canceled
+         const data = downloads.filter(function (item) {
+            // return !item.error.includes("USER_CANCELED");
+            return !(item.hasOwnProperty("error") && item.error == "USER_CANCELED");
+         });
+
+         if (data.length) {
+            App.UI.info.textContent = 'Initilization...';
+            data.forEach(download => App.generateList(download));
             App.UI.info.textContent = '';
 
             // open file/show
@@ -238,36 +251,6 @@ const App = {
          }
 
       });
-   },
-
-   toolbar: {
-      /* beautify preserve:start */
-      setIcon: obj => { chrome.browserAction.setIcon(obj); },
-
-      setTitle: title => {
-         let obj = { "title": title ? title.toString().trim() : '' };
-         chrome.browserAction.setTitle(obj);
-      },
-
-      setBadgeText: text => {
-         let obj = { "text": text ? text.toString().trim() : ''  };
-         chrome.browserAction.setBadgeText(obj);
-      },
-
-      setBadgeBackgroundColor: color => {
-         let obj = { color: color || "black" };
-         chrome.browserAction.setBadgeBackgroundColor(obj);
-      },
-      /* beautify preserve:end */
-
-      clear: () => {
-         const manifest = chrome.runtime.getManifest();
-         App.toolbar.setIcon({
-            path: manifest.icons['16']
-         });
-         App.toolbar.setBadgeText('');
-         App.toolbar.setTitle(i18n("app_title"));
-      },
    },
 
    // Saves/Load options to localStorage/chromeSync.
@@ -296,7 +279,7 @@ const App = {
          if (App.sessionSettings && Object.keys(App.sessionSettings).length) {
             App.refresh();
          }
-      }, 500);
+      }, 600);
    },
 
    log: function (msg) {
@@ -316,6 +299,7 @@ window.addEventListener('load', event => {
       search: document.getElementById('search'),
       info: document.getElementById('info'),
       clearAllHistory: document.getElementById('clearAllHistory'),
+      showDefaultTab: document.getElementById('showDefaultTab'),
    };
 
    // search
@@ -327,10 +311,16 @@ window.addEventListener('load', event => {
    });
 
    // bth clear
-   App.UI.clearAllHistory.addEventListener("click", function (event) {
+   App.UI.clearAllHistory.addEventListener("click", function (e) {
       chrome.downloads.erase({
          state: "complete"
       });
+      // document.querySelectorAll('li[id^="id"]').forEach(a => a.classList.add("erase")); // test animations
+   });
+
+   App.UI.showDefaultTab.addEventListener("click", function (e) {
+      e.preventDefault();
+      BrowserAct.openTab('chrome://downloads/')
    });
 
    App.init();
@@ -373,6 +363,7 @@ function fileAction(id, act) {
          chrome.downloads.erase({
             'id': id
          }, rm_id => {});
+         // document.getElementById('id-' + id).classList.add("erase"); // test animations
          break;
       default:
          console.warn("don't has", act);
@@ -386,24 +377,20 @@ chrome.downloads.onErased.addListener(function (id) {
 
 chrome.downloads.onCreated.addListener(function (item) {
    App.log('downloads.onCreated %s', JSON.stringify(item));
-   // App.browser.toolbar.setIcon({
-   //    imageData: App.genProgressBar.grafic(pt)
-   // });
-   App.toolbar.setBadgeText('new');
+   BrowserAct.toolbar.setBadgeText('new');
    setTimeout(function () {
-      App.toolbar.setBadgeText();
+      BrowserAct.toolbar.setBadgeText();
    }, 2000);
 });
 
 chrome.downloads.onChanged.addListener(function (item) {
    App.log('downloads.onChanged %s', JSON.stringify(item));
-
    // setTimeout(function () {
    //    document.getElementById('id-' + item.id).querySelector('button animate').beginElement();
    // }, 200);
 
-   App.toolbar.setBadgeText('up');
+   BrowserAct.toolbar.setBadgeText('up');
    setTimeout(function () {
-      App.toolbar.setBadgeText();
+      BrowserAct.toolbar.setBadgeText();
    }, 1000);
 });

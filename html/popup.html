@@ -12,11 +12,14 @@
 
    <link rel="stylesheet" href="/css/globals.css" />
    <link rel="stylesheet" href="/css/popup.css" />
+   <link rel="stylesheet" href="/css/glitch.css" />
 
-   <!-- <link rel="stylesheet" href="/css/__MSG_localization__.css" /> -->
+   <link rel="stylesheet" href="/css/__MSG_localization__.css" />
 
    <script src="/js/libs/localization.js"></script>
    <script src="/js/libs/storage.js"></script>
+   <script src="/js/libs/browser.js"></script>
+
    <script src="/js/popup-lib.js"></script>
    <script src="/js/popup.js"></script>
 </head>
@@ -26,15 +29,19 @@
    <div class="container">
 
       <form enctype="multipart/form-data">
-         <div class="polaris">
-            <input type="search" id="search" title="filter item" placeholder="__MSG_popup_search__" />
-            <button type="button" id="clearAllHistory" tooltip="clear history"
+         <div class="between">
+            <input type="search" id="search" title="filter item" placeholder="__MSG_popup_search_placeholder__" />
+            <button type="button" id="clearAllHistory" tooltip="__MSG_popup_bth_clear_all_history_tooltip__"
                flow="left">__MSG_popup_bth_clear_all_history__</button>
          </div>
 
          <div id="info"></div>
 
          <ol id="containerDownload"></ol>
+
+         <div class="showFolder">
+            <a href="chrome://downloads/" id="showDefaultTab">chrome://downloads</a>
+         </div>
 
       </form>
 

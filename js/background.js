@@ -23,7 +23,7 @@ const App = {
          App.log('clearInterval');
          App.isBusy = false;
          clearInterval(App.temploadingMessage);
-         App.browser.toolbar.clear();
+         BrowserAct.toolbar.clear();
 
       } else App.log('pulsar ignore');
    },
@@ -34,12 +34,12 @@ const App = {
             break;
 
          case 'text':
-            App.browser.toolbar.setBadgeBackgroundColor(App.sessionSettings['colorPicker']);
-            App.browser.toolbar.setBadgeText(App.genProgressBar.text(pt));
+            BrowserAct.toolbar.setBadgeBackgroundColor(App.sessionSettings['colorPicker']);
+            BrowserAct.toolbar.setBadgeText(App.genProgressBar.text(pt));
             break;
 
          default:
-            App.browser.toolbar.setIcon({
+            BrowserAct.toolbar.setIcon({
                imageData: App.genProgressBar.grafic(pt)
             });
       }
@@ -225,7 +225,7 @@ const App = {
             if (countActive > 1 || countInfinity) {
                titleOut += "\n" + 'active: ' + countActive;
                // let badgeText = countInfinity ? countInfinity + '/' + countActive : countActive
-               // App.browser.toolbar.setBadgeText(badgeText);
+               // BrowserAct.toolbar.setBadgeText(badgeText);
 
                // ignored
                if (countInfinity) {
@@ -238,7 +238,7 @@ const App = {
                }
             }
 
-            App.browser.toolbar.setTitle(titleOut);
+            BrowserAct.toolbar.setTitle(titleOut);
 
          } else {
             // if ((item.state.current == 'complete') && item.endTime && !item.error) {
@@ -346,148 +346,94 @@ const App = {
                notiData.title = i18n("noti_download_title") + ' ' + notiData.title;
                notiData.body = fileName;
                notiData.downloadId = item.id;
-               App.browser.notification(notiData, audioNotification && App.sessionSettings["soundNotification"] ? audioNotification : false);
+               App.notification(notiData, audioNotification && App.sessionSettings["soundNotification"] ? audioNotification : false);
             });
          }
       }
    },
 
-   browser: {
-      openTab: url => {
-         let openUrl = url || 'chrome://newtab';
-
-         // chrome.tabs.getAllInWindow(null, function (tabs) {
-         chrome.tabs.query({
-            "currentWindow": true
-         }, function (tabs) {
-            // search for the existing tab 
-            for (const tab of tabs) {
-               // is finded - focus
-               if (tab.url === openUrl)
-                  return chrome.tabs.update(tab.id, {
-                     selected: true
-                  });
-            };
-            // create new tab
-            chrome.tabs.create({
-               url: openUrl,
-               // selected: false
-            })
-         });
-      },
-
-      toolbar: {
-         /* beautify preserve:start */
-         setIcon: obj => { chrome.browserAction.setIcon(obj); },
-
-         setTitle: title => {
-            let obj = { "title": title ? title.toString().trim() : '' };
-            chrome.browserAction.setTitle(obj);
-         },
-
-         setBadgeText: text => {
-            let obj = { "text": text ? text.toString().trim() : ''  };
-            chrome.browserAction.setBadgeText(obj);
-         },
-
-         setBadgeBackgroundColor: color => {
-            let obj = { color: color || "black" };
-            chrome.browserAction.setBadgeBackgroundColor(obj);
-         },
-         /* beautify preserve:end */
-
-         clear: () => {
-            const manifest = chrome.runtime.getManifest();
-            App.browser.toolbar.setIcon({
-               path: manifest.icons['16']
-            });
-            App.browser.toolbar.setBadgeText('');
-            App.browser.toolbar.setTitle(i18n("app_title"));
-         },
-      },
-
-      notification: (options, audioPatch) => {
-         if (window.Notification && Notification.permission === "granted") {
+   notification: (options, audioPatch) => {
+      if (window.Notification && Notification.permission === "granted") {
+         notification_show();
+      } else {
+         Notification.requestPermission().then(function () {
             notification_show();
-         } else {
-            Notification.requestPermission().then(function () {
-               notification_show();
-            });
+         });
+      }
+
+      function notification_show() {
+         const manifest = chrome.runtime.getManifest();
+         let notiID;
+
+         let notiBody = {
+            type: "basic",
+            iconUrl: options.icon || manifest.icons['48'],
+            title: options.title || i18n("app_name"),
+            message: options.body || '',
+            // contextMessage: "contextMessage",
          }
 
-         function notification_show() {
-            const manifest = chrome.runtime.getManifest();
-            let notiID;
+         let permissionsObj = {
+            permissions: ['downloads.open']
+         }
+         chrome.permissions.contains(permissionsObj, granted => {
+            chrome.permissions.request(permissionsObj, granted => {
+               notiBody.buttons = [{
+                  title: "open file",
+                  // iconUrl: "/path/to/yesIcon.png"
+               }, {
+                  title: "open folder",
+                  // iconUrl: "/path/to/yesIcon.png"
+               }];
+            });
+         });
 
-            let notiBody = {
-               type: "basic",
-               iconUrl: options.icon || manifest.icons['48'],
-               title: options.title || i18n("app_name"),
-               message: options.body || '',
-               // contextMessage: "contextMessage",
+         chrome.notifications.create('', notiBody, id => {
+            notiID = id;
+            // audio alert
+            if (audioPatch) new Audio(audioPatch).play();
+         });
+
+         chrome.notifications.onButtonClicked.addListener(function (notificationId, buttonIndex) {
+            console.log("onButtonClicked", notiID, notificationId, buttonIndex);
+            if (notificationId === notiID) {
+               console.log("button clicked", buttonIndex);
+               switch (buttonIndex) {
+                  case 0:
+                     chrome.downloads.open(notificationId);
+                     break;
+                  case 1:
+                     chrome.downloads.show(notificationId);
+                     break;
+
+                  default:
+                     console.warn('dont have button onlick action:', buttonIndex)
+               }
+               // chrome.notifications.clear(notificationId, function () {});
             }
-
-            chrome.permissions.contains({
-               permissions: ['downloads.open']
-            }, granted => {
-               if (granted) {
-                  notiBody.buttons = [{
-                     title: "open file",
-                     // iconUrl: "/path/to/yesIcon.png"
-                  }, {
-                     title: "open folder",
-                     // iconUrl: "/path/to/yesIcon.png"
-                  }];
-               }
-            });
-
-            chrome.notifications.create('', notiBody, id => {
-               notiID = id;
-               // audio alert
-               if (audioPatch) new Audio(audioPatch).play();
-            });
-
-            chrome.notifications.onButtonClicked.addListener(function (notificationId, buttonIndex) {
-               console.log("onButtonClicked", notiID, notificationId, buttonIndex);
-               if (notificationId === notiID) {
-                  console.log("button clicked", buttonIndex);
-                  switch (buttonIndex) {
-                     case 0:
-                        chrome.downloads.open(notificationId);
-                        break;
-                     case 1:
-                        chrome.downloads.show(notificationId);
-                        break;
-
-                     default:
-                        console.warn('dont have button onlick action:', buttonIndex)
-                  }
-                  // chrome.notifications.clear(notificationId, function () {});
-               }
-            });
-         }
-      },
-      // notification: (options, audioPatch) => {
-      //    if (window.Notification && Notification.permission !== "granted") {
-      //       Notification.requestPermission().then(function () {
-      //          notification_show();
-      //       });
-      //    } else notification_show();
-
-      //    function notification_show() {
-      //       const manifest = chrome.runtime.getManifest();
-      //       new Notification(options.title || i18n("app_name"), {
-      //          body: options.body || '',
-      //          icon: options.icon || manifest.icons['48']
-      //       }).onclick = function () {
-      //          this.close();
-      //       }
-
-      //       // audio alert
-      //       if (audioPatch) new Audio(audioPatch).play();
-      //    }
-      // },
+         });
+      }
    },
+   // notification: (options, audioPatch) => {
+   //    if (window.Notification && Notification.permission !== "granted") {
+   //       Notification.requestPermission().then(function () {
+   //          notification_show();
+   //       });
+   //    } else notification_show();
+
+   //    function notification_show() {
+   //       const manifest = chrome.runtime.getManifest();
+   //       new Notification(options.title || i18n("app_name"), {
+   //          body: options.body || '',
+   //          icon: options.icon || manifest.icons['48']
+   //       }).onclick = function () {
+   //          this.close();
+   //       }
+
+   //       // audio alert
+   //       if (audioPatch) new Audio(audioPatch).play();
+   //    }
+   // },
 
    // Saves/Load options to localStorage/chromeSync.
    storage: {
@@ -539,7 +485,7 @@ const App = {
             // break;
             case 'setOptions':
                App.sessionSettings = request.options;
-               App.browser.toolbar.clear();
+               BrowserAct.toolbar.clear();
                App.refresh();
                break;
          }
@@ -573,7 +519,7 @@ const App = {
                break;
 
             default:
-               chrome.browserAction.onClicked.addListener(tab => App.browser.openTab('chrome://downloads/'));
+               chrome.browserAction.onClicked.addListener(tab => BrowserAct.openTab('chrome://downloads/'));
          }
       }
    },
@@ -581,7 +527,7 @@ const App = {
    init: () => {
       App.storage.load();
       App.eventListener();
-      App.browser.toolbar.clear();
+      BrowserAct.toolbar.clear();
    },
 
    log: function (msg) {

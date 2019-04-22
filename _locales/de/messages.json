@@ -48,7 +48,7 @@
    "opt_show_download_panel_warn": {
       "message": "Korrekte Arbeit mit jetzt aktiven Downloads ist nicht möglich!"
    },
-   
+
    "opt_toolbar_behavior": {
       "message": "Verhalten beim Klicken auf das Symbol Symbolleiste"
    },
@@ -130,10 +130,13 @@
    },
 
    "popup_bth_clear_all_history": {
-      "message": "klar"
+      "message": "Alles löschen"
+   },
+   "popup_bth_clear_all_history_tooltip": {
+      "message": "Alle Verlauf löschen"
    },
 
-   "popup_search": {
+   "popup_search_placeholder": {
       "message": "Suche..."
    },
 

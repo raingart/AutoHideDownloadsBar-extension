@@ -48,7 +48,7 @@
    "opt_show_download_panel_warn": {
       "message": "¡El trabajo correcto con descargas ahora activas no es posible!"
    },
-   
+
    "opt_toolbar_behavior": {
       "message": "Comportamiento al hacer clic en el icono de la barra de herramientas."
    },
@@ -130,10 +130,13 @@
    },
 
    "popup_bth_clear_all_history": {
-      "message": "Claro"
+      "message": "Limpiar todo"
+   },
+   "popup_bth_clear_all_history_tooltip": {
+      "message": "Borrar toda la historia"
    },
 
-   "popup_search": {
+   "popup_search_placeholder": {
       "message": "Buscar..."
    },
 

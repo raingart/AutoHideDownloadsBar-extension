@@ -48,7 +48,7 @@
    "opt_show_download_panel_warn": {
       "message": "アクティブなダウンロードでの正しい作業は不可能です！"
    },
-   
+
    "opt_toolbar_behavior": {
       "message": "アイコンツールバーをクリックしたときの動作"
    },
@@ -131,10 +131,13 @@
    },
 
    "popup_bth_clear_all_history": {
-      "message": "クリア"
+      "message": "すべてクリア"
+   },
+   "popup_bth_clear_all_history_tooltip": {
+      "message": "履歴をすべてクリア"
    },
 
-   "popup_search": {
+   "popup_search_placeholder": {
       "message": "サーチ..."
    },
 

@@ -23,14 +23,26 @@ div.between {
    grid-template-columns: 1fr auto;
 }
 
-div.between>h2 {
+div.between button#back-history {
+   background-color: #ffffff;
+   color: #333333;
+   border: 1px solid #dadada;
+   font-size: 1.5em;
+   padding: 0 5px;
+   line-height: normal;
+   border-radius: 0;
+   display: none;
+}
+
+div.between h2 {
    white-space: nowrap;
    overflow: hidden;
    text-overflow: ellipsis;
    text-transform: capitalize;
+   display: inline-block;
 }
 
-div.between>a {
+div.between a {
    /* align-self: center; */
    padding: 5px;
    text-decoration: none;
@@ -86,6 +98,7 @@ label>span>q {
    color: #006b9e;
    quotes: "\00ab""\00bb";
 }
+
 label>span>code {
    font-size: 11px;
    color: darkslateblue;

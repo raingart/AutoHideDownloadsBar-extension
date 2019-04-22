@@ -48,7 +48,7 @@
    "opt_show_download_panel_warn": {
       "message": "العمل الصحيح مع التنزيلات النشطة الآن غير ممكن!"
    },
-   
+
    "opt_toolbar_behavior": {
       "message": "تصرف عند النقر على أيقونة شريط الأدوات"
    },
@@ -130,10 +130,13 @@
    },
 
    "popup_bth_clear_all_history": {
-      "message": "واضح"
+      "message": "امسح الكل"
+   },
+   "popup_bth_clear_all_history_tooltip": {
+      "message": "مسح كل التاريخ"
    },
 
-   "popup_search": {
+   "popup_search_placeholder": {
       "message": "بحث..."
    },
 

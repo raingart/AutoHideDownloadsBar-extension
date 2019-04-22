@@ -143,6 +143,11 @@ window.addEventListener('load', (evt) => {
                   Conf.getPermissions(['downloads.open'], event);
                }
             });
+
+         document.getElementById('back-history')
+            .addEventListener("click", function (event) {
+               history.back()
+            });
       },
 
       init: () => {
@@ -151,6 +156,10 @@ window.addEventListener('load', (evt) => {
             Conf.attrDependencies();
 
             document.querySelector("body").classList.remove("preload");
+
+            if (location.href.substr(-1) === "#") {
+               document.getElementById("back-history").style.display = "unset";
+            }
 
             // show warn
             chrome.downloads.search({

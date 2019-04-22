@@ -48,7 +48,7 @@
    "opt_show_download_panel_warn": {
       "message": "现在无法正常下载正确的工作！"
    },
-   
+
    "opt_toolbar_behavior": {
       "message": "单击图标工具栏时的行为"
    },
@@ -130,10 +130,13 @@
    },
 
    "popup_bth_clear_all_history": {
-      "message": "明确"
+      "message": "全部清除"
+   },
+   "popup_bth_clear_all_history_tooltip": {
+      "message": "清除所有历史"
    },
 
-   "popup_search": {
+   "popup_search_placeholder": {
       "message": "搜索..."
    },
 

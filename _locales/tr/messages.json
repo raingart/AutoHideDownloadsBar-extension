@@ -48,7 +48,7 @@
    "opt_show_download_panel_warn": {
       "message": "Şimdi aktif indirme ile doğru çalışma mümkün değil!"
    },
-   
+
    "opt_toolbar_behavior": {
       "message": "Araç Çubuğu simgesine tıkladığınızda davranış"
    },
@@ -130,10 +130,13 @@
    },
 
    "popup_bth_clear_all_history": {
-      "message": "Açık"
+      "message": "Hepsini temizle"
+   },
+   "popup_bth_clear_all_history_tooltip": {
+      "message": "Tüm Geçmişi Temizle"
    },
 
-   "popup_search": {
+   "popup_search_placeholder": {
       "message": "Arama..."
    },
 

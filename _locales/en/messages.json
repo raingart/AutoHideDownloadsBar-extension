@@ -130,10 +130,13 @@
    },
 
    "popup_bth_clear_all_history": {
-      "message": "Clear"
+      "message": "Clear All"
+   },
+   "popup_bth_clear_all_history_tooltip": {
+      "message": "Clear All History"
    },
 
-   "popup_search": {
+   "popup_search_placeholder": {
       "message": "Search..."
    },
 
