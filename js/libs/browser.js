@@ -1,54 +1,50 @@
 const BrowserAct = {
-   openTab: url => {
-      let openUrl = url || 'chrome://newtab';
-
-      // chrome.tabs.getAllInWindow(null, function (tabs) {
-      chrome.tabs.query({
-         "currentWindow": true
-      }, function (tabs) {
-         // search for the existing tab 
-         for (const tab of tabs) {
-            // is finded - focus
-            if (tab.url === openUrl)
-               return chrome.tabs.update(tab.id, {
-                  selected: true
-               });
-         };
-         // create new tab
-         chrome.tabs.create({
-            url: openUrl,
-            // selected: false
-         })
-      });
+   // openTab: 
+   "tab": {
+      "open": url => {
+         // chrome.tabs.getAllInWindow(null, function (tabs) {
+         chrome.tabs.query({ "currentWindow": true }, tabs => {
+            // search for the existing tab 
+            for (const tab of tabs) {
+               // is finded - focus
+               if (tab.url === url) return chrome.tabs.update(tab.id, { selected: true });
+            };
+            // create new tab
+            chrome.tabs.create({
+               url: url || 'chrome://newtab',
+               // selected: false
+               // "active": true
+            })
+         });
+      },
    },
 
-   toolbar: {
-      /* beautify preserve:start */
-      setIcon: obj => { chrome.browserAction.setIcon(obj); },
-
-      setTitle: title => {
-         let obj = { "title": title ? title.toString().trim() : '' };
-         chrome.browserAction.setTitle(obj);
+   "badge": {
+      "set": {
+         "icon": obj => { chrome.browserAction.setIcon(obj); },
+         "title": title => chrome.browserAction.setTitle({ "title": title ? title.toString().trim() : '' }),
+         "text": text => chrome.browserAction.setBadgeText({ "text": text ? text.toString().trim() : '' }),
+         "background_color": color => chrome.browserAction.setBadgeBackgroundColor({ color: color || "black" }),
       },
 
-      setBadgeText: text => {
-         let obj = { "text": text ? text.toString().trim() : ''  };
-         chrome.browserAction.setBadgeText(obj);
-      },
-
-      setBadgeBackgroundColor: color => {
-         let obj = { color: color || "black" };
-         chrome.browserAction.setBadgeBackgroundColor(obj);
-      },
-      /* beautify preserve:end */
-
-      clear: function () {
+      "clear": function () {
          const manifest = chrome.runtime.getManifest();
-         BrowserAct.toolbar.setIcon({
+         BrowserAct.badge.set.icon({
             path: manifest.icons['16']
          });
-         BrowserAct.toolbar.setBadgeText('');
-         BrowserAct.toolbar.setTitle(i18n("app_title"));
+         BrowserAct.badge.set.text('');
+         BrowserAct.badge.set.title(i18n("app_title"));
       },
+   },
+   
+   "request": function (url, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+         if (xhr.readyState === 4) {
+            callback((xhr.status >= 400 || xhr.status < 200) ? null : xhr.responseURL);
+         }
+      };
+      xhr.open("HEAD", url, true);
+      xhr.send('');
    },
 };

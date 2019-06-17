@@ -41,7 +41,7 @@ function formatSpeed(ms, bytes) {
 
 function formatBytes(bytes) {
    let i = Math.floor(Math.log(bytes) / Math.log(1024));
-   return !bytes ? '---' : (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+   return !bytes ? '---' : (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ['B', 'kB', 'MB', 'GB', 'TB'][i];
 }
 
 function formatTimeLeft(ms) {

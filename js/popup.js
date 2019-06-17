@@ -320,7 +320,7 @@ window.addEventListener('load', event => {
 
    App.UI.showDefaultTab.addEventListener("click", function (e) {
       e.preventDefault();
-      BrowserAct.openTab('chrome://downloads/')
+      BrowserAct.tab.open('chrome://downloads/')
    });
 
    App.init();
@@ -377,9 +377,9 @@ chrome.downloads.onErased.addListener(function (id) {
 
 chrome.downloads.onCreated.addListener(function (item) {
    App.log('downloads.onCreated %s', JSON.stringify(item));
-   BrowserAct.toolbar.setBadgeText('new');
+   BrowserAct.badge.set.text('new');
    setTimeout(function () {
-      BrowserAct.toolbar.setBadgeText();
+      BrowserAct.badge.set.text();
    }, 2000);
 });
 
@@ -389,8 +389,8 @@ chrome.downloads.onChanged.addListener(function (item) {
    //    document.getElementById('id-' + item.id).querySelector('button animate').beginElement();
    // }, 200);
 
-   BrowserAct.toolbar.setBadgeText('up');
+   BrowserAct.badge.set.text('up');
    setTimeout(function () {
-      BrowserAct.toolbar.setBadgeText();
+      BrowserAct.badge.set.text();
    }, 1000);
 });

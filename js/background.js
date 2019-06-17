@@ -23,25 +23,23 @@ const App = {
          App.log('clearInterval');
          App.isBusy = false;
          clearInterval(App.temploadingMessage);
-         BrowserAct.toolbar.clear();
+         BrowserAct.badge.clear();
 
       } else App.log('pulsar ignore');
    },
 
    updateIndicate: pt => {
-      switch (App.sessionSettings['typeIconInfo'] /*.toLowerCase()*/ ) {
+      switch (App.sessionSettings['typeIconInfo'] /*.toLowerCase()*/) {
          case 'false':
             break;
 
          case 'text':
-            BrowserAct.toolbar.setBadgeBackgroundColor(App.sessionSettings['colorPicker']);
-            BrowserAct.toolbar.setBadgeText(App.genProgressBar.text(pt));
+            BrowserAct.badge.set.background_color(App.sessionSettings['colorPicker']);
+            BrowserAct.badge.set.text(App.genProgressBar.text(pt));
             break;
 
          default:
-            BrowserAct.toolbar.setIcon({
-               imageData: App.genProgressBar.grafic(pt)
-            });
+            BrowserAct.badge.set.icon({ 'imageData': App.genProgressBar.grafic(pt) });
       }
       return;
    },
@@ -225,7 +223,7 @@ const App = {
             if (countActive > 1 || countInfinity) {
                titleOut += "\n" + 'active: ' + countActive;
                // let badgeText = countInfinity ? countInfinity + '/' + countActive : countActive
-               // BrowserAct.toolbar.setBadgeText(badgeText);
+               // BrowserAct.badge.set.text(badgeText);
 
                // ignored
                if (countInfinity) {
@@ -238,7 +236,7 @@ const App = {
                }
             }
 
-            BrowserAct.toolbar.setTitle(titleOut);
+            BrowserAct.badge.set.title(titleOut);
 
          } else {
             // if ((item.state.current == 'complete') && item.endTime && !item.error) {
@@ -316,8 +314,8 @@ const App = {
                }
                break;
 
-               // case 'in_progress':
-               //    return false;
+            // case 'in_progress':
+            //    return false;
 
             default:
                return false;
@@ -442,7 +440,7 @@ const App = {
             App.log('storage %s', JSON.stringify(res));
             App.sessionSettings = res;
 
-            App.refresh();
+            App.updateBrowserBadgeAction();
          };
          // load store settings
          Storage.getParams(callback, 'sync');
@@ -485,8 +483,8 @@ const App = {
             // break;
             case 'setOptions':
                App.sessionSettings = request.options;
-               BrowserAct.toolbar.clear();
-               App.refresh();
+               BrowserAct.badge.clear();
+               App.updateBrowserBadgeAction();
                break;
          }
       });
@@ -496,38 +494,36 @@ const App = {
 
    refresh: item => {
       App.getDownloadProgress(App.pulsar);
-      if (App.sessionSettings["showNotification"]) {
+      if (item && App.sessionSettings["showNotification"]) {
          App.genNotification(item);
       }
+   },
 
-      if (!item) {
-         // clear browserAction
-         chrome.browserAction.setPopup({
-            popup: ''
-         });
+   updateBrowserBadgeAction: () => {
+      // clear browserAction
+      chrome.browserAction.setPopup({ popup: '' });
 
-         // called when the icon is clicked
-         switch (App.sessionSettings["toolbarBehavior"]) {
-            case 'popup':
-               chrome.browserAction.setPopup({
-                  'popup': '/html/popup.html'
-               }, () => {});
-               break;
+      // called when the icon is clicked
+      switch (App.sessionSettings["toolbarBehavior"]) {
+         case 'popup':
+            chrome.browserAction.setPopup({
+               'popup': '/html/popup.html'
+            }, () => { });
+            break;
 
-            case 'download_default_folder':
-               chrome.downloads.showDefaultFolder();
-               break;
+         case 'download_default_folder':
+            chrome.downloads.showDefaultFolder();
+            break;
 
-            default:
-               chrome.browserAction.onClicked.addListener(tab => BrowserAct.openTab('chrome://downloads/'));
-         }
+         default:
+            chrome.browserAction.onClicked.addListener(tab => BrowserAct.tab.open('chrome://downloads/'));
       }
    },
 
    init: () => {
       App.storage.load();
       App.eventListener();
-      BrowserAct.toolbar.clear();
+      BrowserAct.badge.clear();
    },
 
    log: function (msg) {
