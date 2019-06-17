@@ -72,32 +72,35 @@ window.addEventListener('load', (evt) => {
          chrome.extension.sendMessage({
             "action": 'setOptions',
             "options": newOptions
-         }, function (resp) {
-            if (callback && typeof (callback) === "function") {
-               return callback();
-            }
-         });
+         }
+            // fix: Could not establish connection. Receiving end does not exist.
+            // , function (resp) {
+            //    if (callback && typeof (callback) === "function") {
+            //       return callback();
+            //    }
+            // }
+         );
       },
 
-      bthSaveAnimation: {
-         outputStatus: document.querySelector("button"),
+      bthSubmitAnimation: {
+         outputStatus: document.querySelector("button[type=submit]"),
 
          _process: () => {
-            Conf.bthSaveAnimation.outputStatus.innerHTML = i18n("opt_bth_save_settings_process");
-            Conf.bthSaveAnimation.outputStatus.classList.add("disabled");
-            Conf.bthSaveAnimation.outputStatus.classList.add("in-progress");
+            Conf.bthSubmitAnimation.outputStatus.textContent = i18n("opt_bth_save_settings_process");
+            Conf.bthSubmitAnimation.outputStatus.classList.add("disabled");
+            Conf.bthSubmitAnimation.outputStatus.classList.add("in-progress");
          },
 
          _processed: () => {
-            Conf.bthSaveAnimation.outputStatus.innerHTML = i18n("opt_bth_save_settings_processed");
-            Conf.bthSaveAnimation.outputStatus.classList.remove("in-progress");
+            Conf.bthSubmitAnimation.outputStatus.textContent = i18n("opt_bth_save_settings_processed");
+            Conf.bthSubmitAnimation.outputStatus.classList.remove("in-progress");
          },
 
          _defaut: () => {
             setTimeout(function () {
-               Conf.bthSaveAnimation._processed();
-               Conf.bthSaveAnimation.outputStatus.innerHTML = i18n("opt_bth_save_settings");
-               Conf.bthSaveAnimation.outputStatus.classList.remove("disabled");
+               Conf.bthSubmitAnimation._processed();
+               Conf.bthSubmitAnimation.outputStatus.textContent = i18n("opt_bth_save_settings");
+               Conf.bthSubmitAnimation.outputStatus.classList.remove("disabled");
             }, 300);
          },
       },
@@ -121,14 +124,14 @@ window.addEventListener('load', (evt) => {
       },
 
       // Register the event handlers.
-      eventListener: () => {
+      eventListener: (function () {
          document.forms[0] // get form
             .addEventListener('submit', function (event) {
                event.preventDefault();
-               Conf.bthSaveAnimation._process();
-               Conf.saveOptions(this, Conf.bthSaveAnimation._processed);
-               Conf.bthSaveAnimation._defaut();
-            }, false);
+               Conf.bthSubmitAnimation._process();
+               Conf.saveOptions(this, Conf.bthSubmitAnimation._processed);
+               Conf.bthSubmitAnimation._defaut();
+            });
 
          document.getElementById('showNotification')
             .addEventListener("change", function (event) {
@@ -144,35 +147,33 @@ window.addEventListener('load', (evt) => {
                }
             });
 
-         document.getElementById('back-history')
-            .addEventListener("click", function (event) {
-               history.back()
-            });
-      },
+         // document.getElementById('back-history')
+         //    .addEventListener("click", function (event) {
+         //       history.back()
+         //    });
+      }()),
 
       init: () => {
-         let callback = (res) => {
+         let callback = res => {
             UIr.restoreElmValue(res);
             Conf.attrDependencies();
 
             document.querySelector("body").classList.remove("preload");
 
-            if (location.href.substr(-1) === "#") {
-               document.getElementById("back-history").style.display = "unset";
-            }
+            // if (location.href.substr(-1) === "#") {
+            //    document.getElementById("back-history").style.display = "unset";
+            // }
 
             // show warn
             chrome.downloads.search({
                state: 'in_progress',
                paused: false
-            }, (downloads) => downloads.length && document.getElementsByClassName('warn')[0].classList.remove("hide"));
+            }, downloads => downloads.length && document.getElementsByClassName('warn')[0].classList.remove("hide"));
 
             Conf.oggSupport();
 
          };
          Storage.getParams(callback, 'sync');
-
-         Conf.eventListener();
       },
 
       // .ogg does support
