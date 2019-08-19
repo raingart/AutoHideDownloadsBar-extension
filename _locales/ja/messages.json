@@ -53,7 +53,7 @@
       "message": "アイコンツールバーをクリックしたときの動作"
    },
    "opt_toolbar_behavior_desc": {
-      "message": "デフォルトで <code>chrome://downloads/</code> を開きます"
+      "message": "タブの一意のインスタンスを開くには、「履歴を読み取る」権限が必要です（現在開いているタブ）"
    },
 
    "opt_show_download_panel_timeout": {

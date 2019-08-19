@@ -53,7 +53,7 @@
       "message": "Verhalten beim Klicken auf das Symbol Symbolleiste"
    },
    "opt_toolbar_behavior_desc": {
-      "message": "Öffnet standardmäßig <code>chrome://downloads/</code>"
+      "message": "Um eine eindeutige Instanz eines Tabs zu öffnen, benötigen Sie die Berechtigung zum \"Lesen Ihres Verlaufs\" (aktuell geöffnete Tabs)"
    },
 
    "opt_show_download_panel_timeout": {

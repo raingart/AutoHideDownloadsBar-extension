@@ -32,17 +32,8 @@ button {
 
 #info {
    text-align: center;
-   font-family: monospace;
-   color: #4494fd;
+   color: #f44336;
    letter-spacing: .2em;
-}
-
-#info:after {
-   content: '」'
-}
-
-#info:before {
-   content: '「'
 }
 
 .between {
@@ -157,8 +148,8 @@ li.item .info a {
 }
 
 li.item .info a[href]:hover {
-   /* white-space: unset;
-   width: unset; */
+   white-space: unset;
+   width: unset;
    color: #565357;
    text-decoration: none;
 }

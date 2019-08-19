@@ -53,7 +53,7 @@
       "message": "아이콘 툴바를 클릭하면 동작"
    },
    "opt_toolbar_behavior_desc": {
-      "message": "기본적으로 <code>chrome://downloads/</code> 을 엽니 다"
+      "message": "탭의 고유 한 인스턴스를 열려면 \"내력 읽기\"(현재 열려있는 탭) 권한이 필요합니다"
    },
 
    "opt_show_download_panel_timeout": {

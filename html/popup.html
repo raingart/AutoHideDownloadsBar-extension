@@ -21,7 +21,7 @@
    <script src="/js/libs/browser.js"></script>
 
    <script src="/js/popup-lib.js"></script>
-   <script src="/js/popup.js"></script>
+   <!-- <script src="/js/popup.js"></script> -->
 </head>
 
 <body>
@@ -35,12 +35,12 @@
                flow="left">__MSG_popup_bth_clear_all_history__</button>
          </div>
 
-         <div id="info"></div>
+         <div id="info">no active downloads</div>
 
          <ol id="containerDownload"></ol>
 
          <div class="showFolder">
-            <a href="chrome://downloads/" id="showDefaultTab">chrome://downloads</a>
+            <a href="chrome://downloads/" id="showDefaultTab" tooltip="__MSG_opt_bth_save_settings_tooltip__" flow="up">chrome://downloads</a>
          </div>
 
       </form>

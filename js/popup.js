@@ -18,7 +18,8 @@ const App = {
 
             var fileLink = li.querySelector('.info a');
             fileLink.id = item.id;
-            fileLink.title = 'open file url';
+            fileLink.title = 'open file url in new tab';
+            fileLink.target = "_blank";
 
             if (progressBar) { // clear progressBar
                progressBar.parentNode.removeChild(progressBar);

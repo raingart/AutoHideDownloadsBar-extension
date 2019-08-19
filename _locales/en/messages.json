@@ -48,12 +48,12 @@
    "opt_show_download_panel_warn": {
       "message": "Correct work with now active downloads is not possible!"
    },
-   
+
    "opt_toolbar_behavior": {
       "message": "Behavior when you click on the icon Toolbar"
    },
    "opt_toolbar_behavior_desc": {
-      "message": "Opens <code>chrome://downloads/</code> by default"
+      "message": "To open a unique instance of a tab, will be need the permission to \"read your history\" (current open tabs)"
    },
 
    "opt_show_download_panel_timeout": {

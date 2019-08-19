@@ -1,21 +1,29 @@
 const BrowserAct = {
-   // openTab: 
+   // openTab:
    "tab": {
       "open": url => {
-         // chrome.tabs.getAllInWindow(null, function (tabs) {
-         chrome.tabs.query({ "currentWindow": true }, tabs => {
-            // search for the existing tab 
-            for (const tab of tabs) {
-               // is finded - focus
-               if (tab.url === url) return chrome.tabs.update(tab.id, { selected: true });
-            };
-            // create new tab
-            chrome.tabs.create({
-               url: url || 'chrome://newtab',
-               // selected: false
-               // "active": true
-            })
+         let permissionsObj = {
+            permissions: ['tabs']
+         }
+         chrome.permissions.contains(permissionsObj, granted => {
+            chrome.permissions.request(permissionsObj, granted => {
+               // chrome.tabs.getAllInWindow(null, function (tabs) {
+               chrome.tabs.query({ "currentWindow": true }, tabs => {
+                  // search for the existing tab
+                  for (const tab of tabs) {
+                     // is finded - focus
+                     if (tab.url === url) return chrome.tabs.update(tab.id, { selected: true });
+                  };
+                  // create new tab
+                  chrome.tabs.create({
+                     url: url || 'chrome://newtab',
+                     // selected: false
+                     // "active": true
+                  })
+               });
+            });
          });
+
       },
    },
 
@@ -36,7 +44,7 @@ const BrowserAct = {
          BrowserAct.badge.set.title(i18n("app_title"));
       },
    },
-   
+
    "request": function (url, callback) {
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {

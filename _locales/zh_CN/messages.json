@@ -53,7 +53,7 @@
       "message": "单击图标工具栏时的行为"
    },
    "opt_toolbar_behavior_desc": {
-      "message": "默认情况下打开 <code>chrome://downloads/</code>"
+      "message": "要打开选项卡的唯一实例，需要获得“读取您的历史记录”的权限（当前打开的选项卡）"
    },
 
    "opt_show_download_panel_timeout": {

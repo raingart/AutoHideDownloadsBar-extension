@@ -53,7 +53,7 @@
       "message": "Comportamiento al hacer clic en el icono de la barra de herramientas."
    },
    "opt_toolbar_behavior_desc": {
-      "message": "Abre <code>chrome://downloads/</code> de forma predeterminada"
+      "message": "Para abrir una instancia única de una pestaña, se necesitará el permiso para \"leer su historial\" (pestañas abiertas actuales)"
    },
 
    "opt_show_download_panel_timeout": {

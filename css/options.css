@@ -23,7 +23,7 @@ div.between {
    grid-template-columns: 1fr auto;
 }
 
-div.between button#back-history {
+/* div.between button#back-history {
    background-color: #ffffff;
    color: #333333;
    border: 1px solid #dadada;
@@ -32,7 +32,7 @@ div.between button#back-history {
    line-height: normal;
    border-radius: 0;
    display: none;
-}
+} */
 
 div.between h2 {
    white-space: nowrap;

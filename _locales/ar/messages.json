@@ -53,7 +53,7 @@
       "message": "تصرف عند النقر على أيقونة شريط الأدوات"
    },
    "opt_toolbar_behavior_desc": {
-      "message": "يفتح <code>chrome://downloads/</code> افتراضيًا"
+      "message": "لفتح مثيل فريد لعلامة تبويب ، ستحتاج إلى إذن \"قراءة السجل\" (علامات التبويب المفتوحة الحالية)"
    },
 
    "opt_show_download_panel_timeout": {

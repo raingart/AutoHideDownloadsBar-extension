@@ -4,7 +4,7 @@ console.log(i18n("app_name") + ": init background.js");
 
 const App = {
 
-   // DEBUG: true,
+   DEBUG: true,
 
    pulsar: statusDownload => {
       App.log('pulsar: %s', statusDownload);
@@ -53,7 +53,7 @@ const App = {
          function dataForDrawing(progress) {
             let color = (function () {
                let color = '#00ff00';
-               // #00ff00 is default value 
+               // #00ff00 is default value
                if (App.sessionSettings['colorPicker'] &&
                   App.sessionSettings['colorPicker'] !== color) {
                   color = App.sessionSettings['colorPicker'];
@@ -265,8 +265,8 @@ const App = {
    },
 
    formatBytes: bytes => {
-      let i = Math.floor(Math.log(bytes) / Math.log(1024));
-      return !bytes ? '---' : (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+      const i = Math.floor(Math.log(bytes) / Math.log(1024));
+      return !bytes ? '---' : parseFloat((bytes / Math.pow(1024, i)).toFixed(2)) + ['B', 'KB', 'MB', 'GB', 'TB', 'PB'][i];
    },
 
    formatTimeLeft: ms => {
@@ -324,7 +324,7 @@ const App = {
          if (Object.keys(notiData).length) {
             chrome.downloads.search({
                id: item.id
-            }, function (downloads) {
+            }, downloads => {
                let download = downloads[0];
                let timeLong = Date.parse(download.endTime) - Date.parse(download.startTime);
                let fileName = App.getFileNameFromPatch(download.filename);
@@ -499,6 +499,8 @@ const App = {
       }
    },
 
+   open_in_tab: tab => BrowserAct.tab.open('chrome://downloads/'),
+
    updateBrowserBadgeAction: () => {
       // clear browserAction
       chrome.browserAction.setPopup({ popup: '' });
@@ -515,8 +517,13 @@ const App = {
             chrome.downloads.showDefaultFolder();
             break;
 
-         default:
-            chrome.browserAction.onClicked.addListener(tab => BrowserAct.tab.open('chrome://downloads/'));
+         case 'chrome_downloads':
+            if (chrome.browserAction.onClicked.hasListener(App.open_in_tab)) {
+               chrome.browserAction.onClicked.removeListener(App.open_in_tab);
+               App.log('erase browserAction.onClicked');
+            }
+            chrome.browserAction.onClicked.addListener(App.open_in_tab);
+            break;
       }
    },
 

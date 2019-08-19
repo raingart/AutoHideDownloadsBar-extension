@@ -36,7 +36,7 @@
 
          <div class="between">
             <div>
-               <button type="button" id="back-history">←</button>
+               <!-- <button type="button" id="back-history">←</button> -->
                <h2>__MSG_opt_setting__</h2>
             </div>
             <a href="https://github.com/raingart/AutoHideDownloadsBar-extension" tooltip="__MSG_github_page_tooltip__"
@@ -80,9 +80,8 @@
                   </div>
                   <div class="opt">
                      <select name="toolbarBehavior" id="toolbarBehavior">
-                        <!-- <option selected value="chrome_downloads">chrome://downloads/</option> -->
-                        <!-- <option value="download_default_folder">downloads location</option> -->
-                        <option selected value="chrome_downloads">Tab</option>
+                        <option value="false" selected>nothing</option>
+                        <option value="chrome_downloads">Tab</option>
                         <option value="popup">Popup</option>
                         <option value="download_default_folder">Location</option>
                      </select>
