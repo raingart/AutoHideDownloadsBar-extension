@@ -38,18 +38,3 @@ function formatSpeed(ms, bytes) {
    let i = Math.floor(Math.log(speed) / Math.log(1024));
    return (!sec || isNaN(sec) ? '' : (speed / Math.pow(1024, i)).toFixed(2) * 1 + ['bytes', 'KB', 'MB', 'GB'][i] + '/s');
 }
-
-function formatBytes(bytes) {
-   let i = Math.floor(Math.log(bytes) / Math.log(1024));
-   return !bytes ? '---' : (bytes / Math.pow(1024, i)).toFixed(2) * 1 + ['B', 'kB', 'MB', 'GB', 'TB'][i];
-}
-
-function formatTimeLeft(ms) {
-   let day, min, sec;
-   return sec = Math.floor(ms / 1e3), !sec || isNaN(sec) ? '' : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["sec", "mins", "hours"][min]))
-}
-
-function getFileNameFromPatch(filepath) {
-   return filepath.split(/[\\/]/g).pop()
-   // .split('.')[0];
-}

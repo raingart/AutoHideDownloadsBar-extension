@@ -67,7 +67,7 @@
                      </label>
                   </div>
                   <div class="opt">
-                     <input type="number" placeholder="0-30" value="0" step="0.5" min="0" max="30" name="shelfTimeout"
+                     <input type="number" placeholder="0-30" value="3" step="0.5" min="0" max="30" name="shelfTimeout"
                         id="shelfTimeout" /> __MSG_opt_show_download_panel_timeout_sec__
                   </div>
                </li>
@@ -80,10 +80,9 @@
                   </div>
                   <div class="opt">
                      <select name="toolbarBehavior" id="toolbarBehavior">
-                        <option value="false" selected>nothing</option>
+                        <option value="download_default_folder">Location</option>
                         <option value="chrome_downloads">Tab</option>
                         <option value="popup">Popup</option>
-                        <option value="download_default_folder">Location</option>
                      </select>
                   </div>
                </li>
@@ -120,7 +119,6 @@
                      <select name="typeIconInfo" id="typeIconInfo">
                         <option selected value="svg">__MSG_opt_type_icon_info_option_svg__</option>
                         <option value="svg_notext">__MSG_opt_type_icon_info_option_svg_notext__</option>
-                        <option value="text">__MSG_opt_type_icon_info_option_text__</option>
                         <option value="false">__MSG_opt_type_icon_info_option_off__</option>
                      </select>
                   </div>

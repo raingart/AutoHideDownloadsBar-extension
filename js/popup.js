@@ -1,194 +1,189 @@
+function listUpdate(item, li, isNew) {
+   App.log('update: ', item.id);
+   li.setAttribute("state", item.exists ? item.state : 'deleted');
+
+   let progressBar = li.querySelector('.progress');
+   let controlDiv = li.querySelector('.control');
+   let statusDiv = li.querySelector('.status');
+
+   if (item.state != 'in_progress') {
+      if (statusDiv.textContent != item.state) {
+         statusDiv.textContent = item.state;
+      }
+
+      var fileLink = li.querySelector('a.link');
+      fileLink.id = item.id;
+      fileLink.title = 'open file url in new tab';
+      fileLink.target = "_blank";
+
+      if (progressBar) { // clear progressBar
+         progressBar.parentNode.removeChild(progressBar);
+      }
+
+      chrome.downloads.getFileIcon(
+         item.id, {
+            'size': 32
+         }, icon_url => {
+            // icon
+            controlDiv.innerHTML = '';
+            controlDiv.appendChild((() => {
+               let a = document.createElement("a");
+               a.id = item.id;
+               // a.setAttribute('act2', 'erase');
+               a.title = 'right click: remove from history';
+               // a.setAttribute('tooltip', 'right click - remove from history');
+               // a.setAttribute("flow", 'right');
+               a.innerHTML = '<img src="' + icon_url + '" class="icon" />'
+
+               // add shake animate
+               a.addEventListener('click', e => {
+                  a.classList.add('shake_animate');
+                  a.addEventListener('animationend', () => a.classList.remove('shake_animate'));
+               });
+               return a;
+            })());
+         });
+   }
+
+   switch (item.state) {
+      case 'complete':
+         if (item.exists) {
+            // fileLink.href = '#';
+            // fileLink.setAttribute("tooltip", 'left click - open / right - show');
+            fileLink.title = 'click left: open / click right: show';
+            statusDiv.textContent += ' [' + bytesToSize(item.fileSize) + ']';
+
+         } else {
+            // fileLink.href = item.url;
+            statusDiv.textContent = 'deleted';
+         }
+         break;
+
+      case 'in_progress':
+         const timeLeftMS = (new Date(item.estimatedEndTime) - new Date());
+         const timeLeft = formatTimeLeft(timeLeftMS);
+         const pt = Math.floor(100 * item.bytesReceived / item.fileSize);
+         const receivedSize = bytesToSize(item.bytesReceived);
+         const totalSize = item.fileSize ? bytesToSize(item.fileSize) : 'unknown';
+         // const filePatch = getFileNameFromPatch(item.filename || item.url);
+         const sizeLeftBytes = item.totalBytes - item.bytesReceived;
+         const speed = formatSpeed(timeLeftMS, sizeLeftBytes);
+
+         let button = controlDiv.querySelector('button');
+         if (!button) {
+            App.log('create controlDiv [%s] > button', item.id);
+            button = document.createElement("button");
+            button.id = item.id;
+            button.innerHTML = '<svg width="100%" height="100%" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\
+                  <defs>\
+                     <path id="ytp-12" d="M 11 10 L 17 10 L 17 26 L 11 26 M 20 10 L 26 10 L 26 26 L 20 26">\
+                        <animate begin="indefinite" attributeType="XML" attributeName="d" fill="freeze" from="M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26" to="M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28" dur="0.1s" keySplines=".4 0 1 1" repeatCount="1"></animate>\
+                     </path>\
+                  </defs>\
+                  <use xlink:href="#ytp-12" class="ytp-svg-shadow"></use>\
+                  <use xlink:href="#ytp-12" class="ytp-svg-fill"></use>\
+               </svg>';
+            // button.title = 'right click - cancel';
+            button.setAttribute("tooltip", "right click: stop+delete");
+            button.setAttribute("flow", 'right');
+            // let animate = button.querySelector('animate');
+            // animate.beginElement();
+            controlDiv.appendChild(button);
+         }
+         button.setAttribute("act", (item.paused && item.canResume) ? 'resume' : 'pause');
+
+         // animation
+         // button.textContent = (item.paused && item.canResume) ? '▶' : '▮▮';
+         let pause = "M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28";
+         let play = "M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26";
+         let animate = button.querySelector('animate');
+         let animateStatus = animate.getAttribute("to");
+
+         animate.setAttribute("from", (item.paused && item.canResume) ? play : pause);
+         animate.setAttribute("to", (item.paused && item.canResume) ? pause : play);
+
+         if (isNew || animateStatus != animate.getAttribute("to")) {
+            App.log('animation', item.id, (item.paused && item.canResume) ? '▶' : '▮▮');
+            animate.beginElement();
+         }
+
+         // create progressBar
+         if (!progressBar) {
+            App.log('create progressBar [%s]', item.id);
+            li.appendChild((() => {
+               progressBar = document.createElement("div");
+               progressBar.className = "progress";
+               progressBar.setAttribute('flow', 'down');
+               return progressBar;
+            })());
+         }
+
+         if (progressBar.getAttribute('tooltip') != (pt + '%')) {
+            progressBar.setAttribute('tooltip', pt + '%');
+            progressBar.style.background = 'linear-gradient(to right, #00bfffd0 ' + (pt - 1) + '%, #ffffff ' + pt + '%)';
+         }
+         statusDiv.textContent = receivedSize + '/' + totalSize;
+         if (timeLeft) statusDiv.textContent += ' - ' + timeLeft;
+         if (speed) statusDiv.textContent += ' (' + speed + ')';
+
+         break;
+
+      case 'interrupted':
+         if (item.error == 'NETWORK_FAILED') {
+            // fileLink.href = item.url;
+            // fileLink.title = 'open file url';
+            // fileLink.setAttribute('tooltip', 'open file url');
+            fileLink.target = "_blank";
+            fileLink.style.color = '#ff0000b3';
+
+         } else if (item.error == 'USER_CANCELED') {
+            // li.parentNode.removeChild(li);
+         }
+         break;
+   }
+}
+function listCreate(item) {
+   App.log('create: ', item.id);
+
+   let li = (() => {
+      let li = document.createElement("li");
+      li.className = "item";
+      li.id = 'id-' + item.id;
+      return li;
+   })();
+
+   // controlDiv
+   li.appendChild((() => {
+      let controlDiv = document.createElement("div");
+      controlDiv.className = "control";
+      return controlDiv;
+   })());
+
+   // fileLink
+   li.appendChild((() => {
+      const filePatch = getFileNameFromPatch(item.filename || item.url);
+      let fileLink = document.createElement("a");
+      fileLink.className = "link";
+      fileLink.href = item.url;
+      fileLink.textContent = filePatch;
+      fileLink.setAttribute("flow", 'up');
+      return fileLink;
+   })());
+
+   // statusDiv
+   li.appendChild((() => {
+      let statusDiv = document.createElement("div");
+      statusDiv.className = "status";
+      statusDiv.textContent = item.state;
+      return statusDiv;
+   })());
+
+   return li;
+}
+
 const App = {
 
    DEBUG: true,
-
-   list: {
-      update: (item, li, isNew) => {
-         App.log('update: ', item.id);
-         li.setAttribute("state", item.exists ? item.state : 'deleted');
-
-         let progressBar = li.querySelector('.progress');
-         let controlDiv = li.querySelector('.control');
-         let statusDiv = li.querySelector('.status');
-
-         if (item.state != 'in_progress') {
-            if (statusDiv.textContent != item.state) {
-               statusDiv.textContent = item.state;
-            }
-
-            var fileLink = li.querySelector('.info a');
-            fileLink.id = item.id;
-            fileLink.title = 'open file url in new tab';
-            fileLink.target = "_blank";
-
-            if (progressBar) { // clear progressBar
-               progressBar.parentNode.removeChild(progressBar);
-            }
-
-            chrome.downloads.getFileIcon(
-               item.id, {
-                  'size': 32
-               }, icon_url => {
-                  // icon
-                  controlDiv.innerHTML = '';
-                  controlDiv.appendChild((() => {
-                     let a = document.createElement("a");
-                     a.id = item.id;
-                     // a.setAttribute('act2', 'erase');
-                     a.title = 'right click - remove from history';
-                     // a.setAttribute('tooltip', 'right click - remove from history');
-                     // a.setAttribute("flow", 'right');
-                     a.innerHTML = '<img src="' + icon_url + '" class="icon" />'
-                     return a;
-                  })());
-               });
-         }
-
-         switch (item.state) {
-            case 'complete':
-               if (item.exists) {
-                  // fileLink.href = '#';
-                  // fileLink.setAttribute("tooltip", 'left click - open / right - show');
-                  fileLink.title = 'left click - open / right - show';
-                  statusDiv.textContent += ' [' + formatBytes(item.fileSize) + ']';
-
-               } else {
-                  // fileLink.href = item.url;
-                  statusDiv.textContent = 'deleted';
-               }
-               break;
-
-            case 'in_progress':
-               const timeLeftMS = (new Date(item.estimatedEndTime) - new Date());
-               const timeLeft = formatTimeLeft(timeLeftMS);
-               const pt = Math.floor(100 * item.bytesReceived / item.fileSize);
-               const receivedSize = formatBytes(item.bytesReceived);
-               const totalSize = item.fileSize ? formatBytes(item.fileSize) : 'unknown';
-               // const filePatch = getFileNameFromPatch(item.filename || item.url);
-               const sizeLeftBytes = item.totalBytes - item.bytesReceived;
-               const speed = formatSpeed(timeLeftMS, sizeLeftBytes);
-
-               let button = controlDiv.querySelector('button');
-               if (!button) {
-                  App.log('create controlDiv [%s] > button', item.id);
-                  button = document.createElement("button");
-                  button.id = item.id;
-                  button.innerHTML = '<svg width="100%" height="100%" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\
-                     <defs>\
-                        <path id="ytp-12" d="M 11 10 L 17 10 L 17 26 L 11 26 M 20 10 L 26 10 L 26 26 L 20 26">\
-                           <animate begin="indefinite" attributeType="XML" attributeName="d" fill="freeze" from="M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26" to="M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28" dur="0.1s" keySplines=".4 0 1 1" repeatCount="1"></animate>\
-                        </path>\
-                     </defs>\
-                     <use xlink:href="#ytp-12" class="ytp-svg-shadow"></use>\
-                     <use xlink:href="#ytp-12" class="ytp-svg-fill"></use>\
-                  </svg>';
-                  // button.title = 'right click - cancel';
-                  button.setAttribute("tooltip", "right click - cancel");
-                  button.setAttribute("flow", 'right');
-                  // let animate = button.querySelector('animate');
-                  // animate.beginElement();
-                  controlDiv.appendChild(button);
-               }
-               button.setAttribute("act", (item.paused && item.canResume) ? 'resume' : 'pause');
-
-               // animation
-               // button.textContent = (item.paused && item.canResume) ? '▶' : '▮▮';
-               let pause = "M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28";
-               let play = "M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26";
-               let animate = button.querySelector('animate');
-               let animateStatus = animate.getAttribute("to");
-
-               animate.setAttribute("from", (item.paused && item.canResume) ? play : pause);
-               animate.setAttribute("to", (item.paused && item.canResume) ? pause : play);
-
-               if (isNew || animateStatus != animate.getAttribute("to")) {
-                  App.log('animation', item.id, (item.paused && item.canResume) ? '▶' : '▮▮');
-                  animate.beginElement();
-               }
-
-               // create progressBar
-               if (!progressBar) {
-                  App.log('create progressBar [%s]', item.id);
-                  li.appendChild((() => {
-                     progressBar = document.createElement("div");
-                     progressBar.className = "progress";
-                     progressBar.setAttribute('flow', 'down');
-                     return progressBar;
-                  })());
-               }
-
-               if (progressBar.getAttribute('tooltip') != (pt + '%')) {
-                  progressBar.setAttribute('tooltip', pt + '%');
-                  progressBar.style.background = 'linear-gradient(to right, #00bfffd0 ' + (pt - 1) + '%, #ffffff ' + pt + '%)';
-               }
-               statusDiv.textContent = receivedSize + '/' + totalSize;
-               if (timeLeft) statusDiv.textContent += ' - ' + timeLeft;
-               if (speed) statusDiv.textContent += ' (' + speed + ')';
-
-               break;
-
-            case 'interrupted':
-               if (item.error == 'NETWORK_FAILED') {
-                  // fileLink.href = item.url;
-                  // fileLink.title = 'open file url';
-                  // fileLink.setAttribute('tooltip', 'open file url');
-                  fileLink.target = "_blank";
-                  fileLink.style.color = '#ff0000b3';
-
-               } else if (item.error == 'USER_CANCELED') {
-                  // li.parentNode.removeChild(li);
-               }
-               break;
-         }
-      },
-
-      create: item => {
-         App.log('create: ', item.id);
-
-         let li = (() => {
-            let li = document.createElement("li");
-            li.className = "item";
-            li.id = 'id-' + item.id;
-            return li;
-         })();
-
-         // controlDiv
-         li.appendChild((() => {
-            let controlDiv = document.createElement("div");
-            controlDiv.className = "control";
-            return controlDiv;
-         })());
-
-         // infoDiv
-         li.appendChild((() => {
-            const filePatch = getFileNameFromPatch(item.filename || item.url);
-
-            let infoDiv = document.createElement("div");
-            infoDiv.className = "info";
-
-            // fileLink
-            infoDiv.appendChild((() => {
-               let fileLink = document.createElement("a");
-               fileLink.href = item.url;
-               fileLink.textContent = filePatch;
-               fileLink.setAttribute("flow", 'up');
-               return fileLink;
-            })())
-
-            // statusDiv
-            infoDiv.appendChild((() => {
-               let statusDiv = document.createElement("div");
-               statusDiv.className = "status";
-               statusDiv.textContent = item.state;
-               return statusDiv;
-            })());
-
-            return infoDiv;
-         })());
-
-         return li;
-      }
-   },
 
    generateList: item => {
       // skip crx
@@ -199,15 +194,15 @@ const App = {
       if (li) {
          // if (!item.paused)
          if (item.state == 'in_progress' || li.getAttribute('state') != (item.exists ? item.state : 'deleted')) {
-            App.list.update(item, li);
+            listUpdate(item, li);
          }
 
       } else {
          //skip canceled
          // if (item.hasOwnProperty("error") && item.error == "USER_CANCELED") return;
-         li = App.list.create(item);
+         li = listCreate(item);
          App.UI.containerDownload.appendChild(li);
-         App.list.update(item, li, 'new');
+         listUpdate(item, li, 'new');
       }
    },
 
@@ -224,15 +219,17 @@ const App = {
             App.UI.containerDownload.textContent = '';
          }
 
-         // filter canceled
-         const data = downloads.filter(function (item) {
+         // filtering not canceled
+         const data = downloads.filter(item => {
             // return !item.error.includes("USER_CANCELED");
             return !(item.hasOwnProperty("error") && item.error == "USER_CANCELED");
          });
 
          if (data.length) {
-            App.UI.info.textContent = 'Initilization...';
+            // App.UI.info.textContent = 'Initilization...';
+
             data.forEach(download => App.generateList(download));
+
             App.UI.info.textContent = '';
 
             // open file/show
@@ -249,6 +246,8 @@ const App = {
 
          } else {
             App.UI.info.textContent = 'no active downloads';
+            BrowserAct.tab.open('chrome://downloads/');
+            return;
          }
 
       });
@@ -264,18 +263,11 @@ const App = {
          // load store settings
          Storage.getParams(callback, 'sync');
       },
-      // load: () => {
-      //    chrome.storage.sync.get(null, function (options) {
-      //       App.log('storage %s', JSON.stringify(options));
-      //       App.sessionSettings = options;
-      //       App.refresh();
-      //    });
-      // },
    },
 
    init: () => {
       App.storage.load();
-      App.pulsar = setInterval(function () {
+      App.pulsar = setInterval(() => {
          App.log('setInterval RUN');
          if (App.sessionSettings && Object.keys(App.sessionSettings).length) {
             App.refresh();
@@ -363,7 +355,7 @@ function fileAction(id, act) {
       case 'erase':
          chrome.downloads.erase({
             'id': id
-         }, rm_id => {});
+         }, rm_id => { });
          // document.getElementById('id-' + id).classList.add("erase"); // test animations
          break;
       default:
