@@ -48,13 +48,8 @@ button {
    font-size: 11px; */
 }
 
-.showFolder>a {
+.showFolder a {
    color: #3d3d3d;
-   text-decoration: none;
-}
-
-.showFolder>a:hover {
-   text-decoration: underline;
 }
 
 form ol,
@@ -86,7 +81,7 @@ form li.item {
 }
 
 li.item.erase {
-   animation: hiddenLeft 0.6s 0.1s forwards;
+   animation: hiddenLeft .6s .1s forwards;
 }
 
 @keyframes hiddenLeft {
@@ -118,7 +113,7 @@ li.item .control a {
    display: block;
 }
 
-.shake_animate {
+.shake-animate {
    animation: shake .5s ease-in-out;
 }
 @keyframes shake {

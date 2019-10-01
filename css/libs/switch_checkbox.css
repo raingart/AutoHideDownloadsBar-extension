@@ -1,5 +1,5 @@
-input[type="checkbox"],
-input[type="checkbox"]:before {
+/* input[type="checkbox"]:before */
+input[type="checkbox"] {
    appearance: none;
    -webkit-appearance: none;
    width: 3.1em;
@@ -13,8 +13,8 @@ input[type="checkbox"]:before {
    border: none;
 }
 
-input[type="checkbox"]:checked,
-input[type="checkbox"]:checked::before {
+input[type="checkbox"]:checked {
+/* input[type="checkbox"]:checked::before */
    background: none;
    background-color: deepskyblue;
    /* background: #4cd964; */

@@ -43,9 +43,7 @@ div.between h2 {
 }
 
 div.between a {
-   /* align-self: center; */
    padding: 5px;
-   text-decoration: none;
 }
 
 div.between:first-child {
