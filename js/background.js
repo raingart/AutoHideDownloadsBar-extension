@@ -2,90 +2,76 @@
 
 console.log(i18n("app_name") + ": init background.js");
 
-function dataForDrawing(progress) {
+function dataForDraw(progress) {
    let color = (function () {
-      let color = '#00ff00';
-      // #00ff00 is default value
-      if (App.sessionSettings['colorPicker'] &&
-         App.sessionSettings['colorPicker'] !== color) {
-         color = App.sessionSettings['colorPicker'];
-
-         // set gradient
-      } else {
-         let options = {
-            'color': {
-               'startingHue': 0,
-               'endingHue': 120,
-               'saturation': 100,
-               'lightness': 50
-            }
-         }
-
-         // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
-         let percentageToHsl = (percentage, fromHue, toHue) => {
-            let hue = Math.round((percentage * (toHue - fromHue)) + fromHue);
-            return 'hsla(' + hue + ', ' + options.color.saturation + '%, ' + options.color.lightness + '%, 0.8)';
-         }
-
-         color = percentageToHsl((progress / 100), options.color.startingHue, options.color.endingHue);
+      // set gradient
+      // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+      const percentageToHsl = (percentage) => {
+         const optHue = {
+            'startingHue': 0,
+            'endingHue': 120,
+            'saturation': 100,
+            'lightness': 50
+         };
+         const hue = Math.round((percentage * (optHue.startingHue - optHue.endingHue)) + optHue.endingHue);
+         return 'hsla(' + hue + ', ' + optHue.saturation + '%, ' + optHue.lightness + '%, 0.8)';
       }
-      return color;
+
+      return App.sessionSettings['colorPicker'] || percentageToHsl(progress / 100)
    })();
 
-   let dataForDrawing = {
-      'color_bg': color,
-      'color_text': App.sessionSettings['colorPickerText'],
+   let dataDrawing = {
+      'bg_color': color,
+      'text_color': App.sessionSettings['colorPickerText'],
       'progressRatio': (+progress / 100),
-      'outText': progress,
+      'text': progress,
    }
 
-   // if ask loadig
-   if (progress == "!") {
-      dataForDrawing.outText = flashing(progress);
-      dataForDrawing.color_text = 'red';
+   switch (progress) {
+      // if ask loadig
+      case "!":
+         dataDrawing.text = flashing(progress);
+         dataDrawing.text_color = 'red';
+         break;
 
-   } else if (progress === Infinity) {
-      dataForDrawing.outText = flashing();
+      case Infinity:
+         dataDrawing.text = flashing();
+         break;
    }
 
-   App.log('dataForDrawing %s', JSON.stringify(dataForDrawing));
+   App.log('dataDrawing %s', JSON.stringify(dataDrawing));
 
-   return dataForDrawing;
+   return dataDrawing;
 }
 
-function drawToolbarIcon(dataForDrawing) {
-   let canvas = genCanvas();
-   let context = canvas.getContext('2d')
+function drawToolbarIcon(progress) {
+   const dataForDrawing = dataForDraw(progress);
+   const canvas = genCanvas();
 
    return drawProgressBar(dataForDrawing.progressRatio)
       .getImageData(0, 0, canvas.width, canvas.height);
 
    function drawProgressBar(ratio) {
-      let ctx = context;
+      let ctx = canvas.getContext('2d');
 
       // add background
       ctx.fillStyle = 'hsla(0, 0%, 0%, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // add progress
-      ctx.fillStyle = dataForDrawing.color_bg;
+      ctx.fillStyle = dataForDrawing.bg_color;
       ctx.fillRect(0, 0, parseInt(canvas.width * ratio), canvas.height);
 
       // add pt
-      if (App.sessionSettings['typeIconInfo'] != 'svg_notext' &&
-         +dataForDrawing.outText !== Infinity) {
+      if (App.sessionSettings['typeIconInfo'] != 'svg_notext' && +dataForDrawing.text !== Infinity) {
          // create style text
          ctx.textAlign = 'center';
          ctx.textBaseline = 'middle';
          ctx.font = '11px Arial';
          // ctx.shadowColor = 'white';
          // ctx.shadowBlur = 1;
-         ctx.fillStyle = dataForDrawing.color_text || '#888';
-
-         ctx.fillText(
-            dataForDrawing.outText.toString(),
-            canvas.width / 2, canvas.height / 2
-         );
+         ctx.fillStyle = dataForDrawing.text_color || '#888';
+         ctx.fillText(dataForDrawing.text, (canvas.width / 2), (canvas.height / 2));
       }
       return ctx;
    }
@@ -101,8 +87,9 @@ function drawToolbarIcon(dataForDrawing) {
 
 }
 
-function flashing(outText) {
-   let loadingSymbol = outText ? outText.toString().split() : ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+function flashing(text) {
+   // let loadingSymbol = text ? Array.isArray(text) ? text : text.toString().split() : ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+   let loadingSymbol = text ? Array.isArray(text) ? text : text.toString().split() : ['›', '»', '›››'];
    App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
    return loadingSymbol[App.circleNum];
 }
@@ -240,7 +227,7 @@ function notificationCheck(item) {
    // }
 }
 
-function getDownloadProgress() {
+function getDownloadProgress(callback) {
    let searchObj = {
       state: 'in_progress',
       paused: false,
@@ -250,7 +237,7 @@ function getDownloadProgress() {
    chrome.downloads.search(searchObj, downloads => {
       let totalSize = 0,
          totalReceived = 0,
-         progress = 0,
+         totalProgress = 0,
          timeLeft = 0,
          countInfinity = 0,
          countActive = downloads.length;
@@ -270,8 +257,8 @@ function getDownloadProgress() {
 
             totalSize += fileSize;
 
-            // progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)) || '--';
-            progress = Math.min(100, Math.floor(100 * totalReceived / totalSize)).toString();
+            // totalProgress = Math.min(100, Math.floor(100 * totalReceived / totalSize)) || '--';
+            totalProgress = Math.min(100, Math.floor(100 * totalReceived / totalSize)).toString();
 
             if (download.estimatedEndTime)
                timeLeft += new Date(download.estimatedEndTime) - new Date();
@@ -298,7 +285,7 @@ function getDownloadProgress() {
 
          if (totalSize) {
             // pt
-            titleOut += "\n" + progress + "%";
+            titleOut += "\n" + totalProgress + "%";
             // left time
             titleOut += " ~" + formatTimeLeft(timeLeft) + " left";
          }
@@ -313,7 +300,7 @@ function getDownloadProgress() {
             if (countInfinity) {
                if (countInfinity === countActive) {
                   totalSize = false;
-                  progress = Infinity;
+                  totalProgress = Infinity;
                } else {
                   titleOut += ' | ignore: ' + countInfinity;
                }
@@ -333,9 +320,10 @@ function getDownloadProgress() {
       }
 
       App.log('countActive %s', countActive);
-      App.log('progress %s', progress);
+      App.log('totalProgress %s', totalProgress);
 
-      return progress;
+      // "chrome.downloads.search" doesn't allow to do it otherwise
+      if (callback && typeof (callback) === 'function') return callback(totalProgress);
    });
 }
 
@@ -352,7 +340,7 @@ const App = {
          App.isBusy = true;
          App.temploadingMessage = setInterval(function () {
             App.log('setInterval RUN');
-            App.updateIndicate(getDownloadProgress());
+            getDownloadProgress(App.updateIndicate);
          }, 800);
          // cancellation of pending shelf-panel hiding
          App.shelfTimeout && clearTimeout(App.shelfTimeout);
@@ -362,13 +350,15 @@ const App = {
          App.isBusy = false;
          clearInterval(App.temploadingMessage);
          BrowserAct.badge.clear();
+         // BrowserAct.badge.set.title('');
 
       } else App.log('pulsar ignore');
    },
 
    updateIndicate: pt => {
-      if (App.sessionSettings['typeIconInfo'] != 'false')
-         BrowserAct.badge.set.icon({ 'imageData': drawToolbarIcon(dataForDrawing(pt)) });
+      if (App.sessionSettings['typeIconInfo'] != 'false') {
+         BrowserAct.badge.set.icon({ 'imageData': drawToolbarIcon(pt) });
+      }
    },
 
    // Saves/Load options to localStorage/chromeSync.
@@ -387,6 +377,13 @@ const App = {
 
    // Register the event handlers.
    eventListener: () => {
+      // anim
+      chrome.downloads.onCreated.addListener(item => {
+         BrowserAct.badge.set.text('add');
+         setTimeout(() => BrowserAct.badge.set.text(), 2000);
+      });
+
+      // worker
       chrome.downloads.onCreated.addListener(item => {
          chrome.downloads.setShelfEnabled(App.sessionSettings.shelfEnabled ? true : false);
       });
@@ -405,16 +402,35 @@ const App = {
    },
 
    refresh: item => {
-      let info = getDownloadProgress();
-      info && App.pulsar(info);
+      App.log('refresh');
+      getDownloadProgress(App.pulsar);
       if (item && App.sessionSettings["showNotification"]) notificationCheck(item);
+
+      let text = '';
+      switch (item.state && item.state.current) {
+         case 'complete': text = 'done'; break;
+
+         case 'interrupted':
+            if (item.error.current != 'USER_CANCELED') text = 'error';
+            break;
+
+         default:
+            if (item.paused && item.paused.previous) text = '>';
+            break;
+      }
+
+      if (text.length) {
+         BrowserAct.badge.set.text(text);
+         setTimeout(() => BrowserAct.badge.set.text(), 1000);
+      }
    },
 
+   // relation to removeListener/addListener
    openTab_chrome_downloads: tab => BrowserAct.tab.open('chrome://downloads/'),
    openTab_download_default_folder: () => chrome.downloads.showDefaultFolder(),
 
    updateBrowserBadgeAction: () => {
-      const clearListener = act => {chrome.browserAction.onClicked.hasListener(act) && chrome.browserAction.onClicked.removeListener(act)};
+      const clearListener = act => { chrome.browserAction.onClicked.hasListener(act) && chrome.browserAction.onClicked.removeListener(act) };
 
       // // clear browserAction
       clearListener(App.openTab_download_default_folder);
@@ -433,6 +449,9 @@ const App = {
             }
             break;
 
+         // commented out because in the default options this parameter is set
+         // otherwise, when installing without updating the parameters,
+         // nothing will happen when you click on toolbar ico
          // case 'chrome_downloads':
          default:
             if (!chrome.browserAction.onClicked.hasListener(App.openTab_chrome_downloads)) {

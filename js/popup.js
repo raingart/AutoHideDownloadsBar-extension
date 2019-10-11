@@ -220,10 +220,7 @@ const App = {
          }
 
          // filtering not canceled
-         const data = downloads.filter(item => {
-            // return !item.error.includes("USER_CANCELED");
-            return !(item.hasOwnProperty("error") && item.error == "USER_CANCELED");
-         });
+         const data = downloads.filter(item => !(item.hasOwnProperty("error") && item.error == "USER_CANCELED"));
 
          if (data.length) {
             // App.UI.info.textContent = 'Initilization...';
@@ -246,7 +243,6 @@ const App = {
 
          } else {
             App.UI.info.textContent = 'no active downloads';
-            BrowserAct.tab.open('chrome://downloads/');
             return;
          }
 
@@ -368,22 +364,7 @@ chrome.downloads.onErased.addListener(function (id) {
    document.getElementById('id-' + id).classList.add("erase");
 })
 
-chrome.downloads.onCreated.addListener(function (item) {
-   App.log('downloads.onCreated %s', JSON.stringify(item));
-   BrowserAct.badge.set.text('new');
-   setTimeout(function () {
-      BrowserAct.badge.set.text();
-   }, 2000);
-});
-
-chrome.downloads.onChanged.addListener(function (item) {
-   App.log('downloads.onChanged %s', JSON.stringify(item));
-   // setTimeout(function () {
-   //    document.getElementById('id-' + item.id).querySelector('button animate').beginElement();
-   // }, 200);
-
-   BrowserAct.badge.set.text('up');
-   setTimeout(function () {
-      BrowserAct.badge.set.text();
-   }, 1000);
-});
+// chrome.downloads.onChanged.addListener(function (item) {
+//    App.log('downloads.onChanged %s', JSON.stringify(item));
+//    setTimeout(() => document.getElementById('id-' + item.id).querySelector('button animate').beginElement(), 200);
+// });
