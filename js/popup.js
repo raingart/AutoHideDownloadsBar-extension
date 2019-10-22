@@ -1,5 +1,5 @@
 function listUpdate(item, li, isNew) {
-   App.log('update: ', item.id);
+   App.log('update: %s', item.id);
    li.setAttribute("state", item.exists ? item.state : 'deleted');
 
    let progressBar = li.querySelector('.progress');
@@ -37,8 +37,9 @@ function listUpdate(item, li, isNew) {
 
                // add shake animate
                a.addEventListener('click', e => {
-                  a.classList.add('shake_animate');
-                  a.addEventListener('animationend', () => a.classList.remove('shake_animate'));
+                  const className = 'shake-animate';
+                  a.classList.add(className);
+                  a.addEventListener('animationend', () => a.classList.remove(className));
                });
                return a;
             })());
@@ -142,8 +143,9 @@ function listUpdate(item, li, isNew) {
          break;
    }
 }
+
 function listCreate(item) {
-   App.log('create: ', item.id);
+   App.log('create: %s', item.id);
 
    let li = (() => {
       let li = document.createElement("li");
@@ -174,7 +176,7 @@ function listCreate(item) {
    li.appendChild((() => {
       let statusDiv = document.createElement("div");
       statusDiv.className = "status";
-      statusDiv.textContent = item.state;
+      statusDiv.textContent = (item.exists ? item.state : 'deleted');
       return statusDiv;
    })());
 
@@ -183,7 +185,7 @@ function listCreate(item) {
 
 const App = {
 
-   DEBUG: true,
+   // DEBUG: true,
 
    generateList: item => {
       // skip crx
@@ -231,7 +233,7 @@ const App = {
 
             // open file/show
             singleClick_addEventListener(
-               App.UI.containerDownload.querySelectorAll("li[state=complete] .info a[href]"), 'open', 'show');
+               App.UI.containerDownload.querySelectorAll("[state=complete] a.link[href][id]"), 'open', 'show');
 
             // file cancel
             singleClick_addEventListener(
@@ -239,11 +241,10 @@ const App = {
 
             // file erase
             singleClick_addEventListener(
-               App.UI.containerDownload.querySelectorAll(".control a"), null, 'erase');
+               App.UI.containerDownload.querySelectorAll(".control a[id]"), null, 'erase');
 
          } else {
             App.UI.info.textContent = 'no active downloads';
-            return;
          }
 
       });
@@ -264,7 +265,6 @@ const App = {
    init: () => {
       App.storage.load();
       App.pulsar = setInterval(() => {
-         App.log('setInterval RUN');
          if (App.sessionSettings && Object.keys(App.sessionSettings).length) {
             App.refresh();
          }
@@ -281,7 +281,6 @@ const App = {
    },
 }
 
-
 window.addEventListener('load', event => {
    App.UI = {
       containerDownload: document.getElementById('containerDownload'),
@@ -294,7 +293,6 @@ window.addEventListener('load', event => {
    // search
    ["change", "keyup"].forEach(event => {
       App.UI.search.addEventListener(event, function (e) {
-         // clearInterval(App.pulsar);
          searchFilter(this.value, App.UI.containerDownload.children);
       });
    });

@@ -21,7 +21,7 @@ input[type=search]:focus {
 button {
    border-radius: 0;
    height: auto;
-   padding: 8px;
+   padding: 0 8px;
    line-height: normal;
 }
 
