@@ -5,7 +5,7 @@
    "description": "__MSG_app_description__",
    "update_url": "https://clients2.google.com/service/update2/crx",
    "default_locale": "en",
-   "version": "2.9.3",
+   "version": "2.9.4",
    "author": "raingart",
    "permissions": [
       "storage",
@@ -34,9 +34,5 @@
       "48": "/icons/48.png",
       "128": "/icons/128.png"
    },
-   "options_page": "/html/options.html",
-   "options_ui": {
-      "chrome_style": false,
-      "page": "/html/options.html"
-   }
+   "options_page": "/html/options.html"
 }

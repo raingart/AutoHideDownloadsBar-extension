@@ -371,7 +371,7 @@ const App = {
             App.updateBrowserBadgeAction();
          };
          // load store settings
-         Storage.getParams(callback, 'sync');
+         Storage.getParams(callback, 'local');
       }
    },
 

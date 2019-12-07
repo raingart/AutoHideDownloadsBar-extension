@@ -16,20 +16,33 @@ function click_addEventListener(element, leftCallback, rightCallback) {
    });
 }
 
-// search? ex:
-// ["change", "keyup"].forEach(event => {
-//    document.querySelector('input[type=search]').addEventListener(event, function (e) {
-//       searchFilter(this.value, document.getElementsByTagName('ul').children)
-//    });
-// });
-function searchFilter(input, where) {
-   // console.log('searchFilter', input);
-   const filter = input.toLowerCase();
+function searchFilter(keyword, containers, filterChildTagName) {
+   // console.log('searchFilter', keyword);
+   for (const item of containers) {
+      let text = item.textContent;
+      let found = text.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+      let highlight = el => {
+         el.innerHTML = el.innerHTML.replace(/<\/?mark[^>]*>/g, ''); // clear highlight tags
+         if (found && keyword.toString().trim()) highlightSearchTerm(el, keyword, 'marked');
+      };
 
-   for (const target of where) {
-      let found = target.textContent || target.innerText;
-      target.style.display = found.toLowerCase().indexOf(filter) > -1 ? '' : 'none';
+      // vision
+      item.style.display = found ? '' : 'none';
+
+      if (filterChildTagName) { // fix reset input status
+         item.querySelectorAll(filterChildTagName).forEach(highlight);
+      }
    }
+}
+
+function highlightSearchTerm(container, keyword, highlightClass) {
+   // fix
+   let content = container.innerHTML,
+      pattern = new RegExp('(>[^<.]*)?(' + keyword + ')([^<.]*)?', 'gi'),
+      replaceWith = '$1<mark ' + (highlightClass ? 'class="' + highlightClass + '"' : 'style="background-color:#afafaf"') + '>$2</mark>$3',
+      marked = content.replace(pattern, replaceWith);
+
+   return (container.innerHTML = marked) !== content;
 }
 
 function formatSpeed(ms, bytes) {

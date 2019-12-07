@@ -258,7 +258,7 @@ const App = {
             App.sessionSettings = res;
          };
          // load store settings
-         Storage.getParams(callback, 'sync');
+         Storage.getParams(callback, 'local');
       },
    },
 
@@ -291,10 +291,17 @@ window.addEventListener('load', event => {
    };
 
    // search
+   // ["change", "keyup"].forEach(event => {
+   //    App.UI.search.addEventListener(event, function (e) {
+   //       searchFilter(this.value, App.UI.containerDownload.children);
+   //    });
+   // });
    ["change", "keyup"].forEach(event => {
-      App.UI.search.addEventListener(event, function (e) {
-         searchFilter(this.value, App.UI.containerDownload.children);
-      });
+      App.UI.search.addEventListener(event, () => searchFilter(
+         App.UI.search.value,
+         App.UI.containerDownload.querySelectorAll('li.item'),
+         'a.link'
+      ));
    });
 
    // bth clear

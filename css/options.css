@@ -1,5 +1,9 @@
 body {
-   min-width: 450px;
+   width: 450px;
+}
+
+.wrapper {
+   background-color: #fff;
 }
 
 .container {

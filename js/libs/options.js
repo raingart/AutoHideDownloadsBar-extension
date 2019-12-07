@@ -60,7 +60,7 @@ window.addEventListener('load', (evt) => {
             } else obj[key] = value;
          });
 
-         Storage.setParams(obj, 'sync');
+         Storage.setParams(obj, 'local');
 
          chrome.extension.sendMessage({
             "action": 'setOptions',
@@ -164,7 +164,7 @@ window.addEventListener('load', (evt) => {
             Conf.oggSupport();
 
          };
-         Storage.getParams(callback, 'sync');
+         Storage.getParams(callback, 'local');
       },
 
       // .ogg does support

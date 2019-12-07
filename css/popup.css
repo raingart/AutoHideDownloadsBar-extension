@@ -1,7 +1,5 @@
 body {
    width: 300px;
-   background-color: #1c1c1c;
-   color: #23292f;
 }
 
 .container {
@@ -15,7 +13,10 @@ input[type=search] {
 }
 
 input[type=search]:focus {
-   border: 1px solid deepskyblue;
+   border: 10px solid deepskyblue;
+}
+input[type=search]:focus~button {
+   display: none;
 }
 
 button {
@@ -174,4 +175,7 @@ li.item[state="interrupted"] a {
 
 li.item a[href]:hover {
    text-decoration: underline;
+}
+
+.marked {
 }
