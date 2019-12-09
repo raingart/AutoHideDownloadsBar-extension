@@ -52,8 +52,7 @@ function bytesToSize(bytes) {
    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
    if (bytes === 0) return 'n/a';
    const i = parseInt(Math.floor(Math.log(Math.abs(bytes)) / Math.log(1024)), 10);
-   if (i === 0) return `${bytes} ${sizes[i]})`;
-   return `${(i === 0 ? bytes : (bytes / (1024 ** i)).toFixed(2))} ${sizes[i]}`;
+   return (i === 0 ? bytes : (bytes / (1024 ** i)).toFixed(2)) + ' ' + sizes[i];
 }
 
 // timeFormat_full: (ms) => {
@@ -67,8 +66,11 @@ function bytesToSize(bytes) {
 // },
 
 function formatTimeLeft(ms) {
-   let day, min, sec;
-   return sec = Math.floor(ms / 1e3), !sec || isNaN(sec) ? '' : (day = Math.floor(sec / 86400), day > 0 ? day + " days" : (min = Math.floor(Math.log(sec) / Math.log(60)), Math.floor(sec / Math.pow(60, min)) + " " + ["sec", "mins", "hours"][min]))
+   let sec = Math.floor(ms / 1e3);
+   let min = Math.floor(Math.log(sec) / Math.log(60));
+   let day = Math.floor(sec / 86400);
+   if (sec < 1 ) return '';
+   return day > 0 ? day + " days" : Math.floor(sec / Math.pow(60, min)) + ' ' + ["sec", "mins", "hours"][min];
 }
 
 function getFileNameFromPatch(filepath) {

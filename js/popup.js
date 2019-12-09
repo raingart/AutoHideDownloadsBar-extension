@@ -70,6 +70,15 @@ function listUpdate(item, li, isNew) {
          const sizeLeftBytes = item.totalBytes - item.bytesReceived;
          const speed = formatSpeed(timeLeftMS, sizeLeftBytes);
 
+         // console.log('speed:', JSON.stringify(speed));
+         // console.log('timeLeft:', JSON.stringify(timeLeft));
+         // console.log('timeLeftMS:', JSON.stringify(timeLeftMS));
+         // console.log('sizeLeftBytes:', JSON.stringify(sizeLeftBytes));
+         // speed: "NaN/s"
+         // timeLeft: "NaN undefined"
+         // timeLeftMS: -13
+         // sizeLeftBytes: 0
+
          let button = controlDiv.querySelector('button');
          if (!button) {
             App.log('create controlDiv [%s] > button', item.id);

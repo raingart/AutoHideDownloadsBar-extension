@@ -148,15 +148,16 @@ li.item a.link {
    white-space: nowrap;
    overflow: hidden;
    text-overflow: ellipsis;
-   width: max-content;
+   /* width: max-content; */
 
    color: #565357;
    text-decoration: none;
 }
 
 li.item a.link[href]:hover {
-   white-space: unset;
-   width: unset;
+   /* white-space: unset; */
+   /* width: unset; */
+   /* max-height: 50px; */
    color: #565357;
    text-decoration: none;
 }
@@ -177,5 +178,5 @@ li.item a[href]:hover {
    text-decoration: underline;
 }
 
-.marked {
-}
+/* .marked {
+} */

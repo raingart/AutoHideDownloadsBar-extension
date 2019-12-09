@@ -49,5 +49,6 @@ function formatSpeed(ms, bytes) {
    let sec = ms / 1000;
    let speed = bytes / sec;
    let i = Math.floor(Math.log(speed) / Math.log(1024));
-   return (!sec || isNaN(sec) ? '' : (speed / Math.pow(1024, i)).toFixed(2) * 1 + ['bytes', 'KB', 'MB', 'GB'][i] + '/s');
+   if (speed < 1 ) return '';
+   return (speed / Math.pow(1024, i)).toFixed(2) * 1 + ['bytes', 'KB', 'MB', 'GB'][i] + '/s';
 }
