@@ -5,20 +5,19 @@ window.addEventListener('load', (evt) => {
    const Conf = {
 
       attrDependencies: () => {
-         Array.from(document.querySelectorAll("[data-dependent]"))
-            .forEach(dependentItem => {
-               // let dependentsList = dependentItem.getAttribute('data-dependent').split(',').forEach(i => i.trim());
-               let dependentsJson = JSON.parse(dependentItem.getAttribute('data-dependent').toString());
+         [...document.querySelectorAll("[data-dependent]")].forEach(dependentItem => {
+            // let dependentsList = dependentItem.getAttribute('data-dependent').split(',').forEach(i => i.trim());
+            let dependentsJson = JSON.parse(dependentItem.getAttribute('data-dependent').toString());
 
-               let handler = function () {
-                  showOrHide(dependentItem, dependentsJson);
-               };
-               // init state
-               handler();
+            let handler = function () {
+               showOrHide(dependentItem, dependentsJson);
+            };
+            // init state
+            handler();
 
-               let dependentTag = document.getElementById(Object.keys(dependentsJson))
-               if (dependentTag) dependentTag.addEventListener("change", handler);
-            });
+            let dependentTag = document.getElementById(Object.keys(dependentsJson))
+            if (dependentTag) dependentTag.addEventListener("change", handler);
+         });
 
          function showOrHide(dependentItem, dependentsList) {
             for (const name in dependentsList)
@@ -73,20 +72,13 @@ window.addEventListener('load', (evt) => {
 
          _process: () => {
             Conf.bthSubmitAnimation.outputStatus.textContent = i18n("opt_bth_save_settings_process");
-            Conf.bthSubmitAnimation.outputStatus.classList.add("disabled");
-            Conf.bthSubmitAnimation.outputStatus.classList.add("progress-animate");
-         },
-
-         _processed: () => {
-            Conf.bthSubmitAnimation.outputStatus.textContent = i18n("opt_bth_save_settings_processed");
-            Conf.bthSubmitAnimation.outputStatus.classList.remove("progress-animate");
+            Conf.bthSubmitAnimation.outputStatus.setAttribute("disabled", true);
          },
 
          _defaut: () => {
             setTimeout(function () {
-               Conf.bthSubmitAnimation._processed();
                Conf.bthSubmitAnimation.outputStatus.textContent = i18n("opt_bth_save_settings");
-               Conf.bthSubmitAnimation.outputStatus.classList.remove("disabled");
+               Conf.bthSubmitAnimation.outputStatus.removeAttribute("disabled");
             }, 300);
          },
       },
@@ -122,7 +114,8 @@ window.addEventListener('load', (evt) => {
          document.getElementById('showNotification')
             .addEventListener("change", function (event) {
                // console.log('event.type: %s', event.type);
-               Conf.getPermissions(['notifications', 'downloads.open'], event);
+               // Conf.getPermissions(['notifications', 'downloads.open'], event);
+               Conf.getPermissions(['notifications'], event);
             });
 
          document.getElementById('toolbarBehavior')
@@ -132,9 +125,9 @@ window.addEventListener('load', (evt) => {
                   case 'chrome_downloads':
                      Conf.getPermissions(['tabs'], event);
                      break;
-                  case 'popup':
-                     Conf.getPermissions(['downloads.open'], event);
-                     break;
+                  // case 'popup':
+                  //    Conf.getPermissions(['downloads.open'], event);
+                  //    break;
                }
             });
 
@@ -145,8 +138,8 @@ window.addEventListener('load', (evt) => {
       }()),
 
       init: () => {
-         let callback = object => {
-            PopulateForm.fill(object);
+         let callback = obj => {
+            PopulateForm.fill(obj);
             Conf.attrDependencies();
 
             document.querySelector("body").classList.remove("preload");

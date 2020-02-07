@@ -57,10 +57,10 @@
    },
 
    "opt_show_download_panel_timeout": {
-      "message": "İndirdikten sonra paneli gizlemeden önce saniye cinsinden gecikme"
+      "message": "İndirdikten sonra paneli gizlemeden önce gecikme"
    },
    "opt_show_download_panel_timeout_desc": {
-      "message": "İndirilen dosya üzerindeki etki için bir zaman gecikmesi kullanın"
+      "message": "İndirilen dosya üzerindeki etki için zaman gecikmesi kullanma"
    },
    "opt_show_download_panel_timeout_sec": {
       "message": "sek"

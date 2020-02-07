@@ -34,7 +34,7 @@ const BrowserAct = {
          "icon": obj => { chrome.browserAction.setIcon(obj); },
          "title": title => chrome.browserAction.setTitle({ "title": title ? title.toString().trim() : '' }),
          "text": text => chrome.browserAction.setBadgeText({ "text": text ? text.toString().trim() : '' }),
-         "background_color": color => chrome.browserAction.setBadgeBackgroundColor({ color: color || "black" }),
+         "background_color": color => chrome.browserAction.setBadgeBackgroundColor({ 'color': color || "black" }),
       },
 
       "clear": function () {
@@ -66,10 +66,10 @@ function bytesToSize(bytes) {
 // },
 
 function formatTimeLeft(ms) {
-   let sec = Math.floor(ms / 1e3);
-   let min = Math.floor(Math.log(sec) / Math.log(60));
-   let day = Math.floor(sec / 86400);
-   if (sec < 1 ) return '';
+   if (!ms) return;
+   const sec = Math.floor(ms / 1e3);
+   const min = Math.floor(Math.log(sec) / Math.log(60));
+   const day = Math.floor(sec / 86400);
    return day > 0 ? day + " days" : Math.floor(sec / Math.pow(60, min)) + ' ' + ["sec", "mins", "hours"][min];
 }
 

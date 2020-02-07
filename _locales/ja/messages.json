@@ -57,10 +57,10 @@
    },
 
    "opt_show_download_panel_timeout": {
-      "message": "ダウンロード後にパネルを非表示にするまでの遅延時間（秒）"
+      "message": "ダウンロード後にパネルを非表示にする前の遅延"
    },
    "opt_show_download_panel_timeout_desc": {
-      "message": "ダウンロードしたファイルに影響を与えるために時間遅延を使用する"
+      "message": "ダウンロードしたファイルへの影響に時間遅延を使用します"
    },
    "opt_show_download_panel_timeout_sec": {
       "message": "sec"

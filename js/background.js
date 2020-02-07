@@ -3,7 +3,7 @@
 console.log(i18n("app_name") + ": init background.js");
 
 function dataForDraw(progress) {
-   let color = (function () {
+   const color = (function () {
       // set gradient
       // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
       const percentageToHsl = (percentage) => {
@@ -17,7 +17,7 @@ function dataForDraw(progress) {
          return 'hsla(' + hue + ', ' + optHue.saturation + '%, ' + optHue.lightness + '%, 0.8)';
       }
 
-      return App.sessionSettings['colorPicker'] || percentageToHsl(progress / 100)
+      return App.sessionSettings['colorPicker'] || percentageToHsl(progress / 100);
    })();
 
    let dataDrawing = {
@@ -42,14 +42,19 @@ function dataForDraw(progress) {
    App.log('dataDrawing %s', JSON.stringify(dataDrawing));
 
    return dataDrawing;
+
+   function flashing(text) {
+      const loadingSymbol = text ? Array.isArray(text) ? text : text.toString().split() : ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+      App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
+      return loadingSymbol[App.circleNum];
+   }
 }
 
 function drawToolbarIcon(progress) {
    const dataForDrawing = dataForDraw(progress);
    const canvas = genCanvas();
 
-   return drawProgressBar(dataForDrawing.progressRatio)
-      .getImageData(0, 0, canvas.width, canvas.height);
+   return drawProgressBar(dataForDrawing.progressRatio).getImageData(0, 0, canvas.width, canvas.height);
 
    function drawProgressBar(ratio) {
       let ctx = canvas.getContext('2d');
@@ -87,17 +92,30 @@ function drawToolbarIcon(progress) {
 
 }
 
-function flashing(text) {
-   // let loadingSymbol = text ? Array.isArray(text) ? text : text.toString().split() : ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
-   let loadingSymbol = text ? Array.isArray(text) ? text : text.toString().split() : ['›', '»', '›››'];
-   App.circleNum = App.circleNum < loadingSymbol.length - 1 ? ++App.circleNum : 0;
-   return loadingSymbol[App.circleNum];
+const Send = {
+   audioAlert: audioPatch => audioPatch && new Audio(audioPatch).play(),
+
+   notification: options => {
+      if (window.Notification && Notification.permission === "granted") {
+         notification_show();
+      } else {
+         Notification.requestPermission().then(() => notification_show());
+      }
+
+      function notification_show() {
+         const manifest = chrome.runtime.getManifest();
+         new Notification(options.title || i18n("app_name"), {
+            body: options.body || '',
+            icon: options.icon || manifest.icons['48']
+         }).onclick = () => this.close();
+      }
+   }
 }
 
 function notificationCheck(item) {
    if (item && item.state && item.state.previous === 'in_progress') {
-      let notiData = {},
-         audioNotification;
+      let notiData = {};
+      let audioNotification;
 
       switch (item.state.current) {
          case 'complete':
@@ -110,20 +128,18 @@ function notificationCheck(item) {
                // notiData.title = i18n("noti_download_canceled");
             } else {
                notiData.title = i18n("noti_download_interrupted");
-               notiData.requireInteraction = true; //cancel automatically closing
+               // notiData.requireInteraction = true; //cancel automatically closing
                notiData.icon = '/icons/dead.png';
                audioNotification = '/audio/interrupted.ogg';
             }
             break;
-
-         // case 'in_progress':
-         //    return;
-
-         default:
-            return;
       }
 
-      if (Object.keys(notiData).length) {
+      if (App.sessionSettings["soundNotification"] && audioNotification) {
+         Send.audioAlert(audioNotification);
+      }
+
+      if (App.sessionSettings["showNotification"] && Object.keys(notiData).length) {
          chrome.downloads.search({ id: item.id }, downloads => {
             let download = downloads[0];
             let timeLong = Date.parse(download.endTime) - Date.parse(download.startTime);
@@ -139,96 +155,16 @@ function notificationCheck(item) {
 
             notiData.title = `${i18n("noti_download_title")} ${notiData.title}`;
             notiData.body = fileName.toString().slice(0, 31) + "...";
-            notiData.downloadId = item.id;
-            notificationCreate(notiData, audioNotification && App.sessionSettings["soundNotification"] ? audioNotification : false);
+            // notiData.downloadId = item.id;
+
+            Send.notification(notiData);
          });
       }
    }
-
-   function notificationCreate(options, audioPatch) {
-      if (window.Notification && Notification.permission === "granted") {
-         notification_show();
-      } else {
-         Notification.requestPermission().then(() => notification_show());
-      }
-
-      function notification_show() {
-         const manifest = chrome.runtime.getManifest();
-         new Notification(options.title || i18n("app_name"), {
-            body: options.body || '',
-            icon: options.icon || manifest.icons['48']
-         }).onclick = () => this.close();
-
-         // audio alert
-         if (audioPatch) new Audio(audioPatch).play();
-      }
-   }
-
-   // BUG in broken file open buttons!
-   // function notificationCreate(options, audioPatch) {
-   //    if (window.Notification && Notification.permission === "granted") {
-   //       notification_show();
-   //    } else {
-   //       Notification.requestPermission().then(() => notification_show());
-   //    }
-
-   //    function notification_show() {
-   //       const manifest = chrome.runtime.getManifest();
-   //       let notiID;
-
-   //       let notiBody = {
-   //          type: "basic",
-   //          iconUrl: options.icon || manifest.icons['48'],
-   //          title: options.title || i18n("app_name"),
-   //          message: options.body || '',
-   //          // contextMessage: "contextMessage",
-   //       }
-
-   //       let permissionsObj = {
-   //          permissions: ['downloads.open']
-   //       }
-   //       chrome.permissions.contains(permissionsObj, granted => {
-   //          chrome.permissions.request(permissionsObj, granted => {
-   //             notiBody.buttons = [{
-   //                title: "open file",
-   //                // iconUrl: "/path/to/yesIcon.png"
-   //             }, {
-   //                title: "open folder",
-   //                // iconUrl: "/path/to/yesIcon.png"
-   //             }];
-   //          });
-   //       });
-
-   //       chrome.notifications.create('', notiBody, id => {
-   //          notiID = id;
-   //          // audio alert
-   //          if (audioPatch) new Audio(audioPatch).play();
-   //       });
-
-   //       chrome.notifications.onButtonClicked.addListener(function (notificationId, buttonIndex) {
-   //          console.log("onButtonClicked", notiID, notificationId, buttonIndex);
-   //          if (notificationId === notiID) {
-   //             console.log("button clicked", buttonIndex);
-   //             switch (buttonIndex) {
-   //                case 0:
-   //                   chrome.downloads.open(notificationId);
-   //                   break;
-   //                case 1:
-   //                   chrome.downloads.show(notificationId);
-   //                   break;
-
-   //                default:
-   //                   console.warn('dont have button onlick action:', buttonIndex)
-   //             }
-   //             // chrome.notifications.clear(notificationId, function () {});
-   //          }
-   //       });
-   //    }
-   // }
 }
 
 function getDownloadProgress(callback) {
-   let searchObj = {
+   const searchObj = {
       state: 'in_progress',
       paused: false,
       orderBy: ['-startTime']
@@ -250,7 +186,7 @@ function getDownloadProgress(callback) {
          // skip crx
          if (download.mime === "application/x-chrome-extension") continue;
 
-         // normal file
+         // file size known
          if (download.fileSize || download.totalBytes) {
             let fileSize = download.fileSize || download.totalBytes;
             // let download_size = downloadItem.fileSize / 1024 / 1000;
@@ -278,16 +214,13 @@ function getDownloadProgress(callback) {
       if (countActive) {
          // set toolbar title
          let titleOut = '';
-
          // size
-         titleOut += bytesToSize(totalReceived) + " / ";
+         titleOut += bytesToSize(totalReceived) + '/';
          titleOut += totalSize ? bytesToSize(totalSize) : "unknown size";
 
          if (totalSize) {
-            // pt
-            titleOut += "\n" + totalProgress + "%";
-            // left time
-            titleOut += " ~" + formatTimeLeft(timeLeft) + " left";
+            titleOut += "\n" + totalProgress + "%"; // pt
+            titleOut += " ~" + formatTimeLeft(timeLeft) + " left"; // left time
          }
 
          // count
@@ -299,7 +232,7 @@ function getDownloadProgress(callback) {
             // ignored
             if (countInfinity) {
                if (countInfinity === countActive) {
-                  totalSize = false;
+                  // totalSize = false;
                   totalProgress = Infinity;
                } else {
                   titleOut += ' | ignore: ' + countInfinity;
@@ -313,7 +246,7 @@ function getDownloadProgress(callback) {
          // if ((item.state.current == 'complete') && item.endTime && !item.error) {
          // hide shelf-panel
          App.shelfTimeout = setTimeout(function () {
-            App.log('setShelfEnabled');
+            App.log('setShelfEnabled - hide');
             chrome.downloads.setShelfEnabled(false);
          }, Number(App.sessionSettings["shelfTimeout"]) * 1000 || 0);
          // }
@@ -327,8 +260,9 @@ function getDownloadProgress(callback) {
    });
 }
 
-
 const App = {
+   // for test:
+   // https://www.adam.com.au/support/blank-test-files
 
    // DEBUG: true,
 
@@ -378,18 +312,17 @@ const App = {
    // Register the event handlers.
    eventListener: () => {
       // anim
-      chrome.downloads.onCreated.addListener(item => {
-         BrowserAct.badge.set.text('add');
-         setTimeout(() => BrowserAct.badge.set.text(), 2000);
-      });
+      chrome.downloads.onCreated.addListener(item => App.setBrowserBadgeText('+', 'lawngreen'));
 
-      // worker
+      // hide panel
       chrome.downloads.onCreated.addListener(item => {
          chrome.downloads.setShelfEnabled(App.sessionSettings.shelfEnabled ? true : false);
       });
 
+      // gen info to toolbar
       chrome.downloads.onChanged.addListener(item => App.refresh(item));
 
+      // save new options
       chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
          switch (request.action) {
             case 'setOptions':
@@ -403,26 +336,36 @@ const App = {
 
    refresh: item => {
       App.log('refresh');
-      getDownloadProgress(App.pulsar);
-      if (item && App.sessionSettings["showNotification"]) notificationCheck(item);
 
-      let text = '';
+      getDownloadProgress(App.pulsar);
+
+      if (item && (App.sessionSettings["showNotification"] || App.sessionSettings["soundNotification"])) {
+         notificationCheck(item);
+      }
+
       switch (item.state && item.state.current) {
-         case 'complete': text = 'done'; break;
+         case 'complete':
+            App.setBrowserBadgeText('✓', 'lime');
+         break;
 
          case 'interrupted':
-            if (item.error.current != 'USER_CANCELED') text = 'error';
+            if (item.error.current != 'USER_CANCELED') {
+               App.setBrowserBadgeText('×', 'red');
+            }
             break;
 
          default:
-            if (item.paused && item.paused.previous) text = '>';
+            if (item.paused && item.paused.previous) {
+               App.setBrowserBadgeText('►', 'deepskyblue');
+            }
             break;
       }
+   },
 
-      if (text.length) {
-         BrowserAct.badge.set.text(text);
-         setTimeout(() => BrowserAct.badge.set.text(), 1000);
-      }
+   setBrowserBadgeText: (text, color) => {
+      BrowserAct.badge.set.text(text);
+      BrowserAct.badge.set.background_color(color);
+      setTimeout(() => BrowserAct.badge.set.text(), 3000);
    },
 
    // relation to removeListener/addListener
@@ -439,9 +382,9 @@ const App = {
 
       // called when the icon is clicked
       switch (App.sessionSettings["toolbarBehavior"]) {
-         case 'popup':
-            chrome.browserAction.setPopup({ 'popup': '/html/popup.html' });
-            break;
+         // case 'popup':
+         //    chrome.browserAction.setPopup({ 'popup': '/html/popup.html' });
+         //    break;
 
          case 'download_default_folder':
             if (!chrome.browserAction.onClicked.hasListener(App.openTab_download_default_folder)) {

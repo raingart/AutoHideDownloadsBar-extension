@@ -57,7 +57,7 @@
    },
 
    "opt_show_download_panel_timeout": {
-      "message": "下载后隐藏面板之前的延迟时间"
+      "message": "下载后隐藏面板之前的延迟"
    },
    "opt_show_download_panel_timeout_desc": {
       "message": "使用时间延迟来影响下载的文件"

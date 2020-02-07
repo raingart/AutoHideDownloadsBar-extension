@@ -29,6 +29,8 @@ function listUpdate(item, li, isNew) {
             controlDiv.appendChild((() => {
                let a = document.createElement("a");
                a.id = item.id;
+               a.href = item.url;
+               a.target = "_blank";
                // a.setAttribute('act2', 'erase');
                a.title = 'right click: remove from history';
                // a.setAttribute('tooltip', 'right click - remove from history');
@@ -36,11 +38,11 @@ function listUpdate(item, li, isNew) {
                a.innerHTML = '<img src="' + icon_url + '" class="icon" />'
 
                // add shake animate
-               a.addEventListener('click', e => {
-                  const className = 'shake-animate';
-                  a.classList.add(className);
-                  a.addEventListener('animationend', () => a.classList.remove(className));
-               });
+               // a.addEventListener('click', e => {
+               //    const className = 'shake-animate';
+               //    a.classList.add(className);
+               //    a.addEventListener('animationend', () => a.classList.remove(className));
+               // });
                return a;
             })());
          });

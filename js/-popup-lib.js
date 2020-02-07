@@ -37,18 +37,18 @@ function searchFilter(keyword, containers, filterChildTagName) {
 
 function highlightSearchTerm(container, keyword, highlightClass) {
    // fix
-   let content = container.innerHTML,
-      pattern = new RegExp('(>[^<.]*)?(' + keyword + ')([^<.]*)?', 'gi'),
-      replaceWith = '$1<mark ' + (highlightClass ? 'class="' + highlightClass + '"' : 'style="background-color:#afafaf"') + '>$2</mark>$3',
-      marked = content.replace(pattern, replaceWith);
+   const pattern = new RegExp('(>[^<.]*)?(' + keyword + ')([^<.]*)?', 'gi');
+   const replaceWith = '$1<mark ' + (highlightClass ? 'class="' + highlightClass + '"' : 'style="background-color:#afafaf"') + '>$2</mark>$3';
+   let content = container.innerHTML;
+   const marked = content.replace(pattern, replaceWith);
 
    return (container.innerHTML = marked) !== content;
 }
 
 function formatSpeed(ms, bytes) {
-   let sec = ms / 1000;
-   let speed = bytes / sec;
-   let i = Math.floor(Math.log(speed) / Math.log(1024));
-   if (speed < 1 ) return '';
+   if (!ms || !bytes) return;
+   const sec = ms / 1000;
+   const speed = bytes / sec;
+   const i = Math.floor(Math.log(speed) / Math.log(1024));
    return (speed / Math.pow(1024, i)).toFixed(2) * 1 + ['bytes', 'KB', 'MB', 'GB'][i] + '/s';
 }

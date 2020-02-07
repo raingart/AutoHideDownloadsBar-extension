@@ -12,7 +12,8 @@
    <link rel="stylesheet" href="/css/libs/switch_checkbox.css" />
    <link rel="stylesheet" href="/css/libs/loader.min.css" />
 
-   <link rel="stylesheet" href="/css/globals.css" />
+   <link rel="stylesheet" href="/css/theme.css" />
+   <link rel="stylesheet" href="/css/global.css" />
    <link rel="stylesheet" href="/css/options.css" />
 
    <!-- <link rel="stylesheet" href="/css/__MSG_localization__.css" /> -->
@@ -82,7 +83,7 @@
                      <select name="toolbarBehavior" id="toolbarBehavior">
                         <option value="download_default_folder">Location</option>
                         <option value="chrome_downloads">Tab</option>
-                        <option value="popup">Popup</option>
+                        <!-- <option value="popup">Popup</option> -->
                      </select>
                   </div>
                </li>
@@ -98,7 +99,7 @@
                   </div>
                </li>
 
-               <li class="item" data-dependent='{"showNotification":[true]}'>
+               <li class="item">
                   <div class="info">
                      <label for="soundNotification">__MSG_opt_sound_notification__
                         <span>__MSG_opt_sound_notification_desc__</span>
@@ -117,9 +118,9 @@
                   </div>
                   <div class="opt">
                      <select name="typeIconInfo" id="typeIconInfo">
-                        <option selected value="svg">__MSG_opt_type_icon_info_option_svg__</option>
+                        <option value="svg">__MSG_opt_type_icon_info_option_svg__</option>
                         <option value="svg_notext">__MSG_opt_type_icon_info_option_svg_notext__</option>
-                        <option value="false">__MSG_opt_type_icon_info_option_off__</option>
+                        <option selected value="false">__MSG_opt_type_icon_info_option_off__</option>
                      </select>
                   </div>
                </li>

@@ -57,7 +57,7 @@
    },
 
    "opt_show_download_panel_timeout": {
-      "message": "다운로드 후 패널을 숨기기 전에 몇 초 지연"
+      "message": "다운로드 후 패널을 숨기기 전에 지연"
    },
    "opt_show_download_panel_timeout_desc": {
       "message": "다운로드 한 파일에 미치는 영향을 고려한 시간 지연 사용"

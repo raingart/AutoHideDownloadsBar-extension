@@ -57,7 +57,7 @@
    },
 
    "opt_show_download_panel_timeout": {
-      "message": "Verzögerung in Sekunden, bevor das Panel nach dem Herunterladen ausgeblendet wird"
+      "message": "Vertraging voordat het paneel na het downloaden wordt verborgen"
    },
    "opt_show_download_panel_timeout_desc": {
       "message": "Verwenden Sie eine Zeitverzögerung für die Auswirkungen auf die heruntergeladene Datei"

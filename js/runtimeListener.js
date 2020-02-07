@@ -7,14 +7,15 @@ chrome.runtime.onInstalled.addListener(details => {
 
    // sync storage migrate to local
    // reason impossibility during synchronization activation optional_permissions
-   chrome.storage.sync.get(null, storage => {
-      switch (details.reason) {
-         case 'update':
-            chrome.storage.local.set(storage);
-            chrome.storage.sync.clear();
-            break;
-      }
-   });
+   // chrome.storage.sync.get(null, storage => {
+   //    switch (details.reason) {
+   //       case 'update':
+   //          // chrome.storage.local.set(storage);
+   //          Storage.setParams(storage, 'local');
+   //          chrome.storage.sync.clear();
+   //          break;
+   //    }
+   // });
 
    chrome.storage.local.get(null, storage => {
       // const initialStorage = { );

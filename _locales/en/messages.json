@@ -57,7 +57,7 @@
    },
 
    "opt_show_download_panel_timeout": {
-      "message": "Delay in seconds before hiding the panel after downloading"
+      "message": "Delay before hiding the panel after downloading"
    },
    "opt_show_download_panel_timeout_desc": {
       "message": "Use a time delay for the impact on the downloaded file"

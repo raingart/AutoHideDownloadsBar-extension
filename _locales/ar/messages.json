@@ -57,7 +57,7 @@
    },
 
    "opt_show_download_panel_timeout": {
-      "message": "التأخير في ثوانٍ قبل إخفاء اللوحة بعد التنزيل"
+      "message": "التأخير قبل إخفاء اللوحة بعد التنزيل"
    },
    "opt_show_download_panel_timeout_desc": {
       "message": "استخدم تأخيرًا زمنيًا للتأثير على الملف الذي تم تنزيله"

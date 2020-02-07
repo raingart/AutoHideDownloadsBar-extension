@@ -57,7 +57,7 @@
    },
 
    "opt_show_download_panel_timeout": {
-      "message": "Retraso en segundos antes de ocultar el panel después de descargar"
+      "message": "Retraso antes de ocultar el panel después de descargar"
    },
    "opt_show_download_panel_timeout_desc": {
       "message": "Utilice un retraso de tiempo para el impacto en el archivo descargado"
