@@ -2,12 +2,6 @@
    "localization": {
       "message": "ja"
    },
-   "app_name": {
-      "message": "AutoHideDownloadsBar"
-   },
-   "app_short_name": {
-      "message": "AutoHideDownloadsBar"
-   },
    "app_description": {
       "message": "この拡張機能は、画面の下部に迷惑なダウンロードバーを隠します。"
    },
@@ -130,16 +124,16 @@
       "message": "即座に適用"
    },
 
-   "popup_bth_clear_all_history": {
-      "message": "すべてクリア"
-   },
-   "popup_bth_clear_all_history_tooltip": {
-      "message": "履歴をすべてクリア"
-   },
+   // "popup_bth_clear_all_history": {
+   //    "message": "すべてクリア"
+   // },
+   // "popup_bth_clear_all_history_tooltip": {
+   //    "message": "履歴をすべてクリア"
+   // },
 
-   "popup_search_placeholder": {
-      "message": "サーチ..."
-   },
+   // "popup_search_placeholder": {
+   //    "message": "サーチ..."
+   // },
 
    "donate_tooltip": {
       "message": "Patreonのサポート"

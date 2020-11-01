@@ -2,12 +2,6 @@
    "localization": {
       "message": "de"
    },
-   "app_name": {
-      "message": "AutoHideDownloadsBar"
-   },
-   "app_short_name": {
-      "message": "AutoHideDownloadsBar"
-   },
    "app_description": {
       "message": "Diese Erweiterung blendet die lästige Download-Leiste an der Unterseite des Bildschirms aus."
    },
@@ -129,16 +123,16 @@
       "message": "Sofort angewendet"
    },
 
-   "popup_bth_clear_all_history": {
-      "message": "Alles löschen"
-   },
-   "popup_bth_clear_all_history_tooltip": {
-      "message": "Alle Verlauf löschen"
-   },
+   // "popup_bth_clear_all_history": {
+   //    "message": "Alles löschen"
+   // },
+   // "popup_bth_clear_all_history_tooltip": {
+   //    "message": "Alle Verlauf löschen"
+   // },
 
-   "popup_search_placeholder": {
-      "message": "Suche..."
-   },
+   // "popup_search_placeholder": {
+   //    "message": "Suche..."
+   // },
 
    "donate_tooltip": {
       "message": "Unterstützung mit Patreon"

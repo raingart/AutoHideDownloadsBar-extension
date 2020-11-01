@@ -2,12 +2,6 @@
    "localization": {
       "message": "ko"
    },
-   "app_name": {
-      "message": "AutoHideDownloadsBar"
-   },
-   "app_short_name": {
-      "message": "AutoHideDownloadsBar"
-   },
    "app_description": {
       "message": "이 확장 프로그램은 화면 하단에 짜증나는 다운로드 바를 숨 깁니다."
    },
@@ -129,16 +123,16 @@
       "message": "즉시 적용"
    },
 
-   "popup_bth_clear_all_history": {
-      "message": "모두 지우기"
-   },
-   "popup_bth_clear_all_history_tooltip": {
-      "message": "모든 기록 삭제"
-   },
+   // "popup_bth_clear_all_history": {
+   //    "message": "모두 지우기"
+   // },
+   // "popup_bth_clear_all_history_tooltip": {
+   //    "message": "모든 기록 삭제"
+   // },
 
-   "popup_search_placeholder": {
-      "message": "수색..."
-   },
+   // "popup_search_placeholder": {
+   //    "message": "수색..."
+   // },
 
    "donate_tooltip": {
       "message": "Patreon 지원"

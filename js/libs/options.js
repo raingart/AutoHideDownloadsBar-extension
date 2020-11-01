@@ -1,23 +1,23 @@
-console.log(i18n("app_name") + ": init options.js");
+console.debug("init options.js");
 
 window.addEventListener('load', (evt) => {
 
    const Conf = {
+      storageMethod: 'local',
+      // storageMethod: 'sync',
 
-      attrDependencies: () => {
-         [...document.querySelectorAll("[data-dependent]")].forEach(dependentItem => {
-            // let dependentsList = dependentItem.getAttribute('data-dependent').split(',').forEach(i => i.trim());
-            let dependentsJson = JSON.parse(dependentItem.getAttribute('data-dependent').toString());
+      attrDependencies() {
+         [...document.querySelectorAll("[data-dependent]")]
+            .forEach(dependentItem => {
+               // let dependentsList = dependentItem.getAttribute('data-dependent').split(',').forEach(i => i.trim());
+               const dependentsJson = JSON.parse(dependentItem.getAttribute('data-dependent').toString());
+               const handler = () => showOrHide(dependentItem, dependentsJson);
+               // init state
+               handler();
 
-            let handler = function () {
-               showOrHide(dependentItem, dependentsJson);
-            };
-            // init state
-            handler();
-
-            let dependentTag = document.getElementById(Object.keys(dependentsJson))
-            if (dependentTag) dependentTag.addEventListener("change", handler);
-         });
+               const dependentTag = document.getElementById(Object.keys(dependentsJson))
+               if (dependentTag) dependentTag.addEventListener("change", handler);
+            });
 
          function showOrHide(dependentItem, dependentsList) {
             for (const name in dependentsList)
@@ -29,28 +29,29 @@ window.addEventListener('load', (evt) => {
                   }
 
                   if (reqParent.checked && thisVal) {
-                     // console.log('reqParent.checked');
+                     // console.debug('reqParent.checked');
                      dependentItem.classList.remove("hide");
 
                   } else if (reqParent.value == thisVal) {
                      dependentItem.classList.remove("hide");
-                     // console.log(reqParent.value + '==' + thisVal);
+                     // console.debug(reqParent.value + '==' + thisVal);
                      break;
 
                   } else {
                      dependentItem.classList.add("hide");
-                     // console.log(reqParent.value + '!=' + thisVal);
+                     // console.debug(reqParent.value + '!=' + thisVal);
                   }
                }
          }
       },
 
       // Saves options to localStorage/chromeSync.
-      saveOptions: form => {
-         var obj = {};
+      saveOptions(form) {
+         let obj = {};
 
-         new FormData(form).forEach((value, key) => {
-            // SerializedArray
+         new FormData(form)
+            .forEach((value, key) => {
+               // SerializedArray
             if (obj.hasOwnProperty(key)) {
                // adding another val
                obj[key] += ';' + value; // add new
@@ -59,8 +60,9 @@ window.addEventListener('load', (evt) => {
             } else obj[key] = value;
          });
 
-         Storage.setParams(obj, 'local');
+         Storage.setParams(obj, this.storageMethod);
 
+         // notify background page
          chrome.extension.sendMessage({
             "action": 'setOptions',
             "options": obj
@@ -68,7 +70,7 @@ window.addEventListener('load', (evt) => {
       },
 
       bthSubmitAnimation: {
-         outputStatus: document.querySelector("button[type=submit]"),
+         outputStatus: document.querySelector("[type=submit]"),
 
          _process: () => {
             Conf.bthSubmitAnimation.outputStatus.textContent = i18n("opt_bth_save_settings_process");
@@ -79,11 +81,12 @@ window.addEventListener('load', (evt) => {
             setTimeout(function () {
                Conf.bthSubmitAnimation.outputStatus.textContent = i18n("opt_bth_save_settings");
                Conf.bthSubmitAnimation.outputStatus.removeAttribute("disabled");
+               Conf.bthSubmitAnimation.outputStatus.classList.remove('unSaved');
             }, 300);
          },
       },
 
-      getPermissions: (requested, event) => {
+      getPermissions(requested, event) {
          if (Array.isArray(requested) && (event.target.checked || event.target.options)) {
             // Permissions must be requested
             chrome.permissions.contains({
@@ -103,24 +106,26 @@ window.addEventListener('load', (evt) => {
 
       // Register the event handlers.
       eventListener: (function () {
-         document.forms[0] // get form
-            .addEventListener('submit', function (event) {
-               event.preventDefault();
-               Conf.bthSubmitAnimation._process();
-               Conf.saveOptions(this);
-               Conf.bthSubmitAnimation._defaut();
-            });
+         [...document.forms]
+            .forEach(form => {
+               form.addEventListener('submit', function (event) {
+                  event.preventDefault();
+                  Conf.bthSubmitAnimation._process();
+                  Conf.saveOptions(this);
+                  Conf.bthSubmitAnimation._defaut();
+               });
+         });
 
          document.getElementById('showNotification')
             .addEventListener("change", function (event) {
-               // console.log('event.type: %s', event.type);
+               // console.debug('event.type:', event.type);
                // Conf.getPermissions(['notifications', 'downloads.open'], event);
                Conf.getPermissions(['notifications'], event);
             });
 
          document.getElementById('toolbarBehavior')
             .addEventListener("change", function (event) {
-               // console.log('event.type: %s', event.type);
+               // console.debug('event.type:', event.type);
                switch (this.value) {
                   case 'chrome_downloads':
                      Conf.getPermissions(['tabs'], event);
@@ -130,23 +135,13 @@ window.addEventListener('load', (evt) => {
                   //    break;
                }
             });
-
-         // document.getElementById('back-history')
-         //    .addEventListener("click", function (event) {
-         //       history.back()
-         //    });
       }()),
 
-      init: () => {
-         let callback = obj => {
+      init() {
+         Storage.getParams(obj => {
             PopulateForm.fill(obj);
-            Conf.attrDependencies();
-
+            this.attrDependencies();
             document.querySelector("body").classList.remove("preload");
-
-            // if (location.href.substr(-1) === "#") {
-            //    document.getElementById("back-history").style.display = "unset";
-            // }
 
             // show warn
             chrome.downloads.search({
@@ -156,8 +151,16 @@ window.addEventListener('load', (evt) => {
 
             Conf.oggSupport();
 
-         };
-         Storage.getParams(callback, 'local');
+            [...document.forms[0].elements]
+               .filter(i => i.type == 'checkbox')
+               .forEach(i => {
+                  i.addEventListener('change', event => {
+                     if (!Conf.bthSubmitAnimation.outputStatus.classList.contains('unSaved')) {
+                        Conf.bthSubmitAnimation.outputStatus.classList.add('unSaved');
+                     }
+                  });
+               });
+         }, this.storageMethod);
       },
 
       // .ogg does support
@@ -170,7 +173,6 @@ window.addEventListener('load', (evt) => {
          let warnMsg = 'Your browser does not support the .ogg audio file'
          inputAudio.title = warnMsg;
          inputAudio.parentElement.setAttribute("tooltip", warnMsg);
-
       }
    }
 

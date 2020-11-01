@@ -2,12 +2,6 @@
    "localization": {
       "message": "zh_CN"
    },
-   "app_name": {
-      "message": "AutoHideDownloadsBar"
-   },
-   "app_short_name": {
-      "message": "AutoHideDownloadsBar"
-   },
    "app_description": {
       "message": "此扩展程序隐藏了屏幕底部的恼人下载栏。"
    },
@@ -129,16 +123,16 @@
       "message": "立即应用"
    },
 
-   "popup_bth_clear_all_history": {
-      "message": "全部清除"
-   },
-   "popup_bth_clear_all_history_tooltip": {
-      "message": "清除所有历史"
-   },
+   // "popup_bth_clear_all_history": {
+   //    "message": "全部清除"
+   // },
+   // "popup_bth_clear_all_history_tooltip": {
+   //    "message": "清除所有历史"
+   // },
 
-   "popup_search_placeholder": {
-      "message": "搜索..."
-   },
+   // "popup_search_placeholder": {
+   //    "message": "搜索..."
+   // },
 
    "donate_tooltip": {
       "message": "支持Patreon"

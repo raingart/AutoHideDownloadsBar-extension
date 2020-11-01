@@ -2,12 +2,6 @@
    "localization": {
       "message": "es"
    },
-   "app_name": {
-      "message": "AutoHideDownloadsBar"
-   },
-   "app_short_name": {
-      "message": "AutoHideDownloadsBar"
-   },
    "app_description": {
       "message": "Esta extensión oculta la molesta barra de descargas en la parte inferior de la pantalla."
    },
@@ -129,16 +123,16 @@
       "message": "Aplicado al instante"
    },
 
-   "popup_bth_clear_all_history": {
-      "message": "Limpiar todo"
-   },
-   "popup_bth_clear_all_history_tooltip": {
-      "message": "Borrar toda la historia"
-   },
+   // "popup_bth_clear_all_history": {
+   //    "message": "Limpiar todo"
+   // },
+   // "popup_bth_clear_all_history_tooltip": {
+   //    "message": "Borrar toda la historia"
+   // },
 
-   "popup_search_placeholder": {
-      "message": "Buscar..."
-   },
+   // "popup_search_placeholder": {
+   //    "message": "Buscar..."
+   // },
 
    "donate_tooltip": {
       "message": "Apoyo con Patreon"

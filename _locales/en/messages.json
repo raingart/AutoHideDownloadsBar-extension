@@ -2,12 +2,6 @@
    "localization": {
       "message": "en"
    },
-   "app_name": {
-      "message": "AutoHideDownloadsBar"
-   },
-   "app_short_name": {
-      "message": "AutoHideDownloadsBar"
-   },
    "app_description": {
       "message": "This extension hides annoying downloads bar in the bottom of the screen."
    },
@@ -129,16 +123,16 @@
       "message": "Applied instantly"
    },
 
-   "popup_bth_clear_all_history": {
-      "message": "Clear All"
-   },
-   "popup_bth_clear_all_history_tooltip": {
-      "message": "Clear All History"
-   },
+   // "popup_bth_clear_all_history": {
+   //    "message": "Clear All"
+   // },
+   // "popup_bth_clear_all_history_tooltip": {
+   //    "message": "Clear All History"
+   // },
 
-   "popup_search_placeholder": {
-      "message": "Search..."
-   },
+   // "popup_search_placeholder": {
+   //    "message": "Search..."
+   // },
 
    "donate_tooltip": {
       "message": "Support with Patreon"

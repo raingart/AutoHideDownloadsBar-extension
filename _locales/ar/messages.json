@@ -2,12 +2,6 @@
    "localization": {
       "message": "ar"
    },
-   "app_name": {
-      "message": "AutoHideDownloadsBar"
-   },
-   "app_short_name": {
-      "message": "AutoHideDownloadsBar"
-   },
    "app_description": {
       "message": "تخفي هذه الإضافة شريط التنزيل المزعج في أسفل الشاشة."
    },
@@ -129,16 +123,16 @@
       "message": "يطبق على الفور"
    },
 
-   "popup_bth_clear_all_history": {
-      "message": "امسح الكل"
-   },
-   "popup_bth_clear_all_history_tooltip": {
-      "message": "مسح كل التاريخ"
-   },
+   // "popup_bth_clear_all_history": {
+   //    "message": "امسح الكل"
+   // },
+   // "popup_bth_clear_all_history_tooltip": {
+   //    "message": "مسح كل التاريخ"
+   // },
 
-   "popup_search_placeholder": {
-      "message": "بحث..."
-   },
+   // "popup_search_placeholder": {
+   //    "message": "بحث..."
+   // },
 
    "donate_tooltip": {
       "message": "دعم مع Patreon"

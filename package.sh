@@ -16,9 +16,9 @@ zip -r $FILENAME.zip \
                   icons/48.png \
                   icons/128.png \
                   js/*.js \
-                  js/libs/*.js \
-                  audio/* \
+                  js/*/*.js \
                   manifest.json \
- --exclude="*/-*.js"
+                  audio/* \
+ --exclude="*/-*.*"
 #  -x \*.DS_Store
 # -z $TODAY

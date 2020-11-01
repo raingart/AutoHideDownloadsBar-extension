@@ -2,12 +2,6 @@
    "localization": {
       "message": "tr"
    },
-   "app_name": {
-      "message": "AutoHideDownloadsBar"
-   },
-   "app_short_name": {
-      "message": "AutoHideDownloadsBar"
-   },
    "app_description": {
       "message": "Bu uzantı, ekranın altındaki can sıkıcı indirme çubuğunu gizler."
    },
@@ -129,16 +123,16 @@
       "message": "Anında uygulanan"
    },
 
-   "popup_bth_clear_all_history": {
-      "message": "Hepsini temizle"
-   },
-   "popup_bth_clear_all_history_tooltip": {
-      "message": "Tüm Geçmişi Temizle"
-   },
+   // "popup_bth_clear_all_history": {
+   //    "message": "Hepsini temizle"
+   // },
+   // "popup_bth_clear_all_history_tooltip": {
+   //    "message": "Tüm Geçmişi Temizle"
+   // },
 
-   "popup_search_placeholder": {
-      "message": "Arama..."
-   },
+   // "popup_search_placeholder": {
+   //    "message": "Arama..."
+   // },
 
    "donate_tooltip": {
       "message": "Patreon ile destek"

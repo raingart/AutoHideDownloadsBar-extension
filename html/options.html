@@ -4,7 +4,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>__MSG_app_name__ settings</title>
+   <title>Options page</title>
 
    <link rel="stylesheet" href="/css/libs/normalize.min.css">
    <link rel="stylesheet" href="/css/libs/tooltip/tooltip.min.css" />
@@ -16,7 +16,7 @@
    <link rel="stylesheet" href="/css/global.css" />
    <link rel="stylesheet" href="/css/options.css" />
 
-   <!-- <link rel="stylesheet" href="/css/__MSG_localization__.css" /> -->
+   <link rel="stylesheet" href="/css/__MSG_localization__.css" />
 
    <script src="/js/libs/localization.js"></script>
    <script src="/js/libs/storage.js"></script>
@@ -36,10 +36,7 @@
       <div class="container">
 
          <div class="between">
-            <div>
-               <!-- <button type="button" id="back-history">←</button> -->
-               <h2>__MSG_opt_setting__</h2>
-            </div>
+            <h2>__MSG_opt_setting__</h2>
             <a href="https://github.com/raingart/AutoHideDownloadsBar-extension" tooltip="__MSG_github_page_tooltip__"
                flow="left">__MSG_github_page__</a>
          </div>
@@ -68,8 +65,8 @@
                      </label>
                   </div>
                   <div class="opt">
-                     <input type="number" placeholder="&lt;300" value="3" step="0.5" min="0" max="300" name="shelfTimeout"
-                        id="shelfTimeout" /> __MSG_opt_show_download_panel_timeout_sec__
+                     <input type="number" placeholder="&lt;300" value="3" step="0.5" min="0" max="300"
+                        name="shelfTimeout" id="shelfTimeout" /> __MSG_opt_show_download_panel_timeout_sec__
                   </div>
                </li>
 
@@ -120,7 +117,7 @@
                      <select name="typeIconInfo" id="typeIconInfo">
                         <option value="svg">__MSG_opt_type_icon_info_option_svg__</option>
                         <option value="svg_notext">__MSG_opt_type_icon_info_option_svg_notext__</option>
-                        <option selected value="false">__MSG_opt_type_icon_info_option_off__</option>
+                        <option selected value="">__MSG_opt_type_icon_info_option_off__</option>
                      </select>
                   </div>
                </li>
@@ -151,7 +148,8 @@
             <hr />
 
             <div class="between">
-               <button type="submit" tooltip="__MSG_opt_bth_save_settings_tooltip__" flow="right">__MSG_opt_bth_save_settings__</button>
+               <button type="submit" tooltip="__MSG_opt_bth_save_settings_tooltip__"
+                  flow="right">__MSG_opt_bth_save_settings__</button>
 
                <a href="https://www.patreon.com/join/raingart/checkout?rid=2544268" target="_blank"
                   tooltip="__MSG_donate_tooltip__" flow="left">__MSG_donate__</a>

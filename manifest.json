@@ -1,12 +1,18 @@
 {
    "manifest_version": 2,
-   "name": "__MSG_app_name__",
-   "short_name": "__MSG_app_short_name__",
+   "name": "AutoHideDownloadsBar",
+   "short_name": "AutoHideDownloadsBar",
    "description": "__MSG_app_description__",
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "default_locale": "en",
-   "version": "2.10.0",
    "author": "raingart",
+   "default_locale": "en",
+   "minimum_chrome_version": "80.0",
+   "version": "2.11.0",
+   "icons": {
+      "16": "/icons/16.png",
+      "48": "/icons/48.png",
+      "128": "/icons/128.png"
+   },
    "permissions": [
       "storage",
       "downloads",
@@ -22,17 +28,7 @@
       "persistent": true
    },
    "browser_action": {
-      "default_title": "__MSG_app_title__",
-      "default_icon": {
-         "16": "/icons/16.png",
-         "48": "/icons/48.png",
-         "128": "/icons/128.png"
-      }
-   },
-   "icons": {
-      "16": "/icons/16.png",
-      "48": "/icons/48.png",
-      "128": "/icons/128.png"
+      "default_title": "AutoHideDownloadsBar"
    },
    "options_page": "/html/options.html"
 }
