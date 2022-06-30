@@ -44,7 +44,7 @@
    },
 
    "opt_toolbar_behavior": {
-      "message": "Behavior when clicking the icon in the extension bar"
+      "message": "Behavior when clicking the icon in the toolbar"
    },
    "opt_toolbar_behavior_desc": {
       "message": "To open a unique instance of a tab, will be need the permission to \"read your history\" (current open tabs)"
