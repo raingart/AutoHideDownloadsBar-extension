@@ -70,6 +70,7 @@ form>ul>li.item[data-dependent].hide {
 
 label {
    cursor: pointer;
+   padding-right: 18px;
 }
 
 label>span {
