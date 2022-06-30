@@ -79,6 +79,12 @@ label>span {
    font-size: 12px;
 }
 
+@media (prefers-color-scheme:dark) {
+   label>span {
+      color: rgb(175, 175, 175);
+   }
+}
+
 /* label>span>q {
    font-style: italic;
    color: #006b9e;
