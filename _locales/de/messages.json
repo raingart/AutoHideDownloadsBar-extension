@@ -6,11 +6,11 @@
       "message": "Diese Erweiterung blendet die lästige Download-Leiste an der Unterseite des Bildschirms aus."
    },
    "app_title": {
-      "message": "Öffne Download Seite"
+      "message": "Downloads-Seite öffnen"
    },
 
    "noti_download_title": {
-      "message": "Herunterladen"
+      "message": "Download"
    },
    "noti_download_complete": {
       "message": "erfolgreich"
@@ -23,11 +23,11 @@
    },
 
    "opt_setting": {
-      "message": "einstellungen"
+      "message": "Einstellungen"
    },
 
    "github_page": {
-      "message": "GitHub Seite"
+      "message": "GitHub-Seite"
    },
    "github_page_tooltip": {
       "message": "Öffnen"
@@ -37,54 +37,54 @@
       "message": "Download-Leiste anzeigen, wenn der Download aktiv ist"
    },
    "opt_show_download_panel_desc": {
-      "message": "Das Verstecken der Download-Leiste erfolgt erst nach dem Download"
+      "message": "Das Ausblenden der Download-Leiste erfolgt erst nach Abschluss des Downloads"
    },
    "opt_show_download_panel_warn": {
-      "message": "Korrekte Arbeit mit jetzt aktiven Downloads ist nicht möglich!"
+      "message": "Korrektes Arbeiten mit aktuell noch aktiven Downloads ist nicht möglich!"
    },
 
    "opt_toolbar_behavior": {
-      "message": "Verhalten beim Klicken auf das Symbol Symbolleiste"
+      "message": "Verhalten beim Klicken auf das Symbol in der Erweiterungsleiste"
    },
    "opt_toolbar_behavior_desc": {
-      "message": "Um eine eindeutige Instanz eines Tabs zu öffnen, benötigen Sie die Berechtigung zum \"Lesen Ihres Verlaufs\" (aktuell geöffnete Tabs)"
+      "message": "Um eine eindeutige Instanz eines Tabs zu öffnen, wird die Berechtigung zum \"Lesen Ihres Verlaufs\" (aktuell geöffnete Tabs) benötigt"
    },
 
    "opt_show_download_panel_timeout": {
-      "message": "Vertraging voordat het paneel na het downloaden wordt verborgen"
+      "message": "Verzögerung vor dem Ausblenden der Download-Leiste nach Abschluss des Downloads"
    },
    "opt_show_download_panel_timeout_desc": {
-      "message": "Verwenden Sie eine Zeitverzögerung für die Auswirkungen auf die heruntergeladene Datei"
+      "message": "Verwenden Sie eine Zeitverzögerung für die Auswirkungen auf die downgeloadete Datei"
    },
    "opt_show_download_panel_timeout_sec": {
-      "message": "sek"
+      "message": "s"
    },
 
    "opt_show_notification": {
       "message": "Benachrichtigung anzeigen"
    },
    "opt_show_notification_desc": {
-      "message": "Benachrichtigung anzeigen, wenn sich der Downloadstatus der Datei geändert hat"
+      "message": "Benachrichtigung anzeigen, wenn sich der Downloadstatus von Dateien geändert hat"
    },
 
    "opt_sound_notification": {
       "message": "Benachrichtigungston abspielen"
    },
    "opt_sound_notification_desc": {
-      "message": "Deaktivieren Sie diese Option, wenn Ihr Benachrichtigungssystem bereits eine Audiowarnung verwendet"
+      "message": "Deaktivieren Sie diese Option, wenn Ihr Benachrichtigungssystem bereits einen akustischen Alarm verwendet"
    },
 
    "opt_type_icon_info": {
-      "message": "Standard wird der Download-Fortschritt aller heruntergeladenen Dateien angezeigt"
+      "message": "Wählen Sie die Art der Anzeige in der Erweiterungsleiste"
    },
    "opt_type_icon_info_desc": {
-      "message": "Aus kann die Systembelastung erheblich reduzieren"
+      "message": "\"Aus\" kann die Belastung des Systems erheblich reduzieren"
    },
    "opt_type_icon_info_option_svg": {
       "message": "Grafik"
    },
    "opt_type_icon_info_option_svg_notext": {
-      "message": "Grafik (nein %)"
+      "message": "Grafik (ohne %)"
    },
    "opt_type_icon_info_option_text": {
       "message": "Text"
@@ -94,48 +94,51 @@
    },
 
    "opt_color_icon_info": {
-      "message": "Farbe der Anzeige in der Ikone"
+      "message": "Anfangsfarbe der Fortschrittsanzeige im Symbol"
    },
    "opt_color_icon_info_tooltip": {
-      "message": "Standard: #00FF00 (Farbverlauf Rot zu Grün)"
+      "message": "Standard: #00FF00"
    },
    "opt_color_icon_info_desc": {
-      "message": "Ermöglicht Ihnen, die Download-Farbe im Symbol festzulegen"
+      "message": "Einstellen der Anfangsfarbe für die Fortschrittsanzeige im Symbol (Standard: Farbverlauf von Grün zu Rot)"
    },
 
    "opt_color_icon_text_info": {
-      "message": "Tekstkleur van indicatie in pictogram"
+      "message": "Textfarbe der Fortschrittsanzeige im Symbol"
+   },
+   "opt_color_icon_text_tooltip": {
+      "message": "Standard: #888888"
    },
    "opt_color_icon_text_info_desc": {
-      "message": "Stel de downloadkleur voor de tekst in het pictogram in"
+      "message": "Einstellen der Download-Farbe für den Text im Symbol"
    },
 
    "opt_bth_save_settings": {
-      "message": "Einstellungen speichern"
+      "message": "Änderungen speichern"
    },
    "opt_bth_save_settings_process": {
-      "message": "Speichern..."
+      "message": "Speichern …"
    },
    "opt_bth_save_settings_processed": {
-      "message": "Einstellungen gespeichert!"
+      "message": "Gespeichert!"
    },
    "opt_bth_save_settings_tooltip": {
-      "message": "Sofort angewendet"
+      "message": "Werden sofort übernommen"
    },
 
    // "popup_bth_clear_all_history": {
    //    "message": "Alles löschen"
    // },
    // "popup_bth_clear_all_history_tooltip": {
-   //    "message": "Alle Verlauf löschen"
+   //    "message": "Gesamten Verlauf löschen"
    // },
 
    // "popup_search_placeholder": {
-   //    "message": "Suche..."
+   //    "message": "Suche …"
    // },
 
    "donate_tooltip": {
-      "message": "Unterstützung mit Patreon"
+      "message": "Mit Patreon unterstützen"
    },
    "donate": {
       "message": "Spenden"
