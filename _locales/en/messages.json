@@ -49,6 +49,12 @@
    "opt_toolbar_behavior_desc": {
       "message": "To open a unique instance of a tab, will be need the permission to \"read your history\" (current open tabs)"
    },
+   "opt_toolbar_behavior_download_default_folder": {
+      "message": "Location"
+   },
+   "opt_toolbar_behavior_chrome_downloads": {
+      "message": "Tab"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "Delay before hiding the panel after downloading"

@@ -49,6 +49,12 @@
    "opt_toolbar_behavior_desc": {
       "message": "Um eine eindeutige Instanz eines Tabs zu öffnen, wird die Berechtigung zum \"Lesen Ihres Verlaufs\" (aktuell geöffnete Tabs) benötigt"
    },
+   "opt_toolbar_behavior_download_default_folder": {
+      "message": "Downloads-Ordner"
+   },
+   "opt_toolbar_behavior_chrome_downloads": {
+      "message": "Chrome-Downloads"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "Verzögerung vor dem Ausblenden der Download-Leiste nach Abschluss des Downloads"
