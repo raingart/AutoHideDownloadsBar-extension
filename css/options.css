@@ -1,5 +1,12 @@
 body {
-   width: 450px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+}
+
+.wrapper {
+   width: 500px;
 }
 
 .container {
