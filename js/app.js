@@ -117,7 +117,7 @@ const App = {
          this.log('clearInterval');
          this.isBusy = false;
          clearInterval(this.tempLoadingMessage);
-         webBrowser.badge.clear();
+         webBrowser.badge.reset();
          // webBrowser.badge.set.title('');
 
       } else this.log('pulsar ignore');
@@ -163,7 +163,7 @@ const App = {
          switch (request.action) {
             case 'setOptions':
                App.sessionSettings = request.settings;
-               webBrowser.badge.clear();
+               webBrowser.badge.reset();
                App.updateBrowserBadgeAction();
                break;
          }
@@ -240,7 +240,7 @@ const App = {
    init() {
       this.log('App.init');
       this.storage.load();
-      webBrowser.badge.clear();
+      webBrowser.badge.reset();
    },
 
    log(...args) {

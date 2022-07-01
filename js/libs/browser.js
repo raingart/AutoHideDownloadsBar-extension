@@ -33,15 +33,21 @@ const webBrowser = {
 
    "badge": {
       "set": {
-         "icon": (obj = required()) => chrome.browserAction.setIcon(obj),
+         "icon": (obj = required()) => {
+            if (obj.path && window.matchMedia('(prefers-color-scheme: dark)').matches) { // is dark mode browser
+               obj.path = obj.path.replace('icons/', 'icons/dark/');
+            }
+            console.debug('obj', obj);
+            chrome.browserAction.setIcon(obj)
+         },
          "title": title => chrome.browserAction.setTitle({ "title": title ? title.toString().trim() : '' }),
          "text": text => chrome.browserAction.setBadgeText({ "text": text ? text.toString().trim() : '' }),
          "background_color": color => chrome.browserAction.setBadgeBackgroundColor({ 'color': color || "black" }),
       },
 
-      'clear': () => {
+      'reset': () => {
          const manifest = chrome.runtime.getManifest();
-         webBrowser.badge.set.icon({ path: manifest.icons['16'] });
+         webBrowser.badge.set.icon({ 'path': manifest.icons['16'] });
          webBrowser.badge.set.text('');
          webBrowser.badge.set.title(manifest.browser_action['default_title']);
       },
