@@ -12,8 +12,8 @@
 
 @media (prefers-color-scheme:dark) {
    :root {
-      --bg: #1c1c1c;
-      --fg: slategrey;
+      --bg: rgb(40, 40, 40);
+      --fg: white;
       --input-bg: #171717;
       --input-border: #2d2d2d;
       --li-item: #353535;

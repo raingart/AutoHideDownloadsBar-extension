@@ -1,5 +1,12 @@
 body {
-   width: 450px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+}
+
+.wrapper {
+   width: 500px;
 }
 
 .container {
@@ -63,12 +70,19 @@ form>ul>li.item[data-dependent].hide {
 
 label {
    cursor: pointer;
+   padding-right: 18px;
 }
 
 label>span {
    display: block;
    color: grey;
    font-size: 12px;
+}
+
+@media (prefers-color-scheme:dark) {
+   label>span {
+      color: rgb(175, 175, 175);
+   }
 }
 
 /* label>span>q {

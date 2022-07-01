@@ -44,10 +44,16 @@
    },
 
    "opt_toolbar_behavior": {
-      "message": "Behavior when you click on the icon Toolbar"
+      "message": "Behavior when clicking the icon in the toolbar"
    },
    "opt_toolbar_behavior_desc": {
       "message": "To open a unique instance of a tab, will be need the permission to \"read your history\" (current open tabs)"
+   },
+   "opt_toolbar_behavior_download_default_folder": {
+      "message": "Location"
+   },
+   "opt_toolbar_behavior_chrome_downloads": {
+      "message": "Tab"
    },
 
    "opt_show_download_panel_timeout": {
@@ -78,7 +84,7 @@
       "message": "Select the type of indication on the toolbar"
    },
    "opt_type_icon_info_desc": {
-      "message": "Off can significantly reduce the load on the system"
+      "message": "\"Off\" can significantly reduce the load on the system"
    },
    "opt_type_icon_info_option_svg": {
       "message": "Graphic"
@@ -97,14 +103,17 @@
       "message": "Color of indication in icon"
    },
    "opt_color_icon_info_tooltip": {
-      "message": "Default: #00FF00 (Gradient Red to Green)"
+      "message": "Default: #00FF00"
    },
    "opt_color_icon_info_desc": {
-      "message": "Allows you to set the download color in the icon"
+      "message": "Allows you to set the download color in the icon (Default: Gradient Red to Green)"
    },
 
    "opt_color_icon_text_info": {
       "message": "Text color of indication in icon"
+   },
+   "opt_color_icon_text_tooltip": {
+      "message": "Default: #888888"
    },
    "opt_color_icon_text_info_desc": {
       "message": "Set the download color for the text in the icon"
@@ -114,7 +123,7 @@
       "message": "Save Changes"
    },
    "opt_bth_save_settings_process": {
-      "message": "Saving..."
+      "message": "Saving …"
    },
    "opt_bth_save_settings_processed": {
       "message": "Saved!"
@@ -131,7 +140,7 @@
    // },
 
    // "popup_search_placeholder": {
-   //    "message": "Search..."
+   //    "message": "Search …"
    // },
 
    "donate_tooltip": {
