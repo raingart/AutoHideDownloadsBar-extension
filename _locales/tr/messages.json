@@ -49,6 +49,12 @@
    "opt_toolbar_behavior_desc": {
       "message": "Bir sekmenin benzersiz bir örneğini açmak için, \"geçmişinizi okumak\" (geçerli açık sekmeler) için izin gerekir"
    },
+   "opt_toolbar_behavior_download_default_folder": {
+      "message": "Location"
+   },
+   "opt_toolbar_behavior_chrome_downloads": {
+      "message": "Tab"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "İndirdikten sonra paneli gizlemeden önce gecikme"
@@ -106,33 +112,25 @@
    "opt_color_icon_text_info": {
       "message": "Göstergedeki metin rengi simgedir"
    },
+   "opt_color_icon_text_tooltip": {
+      "message": "Default: #888888"
+   },
    "opt_color_icon_text_info_desc": {
       "message": "Simgenin metninin karşıdan yükleme rengini ayarlama"
    },
 
-   "opt_bth_save_settings": {
+   "opt_btn_save_settings": {
       "message": "Değişiklikleri Kaydet"
    },
-   "opt_bth_save_settings_process": {
+   "opt_btn_save_settings_process": {
       "message": "Kaydediliyor..."
    },
-   "opt_bth_save_settings_processed": {
+   "opt_btn_save_settings_processed": {
       "message": "Kaydedildi!"
    },
-   "opt_bth_save_settings_tooltip": {
+   "opt_btn_save_settings_tooltip": {
       "message": "Anında uygulanan"
    },
-
-   // "popup_bth_clear_all_history": {
-   //    "message": "Hepsini temizle"
-   // },
-   // "popup_bth_clear_all_history_tooltip": {
-   //    "message": "Tüm Geçmişi Temizle"
-   // },
-
-   // "popup_search_placeholder": {
-   //    "message": "Arama..."
-   // },
 
    "donate_tooltip": {
       "message": "Patreon ile destek"

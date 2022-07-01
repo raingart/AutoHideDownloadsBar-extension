@@ -1,12 +1,15 @@
 #!/bin/sh
-
 # chmod a+x release.sh
 
-FILENAME='chrome_bar'
+ver="$(cat manifest.json | jq -r '.version')"
+filename="/tmp/chrome-bar-extensions_v${ver}.zip"
 # TODAY=$(date)
 
-rm -v $FILENAME.zip
-zip -r $FILENAME.zip \
+pause() { read -p "$*"; }
+
+echo "Zipping extension for Chrome Web Store..."
+rm $filename
+zip -q -r $filename \
                   _locales \
                   css/libs/*/*.css \
                   css/*/*.css \
@@ -22,3 +25,14 @@ zip -r $FILENAME.zip \
  --exclude="*/-*.*"
 #  -x \*.DS_Store
 # -z $TODAY
+
+echo "Compressed $filename"
+
+pause 'Press [Enter] to pushing the repository...'
+git add .
+if [ ! -z "$1" ]; then
+   ver="$1"
+fi
+git commit -m "$ver"
+git tag "v${ver}"
+git push origin master

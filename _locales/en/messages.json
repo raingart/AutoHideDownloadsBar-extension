@@ -44,7 +44,7 @@
    },
 
    "opt_toolbar_behavior": {
-      "message": "Behavior when clicking the icon in the toolbar"
+      "message": "Behavior when you click on the icon Toolbar"
    },
    "opt_toolbar_behavior_desc": {
       "message": "To open a unique instance of a tab, will be need the permission to \"read your history\" (current open tabs)"
@@ -55,6 +55,7 @@
    "opt_toolbar_behavior_chrome_downloads": {
       "message": "Tab"
    },
+
 
    "opt_show_download_panel_timeout": {
       "message": "Delay before hiding the panel after downloading"
@@ -84,7 +85,7 @@
       "message": "Select the type of indication on the toolbar"
    },
    "opt_type_icon_info_desc": {
-      "message": "\"Off\" can significantly reduce the load on the system"
+      "message": "Off can significantly reduce the load on the system"
    },
    "opt_type_icon_info_option_svg": {
       "message": "Graphic"
@@ -103,10 +104,10 @@
       "message": "Color of indication in icon"
    },
    "opt_color_icon_info_tooltip": {
-      "message": "Default: #00FF00"
+      "message": "Default: #00FF00 (Gradient Red to Green)"
    },
    "opt_color_icon_info_desc": {
-      "message": "Allows you to set the download color in the icon (Default: Gradient Red to Green)"
+      "message": "Allows you to set the download color in the icon"
    },
 
    "opt_color_icon_text_info": {
@@ -119,29 +120,18 @@
       "message": "Set the download color for the text in the icon"
    },
 
-   "opt_bth_save_settings": {
+   "opt_btn_save_settings": {
       "message": "Save Changes"
    },
-   "opt_bth_save_settings_process": {
-      "message": "Saving …"
+   "opt_btn_save_settings_process": {
+      "message": "Saving..."
    },
-   "opt_bth_save_settings_processed": {
+   "opt_btn_save_settings_processed": {
       "message": "Saved!"
    },
-   "opt_bth_save_settings_tooltip": {
+   "opt_btn_save_settings_tooltip": {
       "message": "Applied instantly"
    },
-
-   // "popup_bth_clear_all_history": {
-   //    "message": "Clear All"
-   // },
-   // "popup_bth_clear_all_history_tooltip": {
-   //    "message": "Clear All History"
-   // },
-
-   // "popup_search_placeholder": {
-   //    "message": "Search …"
-   // },
 
    "donate_tooltip": {
       "message": "Support with Patreon"

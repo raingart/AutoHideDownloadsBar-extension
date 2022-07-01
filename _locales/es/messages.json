@@ -49,6 +49,12 @@
    "opt_toolbar_behavior_desc": {
       "message": "Para abrir una instancia única de una pestaña, se necesitará el permiso para \"leer su historial\" (pestañas abiertas actuales)"
    },
+   "opt_toolbar_behavior_download_default_folder": {
+      "message": "Location"
+   },
+   "opt_toolbar_behavior_chrome_downloads": {
+      "message": "Tab"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "Retraso antes de ocultar el panel después de descargar"
@@ -106,33 +112,25 @@
    "opt_color_icon_text_info": {
       "message": "Color del texto de indicación en el icono."
    },
+   "opt_color_icon_text_tooltip": {
+      "message": "Default: #888888"
+   },
    "opt_color_icon_text_info_desc": {
       "message": "Establece el color de descarga para el texto en el icono."
    },
 
-   "opt_bth_save_settings": {
+   "opt_btn_save_settings": {
       "message": "Guardar cambios"
    },
-   "opt_bth_save_settings_process": {
+   "opt_btn_save_settings_process": {
       "message": "Ahorro..."
    },
-   "opt_bth_save_settings_processed": {
+   "opt_btn_save_settings_processed": {
       "message": "¡Salvado!"
    },
-   "opt_bth_save_settings_tooltip": {
+   "opt_btn_save_settings_tooltip": {
       "message": "Aplicado al instante"
    },
-
-   // "popup_bth_clear_all_history": {
-   //    "message": "Limpiar todo"
-   // },
-   // "popup_bth_clear_all_history_tooltip": {
-   //    "message": "Borrar toda la historia"
-   // },
-
-   // "popup_search_placeholder": {
-   //    "message": "Buscar..."
-   // },
 
    "donate_tooltip": {
       "message": "Apoyo con Patreon"

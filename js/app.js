@@ -23,7 +23,7 @@ function getDownloadProgress(callback) {
             let fileName = getFileNameFromPatch(download.filename);
             webBrowser.notification.send({
                title: 'File save request!',
-               body: fileName.toString().slice(0, 31) + '...',
+               body: fileName.toString().slice(0, 31) + '…',
             });
             return 'dangerFile';
          }
@@ -135,10 +135,9 @@ const App = {
       // method: 'sync',
 
       load() {
-         const callback = res => {
-            App.log('storage', JSON.stringify(res));
-            App.sessionSettings = res;
-
+         const callback = settings => {
+            // App.log('storage', JSON.stringify(settings));
+            App.sessionSettings = settings;
             App.updateBrowserBadgeAction();
          };
          // load store settings
@@ -160,9 +159,10 @@ const App = {
 
       // save new options
       chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
+         // console.debug('onMessage', ...arguments);
          switch (request.action) {
             case 'setOptions':
-               App.sessionSettings = request.options;
+               App.sessionSettings = request.settings;
                webBrowser.badge.clear();
                App.updateBrowserBadgeAction();
                break;
@@ -204,7 +204,7 @@ const App = {
       setTimeout(() => webBrowser.badge.set.text(), 3000);
    },
 
-   openPage: tab => webBrowser.tab.open('chrome://downloads/'),
+   openPage: (tab = 'chrome://downloads/') => webBrowser.tab.open(tab),
    openLocation: () => chrome.downloads.showDefaultFolder(),
 
    updateBrowserBadgeAction() {

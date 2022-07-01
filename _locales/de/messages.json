@@ -119,29 +119,18 @@
       "message": "Einstellen der Download-Farbe für den Text im Symbol"
    },
 
-   "opt_bth_save_settings": {
+   "opt_btn_save_settings": {
       "message": "Änderungen speichern"
    },
-   "opt_bth_save_settings_process": {
+   "opt_btn_save_settings_process": {
       "message": "Speichern …"
    },
-   "opt_bth_save_settings_processed": {
+   "opt_btn_save_settings_processed": {
       "message": "Gespeichert!"
    },
-   "opt_bth_save_settings_tooltip": {
+   "opt_btn_save_settings_tooltip": {
       "message": "Werden sofort übernommen"
    },
-
-   // "popup_bth_clear_all_history": {
-   //    "message": "Alles löschen"
-   // },
-   // "popup_bth_clear_all_history_tooltip": {
-   //    "message": "Gesamten Verlauf löschen"
-   // },
-
-   // "popup_search_placeholder": {
-   //    "message": "Suche …"
-   // },
 
    "donate_tooltip": {
       "message": "Mit Patreon unterstützen"

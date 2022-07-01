@@ -49,6 +49,12 @@
    "opt_toolbar_behavior_desc": {
       "message": "要打开选项卡的唯一实例，需要获得“读取您的历史记录”的权限（当前打开的选项卡）"
    },
+   "opt_toolbar_behavior_download_default_folder": {
+      "message": "磁盘路径"
+   },
+   "opt_toolbar_behavior_chrome_downloads": {
+      "message": "浏览器选项卡"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "下载后隐藏面板之前的延迟"
@@ -106,33 +112,25 @@
    "opt_color_icon_text_info": {
       "message": "文本颜色的图标中的指示"
    },
+   "opt_color_icon_text_tooltip": {
+      "message": "默认值: #888888"
+   },
    "opt_color_icon_text_info_desc": {
       "message": "在图标中设置文本的下载颜色"
    },
 
-   "opt_bth_save_settings": {
+   "opt_btn_save_settings": {
       "message": "保存更改"
    },
-   "opt_bth_save_settings_process": {
+   "opt_btn_save_settings_process": {
       "message": "保存..."
    },
-   "opt_bth_save_settings_processed": {
+   "opt_btn_save_settings_processed": {
       "message": "得救了！"
    },
-   "opt_bth_save_settings_tooltip": {
+   "opt_btn_save_settings_tooltip": {
       "message": "立即应用"
    },
-
-   // "popup_bth_clear_all_history": {
-   //    "message": "全部清除"
-   // },
-   // "popup_bth_clear_all_history_tooltip": {
-   //    "message": "清除所有历史"
-   // },
-
-   // "popup_search_placeholder": {
-   //    "message": "搜索..."
-   // },
 
    "donate_tooltip": {
       "message": "支持Patreon"

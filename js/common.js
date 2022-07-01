@@ -7,12 +7,18 @@ function bytesToSize(bytes) {
    return (i === 0 ? bytes : (bytes / (1024 ** i)).toFixed(2)) + sizes[i];
 }
 
-function formatTimeLeft(ms) {
-   if (!ms) return;
-   const sec = Math.floor(ms / 1e3);
-   const min = Math.floor(Math.log(sec) / Math.log(60));
-   const day = Math.floor(sec / 86400);
-   return day ? day + " days" : Math.floor(sec / Math.pow(60, min)) + ["sec", "mins", "hours"][min];
+function formatTimeLeft(timeSec = required()) {
+   const
+      ts = Math.abs(+timeSec),
+      d = ~~(ts / 86400),
+      h = ~~((ts % 86400) / 3600),
+      m = ~~((ts % 3600) / 60),
+      s = Math.floor(ts % 60);
+
+   return (d ? `${d}d ` : '')
+      + (h ? (d ? h.toString().padStart(2, '0') : h) + 'h' : '')
+      + (m ? (h ? m.toString().padStart(2, '0') : m) + 'm' : '')
+      + (s ? (m ? s.toString().padStart(2, '0') : s) + 's' : '');
 }
 
 function getFileNameFromPatch(filepath) {

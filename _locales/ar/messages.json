@@ -49,6 +49,12 @@
    "opt_toolbar_behavior_desc": {
       "message": "لفتح مثيل فريد لعلامة تبويب ، ستحتاج إلى إذن \"قراءة السجل\" (علامات التبويب المفتوحة الحالية)"
    },
+   "opt_toolbar_behavior_download_default_folder": {
+      "message": "Location"
+   },
+   "opt_toolbar_behavior_chrome_downloads": {
+      "message": "Tab"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "التأخير قبل إخفاء اللوحة بعد التنزيل"
@@ -106,33 +112,25 @@
    "opt_color_icon_text_info": {
       "message": "لون نص المؤشر في الأيقونة"
    },
+   "opt_color_icon_text_tooltip": {
+      "message": "Default: #888888"
+   },
    "opt_color_icon_text_info_desc": {
       "message": "قم بتعيين لون التنزيل للنص الموجود في الرمز"
    },
 
-   "opt_bth_save_settings": {
+   "opt_btn_save_settings": {
       "message": "حفظ التغييرات"
    },
-   "opt_bth_save_settings_process": {
+   "opt_btn_save_settings_process": {
       "message": "إنقاذ..."
    },
-   "opt_bth_save_settings_processed": {
+   "opt_btn_save_settings_processed": {
       "message": "تم الحفظ!"
    },
-   "opt_bth_save_settings_tooltip": {
+   "opt_btn_save_settings_tooltip": {
       "message": "يطبق على الفور"
    },
-
-   // "popup_bth_clear_all_history": {
-   //    "message": "امسح الكل"
-   // },
-   // "popup_bth_clear_all_history_tooltip": {
-   //    "message": "مسح كل التاريخ"
-   // },
-
-   // "popup_search_placeholder": {
-   //    "message": "بحث..."
-   // },
 
    "donate_tooltip": {
       "message": "دعم مع Patreon"

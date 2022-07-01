@@ -1,17 +1,15 @@
 const PopulateForm = {
    // DEBUG: true,
 
-   fill(obj, parent) {
-      this.log("Load from Storage: %s=>%s", parent?.id, JSON.stringify(obj));
+   fill(settings, parent) {
+      this.log("Load from Storage: %s=>%s", parent?.id, JSON.stringify(settings));
 
-      for (const key in obj) {
-         const val = obj[key];
-         // const el = document.getElementsByName(key)[0] || document.getElementById(key);
-         const el = (parent || document).querySelector(`[name="${key}"]`) ||
-            (parent || document).querySelector('#' + key)
-
-         if (el) {
-            this.log('>opt %s[%s]: %s', key, el.tagName, val);
+      for (const key in settings) {
+         const val = settings[key];
+         // const el = document.body.getElementsByName(key)[0] || document.getElementById(key);
+         if (el = (parent || document.body).querySelector(`[name="${key}"]`)
+            || (parent || document.body).querySelector('#' + key)) {
+            this.log('>opt %s#%s=%s', el.tagName, key, val);
 
             switch (el.tagName.toLowerCase()) {
                case 'div':
@@ -36,8 +34,7 @@ const PopulateForm = {
                         break;
 
                      case 'radio':
-                        (Array.isArray(val) ? val : [val])
-                           .forEach(value => el.checked = value ? true : false); // multiple Check/Uncheck
+                        [...document.getElementsByName(key)]?.some(e => e.value == val && (e.checked = true));
                         break;
 
                      default:
@@ -58,9 +55,9 @@ const PopulateForm = {
       }
    },
 
-   log(...args) {
-      if (this.DEBUG && args?.length) {
-         console.groupCollapsed(...args);
+   log() {
+      if (this.DEBUG && arguments.length) {
+         console.groupCollapsed(...arguments);
          console.trace();
          console.groupEnd();
       }

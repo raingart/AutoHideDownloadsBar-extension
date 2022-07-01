@@ -1,17 +1,17 @@
-console.debug("init browser.js");
-
 const webBrowser = {
-   // openTab:
    "tab": {
+      //  need permissions ['tabs']
+      // unique: true,
+
       "open": url => {
-         let permissionsObj = {
-            permissions: ['tabs']
-         }
+         const permissionsObj = {
+            permissions: webBrowser.tab.unique ? ['tabs'] : []
+         };
          chrome.permissions.contains(permissionsObj, granted_was => {
             chrome.permissions.request(permissionsObj, granted_got => {
                // create new tab
                const openTab = () => chrome.tabs.create({
-                  url: url || 'chrome://newtab',
+                  'url': url || 'chrome://newtab',
                   // selected: false
                   // "active": true
                });
@@ -33,19 +33,17 @@ const webBrowser = {
 
    "badge": {
       "set": {
-         "icon": obj => { chrome.browserAction.setIcon(obj); },
+         "icon": (obj = required()) => chrome.browserAction.setIcon(obj),
          "title": title => chrome.browserAction.setTitle({ "title": title ? title.toString().trim() : '' }),
          "text": text => chrome.browserAction.setBadgeText({ "text": text ? text.toString().trim() : '' }),
          "background_color": color => chrome.browserAction.setBadgeBackgroundColor({ 'color': color || "black" }),
       },
 
-      "clear": function () {
+      'clear': () => {
          const manifest = chrome.runtime.getManifest();
-         webBrowser.badge.set.icon({
-            path: manifest.icons['16']
-         });
+         webBrowser.badge.set.icon({ path: manifest.icons['16'] });
          webBrowser.badge.set.text('');
-         webBrowser.badge.set.title(i18n("app_title"));
+         webBrowser.badge.set.title(manifest.browser_action['default_title']);
       },
    },
 
@@ -71,22 +69,21 @@ const webBrowser = {
 
       // chrome api
       send(options) {
-            const permissions = { 'permissions': ['notifications'] };
-            chrome.permissions.contains(permissions, granted => {
-               if (granted) showNotification();
-               else chrome.permissions.request(permissions, granted => showNotification());
-            });
+         const permissions = { 'permissions': ['notifications'] };
+         chrome.permissions.contains(permissions, granted => {
+            if (granted) showNotification();
+            else chrome.permissions.request(permissions, granted => showNotification());
+         });
 
          function showNotification() {
             const manifest = chrome.runtime.getManifest();
             chrome.notifications.create('info', {
-               type: options.type || 'basic', //'basic', 'image', 'list', 'progress'
-               title: options.title || i18n("app_name"),
-               iconUrl: options.icon || manifest.icons['48'],
-               message: options.body || '',
+               type: options?.type || 'basic', //'basic', 'image', 'list', 'progress'
+               title: options?.title || manifest['name'],
+               iconUrl: options?.icon || manifest.icons['48'],
+               message: options?.body || '',
                // "priority": 2,
-            }, id => chrome.notifications.onClicked.addListener(callback => chrome.notifications.clear(id, callback))
-            );
+            }, id => chrome.notifications.onClicked.addListener(callback => chrome.notifications.clear(id, callback)));
          }
       }
    }

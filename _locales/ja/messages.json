@@ -49,6 +49,12 @@
    "opt_toolbar_behavior_desc": {
       "message": "タブの一意のインスタンスを開くには、「履歴を読み取る」権限が必要です（現在開いているタブ）"
    },
+   "opt_toolbar_behavior_download_default_folder": {
+      "message": "ディスク上のパス"
+   },
+   "opt_toolbar_behavior_chrome_downloads": {
+      "message": "ブラウザタブ"
+   },
 
    "opt_show_download_panel_timeout": {
       "message": "ダウンロード後にパネルを非表示にする前の遅延"
@@ -107,33 +113,25 @@
    "opt_color_icon_text_info": {
       "message": "アイコンの表示のテキスト色"
    },
+   "opt_color_icon_text_tooltip": {
+      "message": "標準: #888888"
+   },
    "opt_color_icon_text_info_desc": {
       "message": "アイコンのテキストのダウンロード色を設定する"
    },
 
-   "opt_bth_save_settings": {
+   "opt_btn_save_settings": {
       "message": "Save Changes"
    },
-   "opt_bth_save_settings_process": {
+   "opt_btn_save_settings_process": {
       "message": "Saving..."
    },
-   "opt_bth_save_settings_processed": {
+   "opt_btn_save_settings_processed": {
       "message": "Saved!"
    },
-   "opt_bth_save_settings_tooltip": {
+   "opt_btn_save_settings_tooltip": {
       "message": "即座に適用"
    },
-
-   // "popup_bth_clear_all_history": {
-   //    "message": "すべてクリア"
-   // },
-   // "popup_bth_clear_all_history_tooltip": {
-   //    "message": "履歴をすべてクリア"
-   // },
-
-   // "popup_search_placeholder": {
-   //    "message": "サーチ..."
-   // },
 
    "donate_tooltip": {
       "message": "Patreonのサポート"

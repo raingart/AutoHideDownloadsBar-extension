@@ -1,20 +1,17 @@
-console.debug("init install.js");
+console.debug("init onInstall.js");
 
-// Check whether new version is installed
+// installed new version
 chrome.runtime.onInstalled.addListener(details => {
-   const manifest = chrome.runtime.getManifest();
-
-   console.debug(`app ${details.reason} ${details.previousVersion} to ` + manifest.version);
-
    chrome.storage.local.get(null, storage => {
+      const manifest = chrome.runtime.getManifest();
+      console.debug(`app ${details.reason} ${details.previousVersion} to ` + manifest.version);
+
       // const initialStorage = { );
 
       switch (details.reason) {
          case 'install':
             if (!Object.keys(storage).length) {
                chrome.runtime.openOptionsPage();
-               // chrome.storage.local.set(initialStorage);
-               // console.debug('Apply initial configuration', JSON.stringify(initialStorage));
             }
             break;
          // case 'update':
