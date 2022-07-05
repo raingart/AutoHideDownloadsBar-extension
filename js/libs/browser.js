@@ -37,7 +37,7 @@ const webBrowser = {
             if (obj.path && window.matchMedia('(prefers-color-scheme: dark)').matches) { // is dark mode browser
                obj.path = obj.path.replace('icons/', 'icons/dark/');
             }
-            console.debug('obj', obj);
+            // console.debug('obj', obj);
             chrome.browserAction.setIcon(obj)
          },
          "title": title => chrome.browserAction.setTitle({ "title": title ? title.toString().trim() : '' }),

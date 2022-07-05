@@ -204,7 +204,7 @@ const App = {
       setTimeout(() => webBrowser.badge.set.text(), 3000);
    },
 
-   openPage: (tab = 'chrome://downloads/') => webBrowser.tab.open(tab),
+   openPage: () => webBrowser.tab.open('chrome://downloads/'),
    openLocation: () => chrome.downloads.showDefaultFolder(),
 
    updateBrowserBadgeAction() {
