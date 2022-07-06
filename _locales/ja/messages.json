@@ -13,7 +13,7 @@
       "message": "ダウンロード"
    },
    "noti_download_complete": {
-      "message": "完成した"
+      "message": "完了"
    },
    "noti_download_interrupted": {
       "message": "エラー"
@@ -23,14 +23,14 @@
    },
 
    "opt_setting": {
-      "message": "の設定"
+      "message": "設定"
    },
 
    "github_page": {
       "message": "GitHubページ"
    },
    "github_page_tooltip": {
-      "message": "Open"
+      "message": "開く"
    },
 
    "opt_show_download_panel": {
@@ -47,7 +47,7 @@
       "message": "アイコンツールバーをクリックしたときの動作"
    },
    "opt_toolbar_behavior_desc": {
-      "message": "タブの一意のインスタンスを開くには、「履歴を読み取る」権限が必要です（現在開いているタブ）"
+      "message": "ブラウザタブを開くには、「履歴を読み取る」権限が必要です（現在開いているタブ）"
    },
    "opt_toolbar_behavior_download_default_folder": {
       "message": "ディスク上のパス"
@@ -63,7 +63,7 @@
       "message": "ダウンロードしたファイルへの影響に時間遅延を使用します"
    },
    "opt_show_download_panel_timeout_sec": {
-      "message": "sec"
+      "message": "秒"
    },
 
    "opt_show_notification": {
@@ -77,7 +77,7 @@
       "message": "再生通知音"
    },
    "opt_sound_notification_desc": {
-      "message": "通知システムがすでに音声アラートを使用している場合は無効にする"
+      "message": "通知システムがすでに音声アラートを使用している場合は無効にしてください"
    },
 
 
@@ -104,7 +104,7 @@
       "message": "アイコンの表示色"
    },
    "opt_color_icon_info_tooltip": {
-      "message": "標準: #00FF00 (勾配赤〜緑)"
+      "message": "標準: #00FF00 (赤から緑へのグラデーション)"
    },
    "opt_color_icon_info_desc": {
       "message": "アイコンのダウンロード色を設定できます"
@@ -121,13 +121,13 @@
    },
 
    "opt_btn_save_settings": {
-      "message": "Save Changes"
+      "message": "変更を保存"
    },
    "opt_btn_save_settings_process": {
-      "message": "Saving..."
+      "message": "保存中..."
    },
    "opt_btn_save_settings_processed": {
-      "message": "Saved!"
+      "message": "保存しました!"
    },
    "opt_btn_save_settings_tooltip": {
       "message": "即座に適用"
@@ -137,6 +137,6 @@
       "message": "Patreonのサポート"
    },
    "donate": {
-      "message": "Donate"
+      "message": "寄付"
    }
 }
