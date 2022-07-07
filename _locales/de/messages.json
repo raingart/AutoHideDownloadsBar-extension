@@ -37,7 +37,7 @@
       "message": "Download-Leiste anzeigen, wenn der Download aktiv ist"
    },
    "opt_show_download_panel_desc": {
-      "message": "Das Ausblenden der Download-Leiste erfolgt erst nach Abschluss des Downloads"
+      "message": "Das Verstecken der Download-Leiste erfolgt erst nach dem Download"
    },
    "opt_show_download_panel_warn": {
       "message": "Korrektes Arbeiten mit aktuell noch aktiven Downloads ist nicht möglich!"
@@ -84,7 +84,7 @@
       "message": "Wählen Sie die Art der Anzeige in der Erweiterungsleiste"
    },
    "opt_type_icon_info_desc": {
-      "message": "\"Aus\" kann die Belastung des Systems erheblich reduzieren"
+      "message": "\"Aus\" kann die Systembelastung deutlich reduzieren"
    },
    "opt_type_icon_info_option_svg": {
       "message": "Grafik"
@@ -120,13 +120,13 @@
    },
 
    "opt_btn_save_settings": {
-      "message": "Änderungen speichern"
+      "message": "Einstellungen speichern"
    },
    "opt_btn_save_settings_process": {
       "message": "Speichern …"
    },
    "opt_btn_save_settings_processed": {
-      "message": "Gespeichert!"
+      "message": "Einstellungen gespeichert!"
    },
    "opt_btn_save_settings_tooltip": {
       "message": "Werden sofort übernommen"
